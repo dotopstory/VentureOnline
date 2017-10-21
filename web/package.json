@@ -1,0 +1,13 @@
+{
+  "name": "venture-online",
+  "version": "1.0.0",
+  "description": "A multiplayer adventure game.",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Taylar Keast",
+  "license": "ISC"
+}
