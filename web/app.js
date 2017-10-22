@@ -14,6 +14,9 @@ console.log("INFO - server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = {};
 
+//*****************************
+// ENTITY CLASS
+//*****************************
 class Entity {
     constructor() {
         this.id = "";
@@ -33,6 +36,10 @@ class Entity {
     }
 }
 
+
+//*****************************
+// PLAYER CLASS
+//*****************************
 class Player extends Entity {
     constructor(id) {
         super();
@@ -60,7 +67,6 @@ class Player extends Entity {
         else this.spdY = 0;
     }
 }
-
 Player.list = {};
 Player.onConnect = function(socket) {
     //Create player and add to list
@@ -94,6 +100,45 @@ Player.update = function() {
     return pack;
 }
 
+//*****************************
+// PROJECTILE CLASS
+//*****************************
+class Projectile extends Entity {
+    constructor(angle) {
+        super();
+        this.id = Math.random();
+        this.spdX = Math.cos(angle / 180 * Math.PI) * 10;
+        this.spdY = Math.sin(angle / 180 * Math.PI) * 10;
+        this.timer = 0;
+        this.isActive = true;
+        this.lifeTime = 100; //Ticks
+        Projectile.list[this.id] = this;
+    }
+
+    update() {
+        if(this.time++ > this.lifeTime) this.isActive = false;
+        super.update();
+    }
+}
+Projectile.list = {};
+
+Projectile.update = function() {
+    if(Math.random() < 0.1) new Projectile(Math.random() * 360);
+
+    //Get data from all connected players
+    var pack = [];
+    for(var i in Projectile.list) {
+        var projectile = Projectile.list[i];
+        if(!projectile.isActive) continue;
+        projectile.update();
+        pack.push({
+            x: projectile.x,
+            y: projectile.y
+        });
+    }
+    return pack;
+}
+
 //Listen for connection events
 var io = require('socket.io')(serv, {});
 io.sockets.on('connection', function(socket) {
@@ -113,9 +158,13 @@ io.sockets.on('connection', function(socket) {
 });
 
 setInterval(function() {
-    var pack = Player.update();
+    //Load package data
+    var pack = {
+        players: Player.update(),
+        projectiles: Projectile.update()
+    }
 
-    //Send player data to all clients
+    //Send package data to all clients
     for(var i in SOCKET_LIST) {
         var socket = SOCKET_LIST[i];
         socket.emit('newPosition', pack);
