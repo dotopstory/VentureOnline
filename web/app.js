@@ -149,6 +149,17 @@ io.sockets.on('connection', function(socket) {
 
     Player.onConnect(socket);
 
+    //Listen for new messages from clients
+    socket.on('sendMessageToServer', function(data) {
+        var playerName = ("" + socket.id);
+        console.log("INFO - client " + socket.id + " sent message:" + data);
+
+        //Send new message to all players
+        for(var i in SOCKET_LIST) {
+            SOCKET_LIST[i].emit('addToChat', playerName + ": " + data);
+        }
+    });
+
     //Remove client if disconnected (client sends disconnect automatically)
     socket.on('disconnect', function() {
         console.log("INFO - client " + socket.id + " disconnected from the server.");
