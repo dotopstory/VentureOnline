@@ -14,58 +14,57 @@ console.log("INFO - server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = {};
 
-var Entity = function() {
-    var self = {
-        id: "",
-        x: 250,
-        y: 250,
-        spdX: 0,
-        spdY: 0
+class Entity {
+    constructor() {
+        this.id = "";
+        this.x = 250;
+        this.y = 250;
+        this.spdX = 0;
+        this.spdY = 0;
     }
 
-    self.update = function() {
-        self.updatePosition();
+    update() {
+        this.updatePosition();
     }
 
-    self.updatePosition = function() {
-        self.x += self.spdX;
-        self.y += self.spdY;
+    updatePosition() {
+        this.x += this.spdX;
+        this.y += this.spdY;
     }
-    return self;
 }
 
-var Player = function(id) {
-    var self = Entity();
-    self.id = id;
-    self.pressingRight = false;
-    self.pressingLeft = false;
-    self.pressingUp = false;
-    self.pressingDown = false;
-    self.maxSpd = 10;
-
-    self.updateSpd = function() {
-        if(self.pressingRight) self.spdX = self.maxSpd;
-        else if(self.pressingLeft) self.spdX = -self.maxSpd;
-        else self.spdX = 0;
-
-        if(self.pressingUp) self.spdY = -self.maxSpd;
-        else if(self.pressingDown) self.spdY = self.maxSpd;
-        else self.spdY = 0;
+class Player extends Entity {
+    constructor(id) {
+        super();
+        this.id = id;
+        this.pressingRight = false;
+        this.pressingLeft = false;
+        this.pressingUp = false;
+        this.pressingDown = false;
+        this.maxSpd = 10;
+        Player.list[id] = this;
     }
 
-    var super_update = self.update;
-    self.update = function() {
-        self.updateSpd();
-        super_update();
+    update() {
+        this.updateSpd();
+        super.update();
     }
 
-    Player.list[id] = self;
-    return self;
+    updateSpd() {
+        if(this.pressingRight) this.spdX = this.maxSpd;
+        else if(this.pressingLeft) this.spdX = -this.maxSpd;
+        else this.spdX = 0;
+
+        if(this.pressingUp) this.spdY = -this.maxSpd;
+        else if(this.pressingDown) this.spdY = this.maxSpd;
+        else this.spdY = 0;
+    }
 }
+
 Player.list = {};
 Player.onConnect = function(socket) {
     //Create player and add to list
-    var player = Player(socket.id);
+    var player = new Player(socket.id);
 
     //Listen for input events
     socket.on('keyPress', function(data) {
