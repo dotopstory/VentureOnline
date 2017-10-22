@@ -6,38 +6,70 @@
 
 <body>
     <div class="container">
-        <!-- Game canvas row -->
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+        <!-- Sign in row -->
+        <div id="div-signIn" class="row">
+            <div class="col-md-3 offset-md-4">
+                <span class="label">Choose Username</span>
+                <input id="signIn-username" type="text" class="form-control">
+                <input id="signIn-submit" type="button" class="btn btn-success" value="Sign In">
             </div>
         </div>
 
-        <!-- Chat row -->
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div id="chat-text">
-                    <div class="chat-message">Welcome to Venture.</div>
+        <div id="div-game" style="display: none;">
+            <!-- Game canvas row -->
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <canvas id="ctx" width="500" height="500"></canvas>
                 </div>
+            </div>
 
-                <form id="chat-form">
-                    <input id="chat-input" type="text" class="form-control" placeholder="Type message here.." required autocomplete="off"></input>
-                </form>
+            <!-- Chat row -->
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div id="chat-text">
+                        <div class="chat-message">Welcome to Venture.</div>
+                    </div>
+
+                    <form id="chat-form">
+                        <input id="chat-input" type="text" class="form-control" placeholder="Type message here.." required autocomplete="off"></input>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </body>
 
 <script>
-    //Initialise document objects
+    //Open socket
+    var socket = io();
+
+    //Sign in objects
+    var signInDiv = document.getElementById('div-signIn');
+    var tbUsername = document.getElementById('signIn-username');
+    var btnSignIn = document.getElementById('signIn-submit');
+
+    //Send sign in
+    btnSignIn.onclick = function() {
+        socket.emit('signIn', {username: tbUsername.value, password: ""});
+    }
+
+    //Receive sign in response
+    socket.on('signInResponse', function(data) {
+        if(data.success) {
+            signInDiv.style.display = "none";
+            gameDiv.style.display = "inline";
+        } else {
+            console.log("Error - failed sign in.");
+        }
+    });
+
+    //Game objects
+    var gameDiv = document.getElementById('div-game');
     var chatText = document.getElementById('chat-text');
     var chatInput = document.getElementById('chat-input');
     var chatForm = document.getElementById('chat-form');
     var ctx = document.getElementById('ctx').getContext('2d');
     ctx.font = "30px Arial";
-
-    //Open socket
-    var socket = io();
 
     //Listen for player packet updates
     socket.on('newPosition', function(data) {
@@ -52,8 +84,6 @@
         for(var i = 0; i < data.projectiles.length; i++) {
             ctx.fillRect(data.projectiles[i].x - 5, data.projectiles[i].y - 5, 10, 10);
         }
-        console.log(data.projectiles);
-
     });
 
     //Listen for chat events
@@ -62,12 +92,22 @@
         chatText.scrollTop = chatText.scrollHeight;
     });
 
+    //Listen for chat events
+    socket.on("evalAnswer", function(data) {
+        console.log(data);
+    });
+
     //Chat form submitted event
     chatForm.onsubmit = function(e) {
         e.preventDefault(); //Prevent page refresh on form submit
-        socket.emit('sendMessageToServer', chatInput.value);
+
+        //Check if command was sent or message
+        if(chatInput.value[0] === '/') socket.emit('evalServer', chatInput.value.slice(1));
+        else socket.emit('sendMessageToServer', chatInput.value);
         chatInput.value = "";
     }
+
+
 
     //Listen for key down events
     document.onkeydown = function(event) {
@@ -79,11 +119,24 @@
             socket.emit('keyPress', {inputId: 'left', state: true});
         else if(event.keyCode === 87) //W
             socket.emit('keyPress', {inputId: 'up', state: true});
-        console.log("DOWN " + event.keyCode);
+
+        //Attack events
+        else if(event.keyCode === 37) //LEFT
+            socket.emit('keyPress', {inputId: 'mouseAngle', state: 180});
+        else if(event.keyCode === 38) //UP
+            socket.emit('keyPress', {inputId: 'mouseAngle', state: 270});
+        else if(event.keyCode === 39) //RIGHT
+            socket.emit('keyPress', {inputId: 'mouseAngle', state: 360});
+        else if(event.keyCode === 40) //DOWN
+            socket.emit('keyPress', {inputId: 'mouseAngle', state: 90});
+
+        if(event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
+            socket.emit('keyPress', {inputId: 'attack', state: true});
     }
 
     //Listen for key up events
     document.onkeyup = function(event) {
+        //Movement events
         if(event.keyCode === 68) //D
             socket.emit('keyPress', {inputId: 'right', state: false});
         else if(event.keyCode === 83) //S
@@ -92,6 +145,25 @@
             socket.emit('keyPress', {inputId: 'left', state: false});
         else if(event.keyCode === 87) //W
             socket.emit('keyPress', {inputId: 'up', state: false});
-        console.log("UP " + event.keyCode);
+
+        if(event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
+            socket.emit('keyPress', {inputId: 'attack', state: false});
+    }
+
+    //Listen for mouse events
+    document.onmousedown = function(event) {
+        socket.emit('keyPress', {inputId: 'attack', state: true});
+    }
+
+    document.onmouseup = function(event) {
+        socket.emit('keyPress', {inputId: 'attack', state: false});
+    }
+
+    //Listen for mouse events, send mouse angle to server
+    document.onmousemove = function(event) {
+        var x = -250 + event.clientX - 8;
+        var y = -250 + event.clientY - 8;
+        var angle = Math.atan2(y, x) / Math.PI * 180;
+        socket.emit('keyPress', {inputId: 'mouseAngle', state: angle});
     }
 </script>

@@ -13,6 +13,7 @@ serv.listen(2000); //Listen for requests on port 2000
 console.log("INFO - server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = {};
+var DEBUG = true;
 
 //*****************************
 // ENTITY CLASS
@@ -34,20 +35,26 @@ class Entity {
         this.x += this.spdX;
         this.y += this.spdY;
     }
-}
 
+    getDistance(pt) {
+        return Math.sqrt(Math.pow(this.x - pt.x, 2) + Math.pow(this.y - pt.y, 2));
+    }
+}
 
 //*****************************
 // PLAYER CLASS
 //*****************************
 class Player extends Entity {
-    constructor(id) {
+    constructor(id, name) {
         super();
         this.id = id;
+        this.name = name;
         this.pressingRight = false;
         this.pressingLeft = false;
         this.pressingUp = false;
         this.pressingDown = false;
+        this.pressingAttack = false;
+        this.mouseAngle = 0;
         this.maxSpd = 10;
         Player.list[id] = this;
     }
@@ -55,6 +62,18 @@ class Player extends Entity {
     update() {
         this.updateSpd();
         super.update();
+        if(this.pressingAttack) {
+            this.shootProjectile(this.mouseAngle - 10);
+            this.shootProjectile(this.mouseAngle);
+            this.shootProjectile(this.mouseAngle + 10);
+        }
+    }
+
+
+    shootProjectile(angle) {
+        var p = new Projectile(this.id, angle);
+        p.x = this.x;
+        p.y = this.y;
     }
 
     updateSpd() {
@@ -68,9 +87,9 @@ class Player extends Entity {
     }
 }
 Player.list = {};
-Player.onConnect = function(socket) {
+Player.onConnect = function(socket, username) {
     //Create player and add to list
-    var player = new Player(socket.id);
+    var player = new Player(socket.id, username);
 
     //Listen for input events
     socket.on('keyPress', function(data) {
@@ -78,6 +97,8 @@ Player.onConnect = function(socket) {
         if(data.inputId === 'right') player.pressingRight = data.state;
         if(data.inputId === 'up') player.pressingUp = data.state;
         if(data.inputId === 'down') player.pressingDown = data.state;
+        if(data.inputId === 'attack') player.pressingAttack = data.state;
+        if(data.inputId === 'mouseAngle') player.mouseAngle = data.state;
     });
 }
 
@@ -104,9 +125,10 @@ Player.update = function() {
 // PROJECTILE CLASS
 //*****************************
 class Projectile extends Entity {
-    constructor(angle) {
+    constructor(parent, angle) {
         super();
         this.id = Math.random();
+        this.parent = parent;
         this.spdX = Math.cos(angle / 180 * Math.PI) * 10;
         this.spdY = Math.sin(angle / 180 * Math.PI) * 10;
         this.timer = 0;
@@ -118,19 +140,27 @@ class Projectile extends Entity {
     update() {
         if(this.time++ > this.lifeTime) this.isActive = false;
         super.update();
+
+        for(var i in Player.list) {
+            var p = Player.list[i];
+
+            //Check for collision between player and projectiles
+            if(super.getDistance(p) < 32 && this.parent !== p.id) {
+                this.isActive = false;
+            }
+        }
     }
 }
 Projectile.list = {};
 
 Projectile.update = function() {
-    if(Math.random() < 0.1) new Projectile(Math.random() * 360);
-
     //Get data from all connected players
     var pack = [];
     for(var i in Projectile.list) {
         var projectile = Projectile.list[i];
         if(!projectile.isActive) continue;
         projectile.update();
+        if(!projectile.isActive) delete Projectile.list[i];
         pack.push({
             x: projectile.x,
             y: projectile.y
@@ -145,14 +175,23 @@ io.sockets.on('connection', function(socket) {
     //Add socket to list
     socket.id = nextSocketID++;
     SOCKET_LIST[socket.id] = socket;
-    console.log("INFO - client " + socket.id + " connected to the server.");
+    console.log("INFO - [CLIENT " + socket.id + "] connected to the server.");
 
-    Player.onConnect(socket);
+    //Listen for sign in attempts
+    socket.on('signIn', function(data) {
+        if(data.username != "") {
+            Player.onConnect(socket, data.username);
+            socket.emit('signInResponse', {success: true});
+            console.log("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: " + data.username + "].");
+        } else {
+            socket.emit('signInResponse', {success: false});
+        }
+    });
 
     //Listen for new messages from clients
     socket.on('sendMessageToServer', function(data) {
-        var playerName = ("" + socket.id);
-        console.log("INFO - client " + socket.id + " sent message:" + data);
+        var playerName = Player.list[socket.id].name;
+        console.log("INFO - [CLIENT: " + socket.id + "] sent [MESSAGE: " + data + "]");
 
         //Send new message to all players
         for(var i in SOCKET_LIST) {
@@ -160,9 +199,16 @@ io.sockets.on('connection', function(socket) {
         }
     });
 
+    //Listen for new evaluation command
+    socket.on('evalServer', function(data) {
+        if(!DEBUG) return;
+        var res = eval(data);
+        socket.emit('evalAnswer', res);
+    });
+
     //Remove client if disconnected (client sends disconnect automatically)
     socket.on('disconnect', function() {
-        console.log("INFO - client " + socket.id + " disconnected from the server.");
+        console.log("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
         delete SOCKET_LIST[socket.id];
         Player.onDisconnect(socket);
     });

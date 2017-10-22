@@ -19,7 +19,7 @@
 }
 
 #ctx {
-    border: solid black;
+    border: 2px solid black;
     background-color: white;
     border-radius: 20px;
 }
@@ -29,7 +29,18 @@
     padding: 0;
 }
 
+.btn {
+    cursor: pointer;
+}
+
+.label {
+    font-size: 120%;
+    font-weight: bold;
+    color: white;
+}
+
 body {
     background-color: rgba(26, 26, 26, 0.5);
     padding: 5% 0 0 0;
+    overflow-y: hidden;
 }
