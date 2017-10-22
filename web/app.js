@@ -14,6 +14,15 @@ console.log("INFO - server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = {};
 var DEBUG = true;
+var USERS = {
+    "admin": "admin",
+    "mod": "mod",
+    "test": "test"
+}
+
+var isValidUser = function(data) {
+    return USERS[data.username] === data.password;
+}
 
 //*****************************
 // ENTITY CLASS
@@ -57,6 +66,11 @@ class Player extends Entity {
         this.mouseAngle = 0;
         this.maxSpd = 10;
         Player.list[id] = this;
+        initPack.players.push({
+            id: this.id,
+            x: this.x,
+            y: this.y
+        });
     }
 
     update() {
@@ -104,6 +118,7 @@ Player.onConnect = function(socket, username) {
 
 Player.onDisconnect = function(socket) {
     delete Player.list[socket.id];
+    removePack.players.push(socket.id);
 }
 
 Player.update = function() {
@@ -135,6 +150,11 @@ class Projectile extends Entity {
         this.isActive = true;
         this.lifeTime = 100; //Ticks
         Projectile.list[this.id] = this;
+        initPack.projectiles.push({
+            id: this.id,
+            x: this.x,
+            y: this.y
+        });
     }
 
     update() {
@@ -158,10 +178,13 @@ Projectile.update = function() {
     var pack = [];
     for(var i in Projectile.list) {
         var projectile = Projectile.list[i];
-        if(!projectile.isActive) continue;
         projectile.update();
-        if(!projectile.isActive) delete Projectile.list[i];
+        if(!projectile.isActive) {
+            delete Projectile.list[i];
+            removePack.projectiles.push(projectile.id);
+        }
         pack.push({
+            id: projectile.id,
             x: projectile.x,
             y: projectile.y
         });
@@ -179,7 +202,7 @@ io.sockets.on('connection', function(socket) {
 
     //Listen for sign in attempts
     socket.on('signIn', function(data) {
-        if(data.username != "") {
+        if(data.username === "" && data.password === "") {
             Player.onConnect(socket, data.username);
             socket.emit('signInResponse', {success: true});
             console.log("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: " + data.username + "].");
@@ -199,13 +222,6 @@ io.sockets.on('connection', function(socket) {
         }
     });
 
-    //Listen for new evaluation command
-    socket.on('evalServer', function(data) {
-        if(!DEBUG) return;
-        var res = eval(data);
-        socket.emit('evalAnswer', res);
-    });
-
     //Remove client if disconnected (client sends disconnect automatically)
     socket.on('disconnect', function() {
         console.log("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
@@ -213,6 +229,9 @@ io.sockets.on('connection', function(socket) {
         Player.onDisconnect(socket);
     });
 });
+
+var initPack = {players:[], projectiles:[]};
+var removePack = {players:[], projectiles:[]};
 
 setInterval(function() {
     //Load package data
@@ -224,7 +243,14 @@ setInterval(function() {
     //Send package data to all clients
     for(var i in SOCKET_LIST) {
         var socket = SOCKET_LIST[i];
-        socket.emit('newPosition', pack);
+        socket.emit('init', initPack);
+        socket.emit('update', pack);
+        socket.emit('remove', removePack);
     }
+
+    initPack.players = [];
+    initPack.projectiles = [];
+    removePack.players = [];
+    removePack.projectiles = [];
 
 }, 1000/25);
