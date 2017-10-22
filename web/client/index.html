@@ -24,4 +24,30 @@
         }
 
     })
+
+    //Listen for key down events
+    document.onkeydown = function(event) {
+        if(event.keyCode === 68) //D
+            socket.emit('keyPress', {inputId: 'right', state: true});
+        else if(event.keyCode === 83) //S
+            socket.emit('keyPress', {inputId: 'down', state: true});
+        else if(event.keyCode === 65) //A
+            socket.emit('keyPress', {inputId: 'left', state: true});
+        else if(event.keyCode === 87) //W
+            socket.emit('keyPress', {inputId: 'up', state: true});
+        console.log("DOWN " + event.keyCode);
+    }
+
+    //Listen for key up events
+    document.onkeyup = function(event) {
+        if(event.keyCode === 68) //D
+            socket.emit('keyPress', {inputId: 'right', state: false});
+        else if(event.keyCode === 83) //S
+            socket.emit('keyPress', {inputId: 'down', state: false});
+        else if(event.keyCode === 65) //A
+            socket.emit('keyPress', {inputId: 'left', state: false});
+        else if(event.keyCode === 87) //W
+            socket.emit('keyPress', {inputId: 'up', state: false});
+        console.log("UP " + event.keyCode);
+    }
 </script>
