@@ -69,11 +69,6 @@ class Player extends Entity {
         this.mouseAngle = 0;
         this.maxSpd = 10;
         Player.list[id] = this;
-        initPack.players.push({
-            id: this.id,
-            x: this.x,
-            y: this.y
-        });
     }
 
     update() {
@@ -121,7 +116,6 @@ Player.onConnect = function(socket, username) {
 
 Player.onDisconnect = function(socket) {
     delete Player.list[socket.id];
-    removePack.players.push(socket.id);
 }
 
 Player.update = function() {
@@ -151,13 +145,8 @@ class Projectile extends Entity {
         this.spdY = Math.sin(angle / 180 * Math.PI) * 10;
         this.timer = 0;
         this.isActive = true;
-        this.lifeTime = 100; //Ticks
+        this.lifeTime = 20; //Ticks
         Projectile.list[this.id] = this;
-        initPack.projectiles.push({
-            id: this.id,
-            x: this.x,
-            y: this.y
-        });
     }
 
     update() {
@@ -184,7 +173,6 @@ Projectile.update = function() {
         projectile.update();
         if(!projectile.isActive) {
             delete Projectile.list[i];
-            removePack.projectiles.push(projectile.id);
         }
         pack.push({
             id: projectile.id,
@@ -233,9 +221,6 @@ io.sockets.on('connection', function(socket) {
     });
 });
 
-var initPack = {players:[], projectiles:[]};
-var removePack = {players:[], projectiles:[]};
-
 setInterval(function() {
     //Load package data
     var pack = {
@@ -246,14 +231,7 @@ setInterval(function() {
     //Send package data to all clients
     for(var i in SOCKET_LIST) {
         var socket = SOCKET_LIST[i];
-        socket.emit('init', initPack);
         socket.emit('update', pack);
-        socket.emit('remove', removePack);
     }
-
-    initPack.players = [];
-    initPack.projectiles = [];
-    removePack.players = [];
-    removePack.projectiles = [];
 
 }, 60 / tickRate);
