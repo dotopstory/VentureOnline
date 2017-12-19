@@ -2,6 +2,7 @@
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
+var tickRate = 2; //Updates per second
 
 //Default route
 app.get('/', function(req, res) {
@@ -255,4 +256,4 @@ setInterval(function() {
     removePack.players = [];
     removePack.projectiles = [];
 
-}, 1000/25);
+}, 60 / tickRate);
