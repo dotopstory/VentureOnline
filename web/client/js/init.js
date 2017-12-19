@@ -32,4 +32,4 @@ setInterval(function() {
 
     for(var i in gameStateCache.projectiles)
         gameCanvas.fillRect(gameStateCache.projectiles[i].x - 5, gameStateCache.projectiles[i].y - 5, 10, 10);
-}, 60 / fps);
+}, 1000 / fps);

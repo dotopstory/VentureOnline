@@ -2,7 +2,7 @@
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
-var tickRate = 2; //Updates per second
+var tickRate = 30; //Updates per second
 
 //Default route
 app.get('/', function(req, res) {
@@ -31,8 +31,8 @@ var DEBUG = true;
 // ENTITY CLASS
 //*****************************
 class Entity {
-    constructor() {
-        this.id = "";
+    constructor(id) {
+        this.id = id;
         this.x = 250;
         this.y = 250;
         this.spdX = 0;
@@ -52,14 +52,14 @@ class Entity {
         return Math.sqrt(Math.pow(this.x - pt.x, 2) + Math.pow(this.y - pt.y, 2));
     }
 }
+Entity.nextID = 0;
 
 //*****************************
 // PLAYER CLASS
 //*****************************
 class Player extends Entity {
     constructor(id, name) {
-        super();
-        this.id = id;
+        super(id);
         this.name = name;
         this.pressingRight = false;
         this.pressingLeft = false;
@@ -138,8 +138,7 @@ Player.update = function() {
 //*****************************
 class Projectile extends Entity {
     constructor(parent, angle) {
-        super();
-        this.id = Math.random();
+        super(Entity.nextID++);
         this.parent = parent;
         this.spdX = Math.cos(angle / 180 * Math.PI) * 10;
         this.spdY = Math.sin(angle / 180 * Math.PI) * 10;
@@ -221,6 +220,7 @@ io.sockets.on('connection', function(socket) {
     });
 });
 
+//UPDATE CLIENTS
 setInterval(function() {
     //Load package data
     var pack = {
@@ -234,4 +234,4 @@ setInterval(function() {
         socket.emit('update', pack);
     }
 
-}, 60 / tickRate);
+}, 1000 / tickRate);
