@@ -7,6 +7,11 @@ var serv = require('http').Server(app);
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
 });
+
+app.get('/play', function(req, res) {
+    res.sendFile(__dirname + '/client/index.html');
+});
+
 app.use('/client', express.static(__dirname + '/client'));
 serv.listen(2000); //Listen for requests on port 2000
 
@@ -14,15 +19,6 @@ console.log("INFO - server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = {};
 var DEBUG = true;
-var USERS = {
-    "admin": "admin",
-    "mod": "mod",
-    "test": "test"
-}
-
-var isValidUser = function(data) {
-    return USERS[data.username] === data.password;
-}
 
 //*****************************
 // ENTITY CLASS

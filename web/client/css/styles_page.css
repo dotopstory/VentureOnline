@@ -1,0 +1,91 @@
+body {
+    background-color: #30B694;
+    background-repeat: none;
+    overflow-y: hidden;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+/* NAVBAR STYLES */
+.nav {
+    font-family: 'Bungee', cursive;
+    width: 100vw;
+    color: white;
+    background-color: #2C3E50;
+    margin: 0;
+    padding: 1vh 1vw;
+}
+
+.col-logo {
+    font-size: 3vmax;
+}
+
+.col-links {
+    text-align: right;
+}
+
+.navItem {
+    font-size: 2vmax;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+.navItem:hover {
+    text-decoration: underline;
+    transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: inherit;
+}
+
+/* SIGN IN STYLES */
+#div-signIn {
+    margin: 0;
+    margin-top: 20vh;
+    width: 100vw;
+    background-color: white;
+    color: #2C3E50;
+    padding: 5vh 0;
+    text-align: center;
+    font-size: 2.5vmax;
+}
+
+#signIn-username {
+    font-size: 3vmax;
+    border: 5px solid #1b2631;
+    font-weight: bold;
+    color: #2C3E50;
+    border-radius: 20px;
+}
+
+.btn-play {
+    background: transparent;
+    border: 5px solid #1b2631;
+    border-width: 5px 10px 10px 5px;
+    background-color: #2C3E50;
+    color: white;
+    font-size: 4vmax;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 0;
+    font-weight: bold;
+    font-family: 'Bungee', cursive;
+    padding: 0 1vw;
+    margin: 1vh 0 0 0;
+    box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+.btn-play:hover {
+    background-color: #1b2631;
+}

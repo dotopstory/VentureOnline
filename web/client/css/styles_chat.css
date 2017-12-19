@@ -2,11 +2,10 @@
         background-color: rgba(0, 0, 0, 0.5);
         border-radius: 50px;
         padding: 1%;
-        margin: 1% 0 0 0;
 }
 
 #chat-text {
-    height: 20%;
+    height: 20vh;
     overflow-y: scroll;
     background-color: white;
     border-radius: 20px;
@@ -27,20 +26,4 @@
 .chat-message {
     margin: 0;
     padding: 0;
-}
-
-.btn {
-    cursor: pointer;
-}
-
-.label {
-    font-size: 120%;
-    font-weight: bold;
-    color: white;
-}
-
-body {
-    background-color: rgba(26, 26, 26, 0.5);
-    padding: 5% 0 0 0;
-    overflow-y: hidden;
 }
