@@ -55,11 +55,7 @@ body {
 }
 
 a {
-    color: inherit;
-}
-
-a:hover {
-    color: inherit;
+    color: inherit !important;
 }
 
 /* SIGN IN STYLES */
@@ -102,4 +98,9 @@ a:hover {
 .btn-play:hover {
     background-color: #1b2631;
     transform: scale(1.1);
+}
+
+/* DISPLAYS */
+.hidden {
+    display: none;
 }

@@ -2,13 +2,11 @@
 var socket = io();
 
 //Game objects
-var gameDiv = document.getElementById('div-game');
-var chatText = document.getElementById('chat-text');
-var chatInput = document.getElementById('chat-input');
-var chatForm = document.getElementById('chat-form');
 var gameCanvas = document.getElementById('gameCanvas').getContext('2d');
 var fps = 100, canvasWidth = 800, canvasHeight = 600;
-gameCanvas.font = "30px Arial";
+
+//Canvas init
+$('#gameCanvas').css({'width': canvasWidth, 'height': canvasHeight});
 $('#gameCanvas').attr('width', canvasWidth);
 $('#gameCanvas').attr('height', canvasHeight);
 
@@ -27,9 +25,18 @@ socket.on('update', function(data) {
 //RENDER
 setInterval(function() {
     gameCanvas.clearRect(0, 0, canvasWidth, canvasHeight);
-    for(var i in gameStateCache.players)
+    gameCanvas.font = "20px Arial";
+    //Render players
+    for(var i in gameStateCache.players) {
+    console.log(gameStateCache.players[i]);
+        //Render player name
+        gameCanvas.fillText(gameStateCache.players[i].username, gameStateCache.players[i].x, gameStateCache.players[i].y - 20);
+        //Render player sprite
         gameCanvas.fillText(gameStateCache.players[i].id, gameStateCache.players[i].x, gameStateCache.players[i].y);
+    }
 
-    for(var i in gameStateCache.projectiles)
+    //Render projectiles
+    for(var i in gameStateCache.projectiles) {
         gameCanvas.fillRect(gameStateCache.projectiles[i].x - 5, gameStateCache.projectiles[i].y - 5, 10, 10);
+    }
 }, 1000 / fps);

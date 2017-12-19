@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
 var tickRate = 30; //Updates per second
-
+var serverMaxConnects = 1, serverMaxPlayers = serverMaxConnects; //Max clients connected, max players in game
 //Default route
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
@@ -22,9 +22,9 @@ app.get('/about', function(req, res) {
 app.use('/client', express.static(__dirname + '/client'));
 serv.listen(2000); //Listen for requests on port 2000
 
-console.log("INFO - server has been started.");
+serverAlert("INFO - server has been started.");
 var nextSocketID = 0;
-var SOCKET_LIST = {};
+var SOCKET_LIST = [];
 var DEBUG = true;
 
 //*****************************
@@ -58,9 +58,9 @@ Entity.nextID = 0;
 // PLAYER CLASS
 //*****************************
 class Player extends Entity {
-    constructor(id, name) {
+    constructor(id, username) {
         super(id);
-        this.name = name;
+        this.username = username;
         this.pressingRight = false;
         this.pressingLeft = false;
         this.pressingUp = false;
@@ -98,7 +98,7 @@ class Player extends Entity {
         else this.spdY = 0;
     }
 }
-Player.list = {};
+Player.list = [];
 Player.onConnect = function(socket, username) {
     //Create player and add to list
     var player = new Player(socket.id, username);
@@ -115,7 +115,7 @@ Player.onConnect = function(socket, username) {
 }
 
 Player.onDisconnect = function(socket) {
-    delete Player.list[socket.id];
+    Player.list.splice(socket.id);
 }
 
 Player.update = function() {
@@ -126,6 +126,7 @@ Player.update = function() {
         player.update();
         pack.push({
             id: player.id,
+            username: player.username,
             x: player.x,
             y: player.y
         });
@@ -162,7 +163,7 @@ class Projectile extends Entity {
         }
     }
 }
-Projectile.list = {};
+Projectile.list = [];
 
 Projectile.update = function() {
     //Get data from all connected players
@@ -171,7 +172,7 @@ Projectile.update = function() {
         var projectile = Projectile.list[i];
         projectile.update();
         if(!projectile.isActive) {
-            delete Projectile.list[i];
+            Projectile.list.splice(i);
         }
         pack.push({
             id: projectile.id,
@@ -185,17 +186,33 @@ Projectile.update = function() {
 //Listen for connection events
 var io = require('socket.io')(serv, {});
 io.sockets.on('connection', function(socket) {
+    //Deny client connection if too many clients connected
+    if(SOCKET_LIST.length + 1 > serverMaxConnects) {
+        console.log('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
+        return;
+    }
+
     //Add socket to list
-    socket.id = nextSocketID++;
+    socket.id = getNextAvailableSocketID();
     SOCKET_LIST[socket.id] = socket;
-    console.log("INFO - [CLIENT " + socket.id + "] connected to the server.");
+    serverAlert("INFO - [CLIENT " + socket.id + "] connected to the server. ");
 
     //Listen for sign in attempts
     socket.on('signIn', function(data) {
+        //Deny player sign in if too many players
+        if(Player.list.length + 1 > maxServerPlayers) {
+            console.log('ALERT - denied player signi-in on [SLOT ' + socket.id + '].');
+            return;
+        }
+
+        //Give default username if empty
+        if(data.username === '') data.username = "Eddie " + socket.id;
+
+        //Authenticate user
         if(true) {
             Player.onConnect(socket, data.username);
             socket.emit('signInResponse', {success: true});
-            console.log("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: " + data.username + "].");
+            serverAlert("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
         } else {
             socket.emit('signInResponse', {success: false});
         }
@@ -204,7 +221,7 @@ io.sockets.on('connection', function(socket) {
     //Listen for new messages from clients
     socket.on('sendMessageToServer', function(data) {
         var playerName = Player.list[socket.id].name;
-        console.log("INFO - [CLIENT: " + socket.id + "] sent [MESSAGE: " + data + "]");
+        serverAlert("INFO - [CLIENT: " + socket.id + "] sent [MESSAGE: " + data + "]");
 
         //Send new message to all players
         for(var i in SOCKET_LIST) {
@@ -214,8 +231,8 @@ io.sockets.on('connection', function(socket) {
 
     //Remove client if disconnected (client sends disconnect automatically)
     socket.on('disconnect', function() {
-        console.log("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
-        delete SOCKET_LIST[socket.id];
+        serverAlert("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
+        SOCKET_LIST.splice(socket.id);
         Player.onDisconnect(socket);
     });
 });
@@ -235,3 +252,19 @@ setInterval(function() {
     }
 
 }, 1000 / tickRate);
+
+//Custom server alert messages
+function serverAlert(message) {
+    console.log(message);
+}
+
+//Return next available socket id
+function getNextAvailableSocketID() {
+    for(var i = 0; i < serverMaxConnects; i++) {
+        if(SOCKET_LIST[i] == undefined) {
+            console.log('INFO - found a free slot ' + i);
+            return i;
+        }
+    }
+    return -1;
+}

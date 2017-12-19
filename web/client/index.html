@@ -38,14 +38,14 @@
                 </div>
 
                 <div class="col-md-6 col-links">
-                    <a href="/play"><span class="navItem">Play!</span></a>
-                    <a href="/about"><span class="navItem">About</span></a>
+                    <span class="navItem"><a href="/play">Play!</a></span>
+                    <span class="navItem"><a href="/about">About</a></span>
                     <span class="navItem">Bug Report</span>
                 </div>
             </div>
 
             <!-- Sign in row -->
-            <div id="div-signIn" class="row animated slideInLeft">
+            <div id="div-signIn" class="row animated slideInLeft hidden">
                 <div class="col-md-4 offset-md-4">
                     <span class="label">Choose Username</span>
                     <input id="signInUsernameTextbox" type="text" class="form-control" autofocus>
@@ -54,7 +54,7 @@
             </div>
 
             <!-- Canvas row -->
-            <div id="div-game" style="display: none;">
+            <div id="div-game" class="animated slideInLeft hidden">
                 <!-- Game canvas row -->
                 <div class="row canvas-row">
                     <div class="col-md-12">

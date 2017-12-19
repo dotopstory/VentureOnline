@@ -1,3 +1,7 @@
+var chatText = document.getElementById('chat-text');
+var chatInput = document.getElementById('chat-input');
+var chatForm = document.getElementById('chat-form');
+
 //Listen for chat events
 socket.on("addToChat", function(data) {
     chatText.innerHTML += '<div class="chat-message">' + data + '</div>';
