@@ -3,13 +3,19 @@ var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
 
-//Set public path to client, default to index
+//Default route
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
 });
 
+//Play route
 app.get('/play', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
+});
+
+//About route
+app.get('/about', function(req, res) {
+    res.sendFile(__dirname + '/client/about.html');
 });
 
 app.use('/client', express.static(__dirname + '/client'));
@@ -198,7 +204,7 @@ io.sockets.on('connection', function(socket) {
 
     //Listen for sign in attempts
     socket.on('signIn', function(data) {
-        if(data.username === "" && data.password === "") {
+        if(true) {
             Player.onConnect(socket, data.username);
             socket.emit('signInResponse', {success: true});
             console.log("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: " + data.username + "].");

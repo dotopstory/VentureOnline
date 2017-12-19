@@ -24,6 +24,9 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Bungee|Ubuntu:700" rel="stylesheet">
+
+        <!-- Animate.css -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     </head>
 
     <body>
@@ -36,25 +39,26 @@
 
                 <div class="col-md-6 col-links">
                     <a href="/play"><span class="navItem">Play!</span></a>
-                    <span class="navItem">About</span>
+                    <a href="/about"><span class="navItem">About</span></a>
                     <span class="navItem">Bug Report</span>
                 </div>
             </div>
 
             <!-- Sign in row -->
-            <div id="div-signIn" class="row">
+            <div id="div-signIn" class="row animated slideInLeft">
                 <div class="col-md-4 offset-md-4">
                     <span class="label">Choose Username</span>
-                    <input id="signIn-username" type="text" class="form-control" autofocus>
-                    <input id="signIn-submit" type="button" class="btn-play" value="Play!">
+                    <input id="signInUsernameTextbox" type="text" class="form-control" autofocus>
+                    <input id="signInSubmitButton" type="button" class="btn-play" value="Play!">
                 </div>
             </div>
 
+            <!-- Canvas row -->
             <div id="div-game" style="display: none;">
                 <!-- Game canvas row -->
-                <div class="row">
-                    <div class="col-md-6 offset-md-4">
-                        <canvas id="ctx" width="500" height="500"></canvas>
+                <div class="row canvas-row">
+                    <div class="col-md-12">
+                        <canvas id="ctx"></canvas>
                     </div>
                 </div>
 
@@ -80,11 +84,11 @@
 
         //Sign in objects
         var signInDiv = document.getElementById('div-signIn');
-        var tbUsername = document.getElementById('signIn-username');
-        var btnSignIn = document.getElementById('signIn-submit');
+        var tbUsername = document.getElementById('signInUsernameTextbox');
+        var btnSignIn = document.getElementById('signInSubmitButton');
 
         //Send sign in
-        btnSignIn.onclick = function() {
+        function sendSignInRequest() {
             socket.emit('signIn', {username: tbUsername.value, password: ""});
         }
 
@@ -104,7 +108,7 @@
         var chatInput = document.getElementById('chat-input');
         var chatForm = document.getElementById('chat-form');
         var ctx = document.getElementById('ctx').getContext('2d');
-        ctx.font = "30px Arial";
+        ctx.font = "20px Arial";
 
         //Player cache class
         class Player {
@@ -144,7 +148,7 @@
         //Listen for player packet updates
         socket.on('update', function(data) {
             //Draw players
-            for(var i = 0; i < data.players.length; i++) {
+            for(var i in data.players) {
                 //Update player data
                 var pack = data.players[i];
                 var p = Player.list[pack.id];
@@ -174,7 +178,7 @@
         });
 
         setInterval(function() {
-            ctx.clearRect(0, 0, 500, 500);
+            ctx.clearRect(0, 0, 800, 600);
             for(var i in Player.list)
                 ctx.fillText(Player.list[i].id, Player.list[i].x, Player.list[i].y);
 

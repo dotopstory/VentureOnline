@@ -5,6 +5,7 @@
 }
 
 #chat-text {
+    border: 10px solid white;
     height: 20vh;
     overflow-y: scroll;
     background-color: white;
@@ -14,12 +15,6 @@
 }
 
 #chat-input {
-    border-radius: 20px;
-}
-
-#ctx {
-    border: 2px solid black;
-    background-color: white;
     border-radius: 20px;
 }
 
