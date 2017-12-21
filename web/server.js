@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
 var tickRate = 30; //Updates per second
-var serverMaxConnects = 1, serverMaxPlayers = serverMaxConnects; //Max clients connected, max players in game
+var MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
 //Default route
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
@@ -59,15 +59,23 @@ Entity.nextID = 0;
 //*****************************
 class Player extends Entity {
     constructor(id, username) {
+        //META
         super(id);
         this.username = username;
+
+        //MOVEMENT
         this.pressingRight = false;
         this.pressingLeft = false;
         this.pressingUp = false;
         this.pressingDown = false;
         this.pressingAttack = false;
         this.mouseAngle = 0;
+
+        //STATS
         this.maxSpd = 10;
+        this.maxHP = 100;
+        this.hp = this.maxHP;
+
         Player.list[id] = this;
     }
 
@@ -128,7 +136,9 @@ Player.update = function() {
             id: player.id,
             username: player.username,
             x: player.x,
-            y: player.y
+            y: player.y,
+            hp: player.hp,
+            maxHP: player.maxHP
         });
     }
     return pack;
@@ -141,16 +151,16 @@ class Projectile extends Entity {
     constructor(parent, angle) {
         super(Entity.nextID++);
         this.parent = parent;
-        this.spdX = Math.cos(angle / 180 * Math.PI) * 10;
-        this.spdY = Math.sin(angle / 180 * Math.PI) * 10;
+        this.spdX = Math.cos(angle / 180 * Math.PI) * 20;
+        this.spdY = Math.sin(angle / 180 * Math.PI) * 20;
         this.timer = 0;
         this.isActive = true;
-        this.lifeTime = 20; //Ticks
+        this.lifeTime = 60; //Ticks
         Projectile.list[this.id] = this;
     }
 
     update() {
-        if(this.time++ > this.lifeTime) this.isActive = false;
+        //if(this.timer++ > this.lifeTime) this.isActive = false;
         super.update();
 
         for(var i in Player.list) {
@@ -172,7 +182,8 @@ Projectile.update = function() {
         var projectile = Projectile.list[i];
         projectile.update();
         if(!projectile.isActive) {
-            Projectile.list.splice(i);
+            delete Projectile.list[i];
+            continue;
         }
         pack.push({
             id: projectile.id,
@@ -187,7 +198,7 @@ Projectile.update = function() {
 var io = require('socket.io')(serv, {});
 io.sockets.on('connection', function(socket) {
     //Deny client connection if too many clients connected
-    if(SOCKET_LIST.length + 1 > serverMaxConnects) {
+    if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
         console.log('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
         return;
     }
@@ -200,7 +211,7 @@ io.sockets.on('connection', function(socket) {
     //Listen for sign in attempts
     socket.on('signIn', function(data) {
         //Deny player sign in if too many players
-        if(Player.list.length + 1 > maxServerPlayers) {
+        if(Player.list.length + 1 > MAX_SERVER_PLAYERS) {
             console.log('ALERT - denied player signi-in on [SLOT ' + socket.id + '].');
             return;
         }
@@ -260,11 +271,8 @@ function serverAlert(message) {
 
 //Return next available socket id
 function getNextAvailableSocketID() {
-    for(var i = 0; i < serverMaxConnects; i++) {
-        if(SOCKET_LIST[i] == undefined) {
-            console.log('INFO - found a free slot ' + i);
-            return i;
-        }
+    for(var i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
+        if(SOCKET_LIST[i] == undefined) return i;
     }
     return -1;
 }
