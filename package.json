@@ -8,9 +8,12 @@
     "package.json": "^2.0.1",
     "socket.io": "^2.0.4"
   },
+  "engines": {
+      "node": "4.1.x"
+  },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "author": "Taylar Keast",
   "license": "ISC"

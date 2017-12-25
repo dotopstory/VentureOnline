@@ -4,6 +4,7 @@ var app = express();
 var serv = require('http').Server(app);
 var tickRate = 30; //Updates per second
 var MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
+
 //Default route
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
@@ -21,7 +22,7 @@ app.get('/about', function(req, res) {
 
 //Allow client to use client directory only
 app.use('/client', express.static(__dirname + '/client'));
-serv.listen(2000); //Listen for requests on port 2000
+serv.listen(process.env.PORT || 2000); //Listen for requests on port 2000
 
 serverMessage("INFO - server has been started.");
 var nextSocketID = 0;
