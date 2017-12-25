@@ -38,7 +38,7 @@ class Entity {
         this.y = 250;
         this.spdX = 0;
         this.spdY = 0;
-        this.spriteName = 'test1';
+        this.spriteName = spriteName;
     }
 
     update() {
@@ -91,7 +91,6 @@ class Player extends Entity {
         }
     }
 
-
     shootProjectile(angle) {
         var p = new Projectile(this.id, angle, 'test2');
         p.x = this.x;
@@ -106,6 +105,20 @@ class Player extends Entity {
         if(this.pressingUp) this.spdY = -this.maxSpd;
         else if(this.pressingDown) this.spdY = this.maxSpd;
         else this.spdY = 0;
+    }
+
+    takeDamage(damageAmount) {
+        this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
+        if(this.hp <= 0) this.die();
+    }
+
+    die() {
+        serverMessage('DEATH - [PLAYER: "' + this.username + '"] died.');
+        this.respawn();
+    }
+
+    respawn() {
+
     }
 }
 Player.list = [];
@@ -128,7 +141,7 @@ Player.onDisconnect = function(socket) {
     Player.list.splice(socket.id);
 }
 
-Player.update = function() {
+Player.updateAll = function() {
     //Get data from all connected players
     var pack = [];
     for(var i in Player.list) {
@@ -137,6 +150,7 @@ Player.update = function() {
         pack.push({
             id: player.id,
             username: player.username,
+            spriteName: player.spriteName,
             x: player.x,
             y: player.y,
             hp: player.hp,
@@ -171,17 +185,17 @@ class Projectile extends Entity {
 
             //Check for collision between player and projectiles
             if(super.getDistance(player) < 32 && this.parent !== player.id) {
-                player.hp - this.damage;
+                serverMessage('DAMAGE - [PLAYER: "' + Player.list[this.parent].username + '"] dealt ' + this.damage + ' to [PLAYER "' +
+                    player.username + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
+                player.takeDamage(this.damage);
                 this.isActive = false;
-                serverMessage('DAMAGE - [PLAYER: ' + Player.list[this.parent].username + '] dealt ' + this.damage + ' to [PLAYER' +
-                    player.username + '].');
             }
         }
     }
 }
 Projectile.list = [];
 
-Projectile.update = function() {
+Projectile.updateAll = function() {
     //Get data from all connected players
     var pack = [];
     for(var i in Projectile.list) {
@@ -194,7 +208,8 @@ Projectile.update = function() {
         pack.push({
             id: projectile.id,
             x: projectile.x,
-            y: projectile.y
+            y: projectile.y,
+            spriteName: projectile.spriteName,
         });
     }
     return pack;
@@ -258,13 +273,13 @@ io.sockets.on('connection', function(socket) {
 setInterval(function() {
     //Load package data
     var pack = {
-        players: Player.update(),
-        projectiles: Projectile.update()
+        players: Player.updateAll(),
+        projectiles: Projectile.updateAll()
     }
 
     //Send package data to all clients
-    for(var i in SOCKET_LIST) {
-        var socket = SOCKET_LIST[i];
+    for(var i in Player.list) {
+        var socket = SOCKET_LIST[Player.list[i].id];
         socket.emit('update', pack);
     }
 

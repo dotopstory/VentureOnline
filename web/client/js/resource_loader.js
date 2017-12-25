@@ -2,8 +2,8 @@ class Sprite {
     constructor(startX, startY, width) {
         this.id = Sprite.nextID++;
         this.spritesheet = spritesheet;
-        this.startX = startX * 64;
-        this.startY = startY * 64;
+        this.startX = startX == 0 ? startX * 64 : startX * 64 + 1;
+        this.startY = startY == 0 ? startY * 64 : startY * 64 + 1;
         this.width = width;
     }
 
@@ -25,6 +25,7 @@ clientAlert('Loaded spritesheet: ' + spritesheet.width + ' x ' + spritesheet.hei
 
 spritesheet.onload = function() {
     cachedSprites = {
-        'test1': new Sprite(0, 0, 64)
+        'test1': new Sprite(0, 0, 64),
+        'test2': new Sprite(1, 0, 64)
     }
 };
