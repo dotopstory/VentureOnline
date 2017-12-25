@@ -19,10 +19,11 @@ app.get('/about', function(req, res) {
     res.sendFile(__dirname + '/client/about.html');
 });
 
+//Allow client to use client directory only
 app.use('/client', express.static(__dirname + '/client'));
 serv.listen(2000); //Listen for requests on port 2000
 
-serverAlert("INFO - server has been started.");
+serverMessage("INFO - server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = [];
 var DEBUG = true;
@@ -31,12 +32,13 @@ var DEBUG = true;
 // ENTITY CLASS
 //*****************************
 class Entity {
-    constructor(id) {
+    constructor(id, spriteName) {
         this.id = id;
         this.x = 250;
         this.y = 250;
         this.spdX = 0;
         this.spdY = 0;
+        this.spriteName = 'test1';
     }
 
     update() {
@@ -58,9 +60,9 @@ Entity.nextID = 0;
 // PLAYER CLASS
 //*****************************
 class Player extends Entity {
-    constructor(id, username) {
+    constructor(id, username, spriteName) {
         //META
-        super(id);
+        super(id, spriteName);
         this.username = username;
 
         //MOVEMENT
@@ -91,7 +93,7 @@ class Player extends Entity {
 
 
     shootProjectile(angle) {
-        var p = new Projectile(this.id, angle);
+        var p = new Projectile(this.id, angle, 'test2');
         p.x = this.x;
         p.y = this.y;
     }
@@ -109,7 +111,7 @@ class Player extends Entity {
 Player.list = [];
 Player.onConnect = function(socket, username) {
     //Create player and add to list
-    var player = new Player(socket.id, username);
+    var player = new Player(socket.id, username, 'test1');
 
     //Listen for input events
     socket.on('keyPress', function(data) {
@@ -148,11 +150,12 @@ Player.update = function() {
 // PROJECTILE CLASS
 //*****************************
 class Projectile extends Entity {
-    constructor(parent, angle) {
-        super(Entity.nextID++);
+    constructor(parent, angle, spriteName) {
+        super(Entity.nextID++, spriteName);
         this.parent = parent;
         this.spdX = Math.cos(angle / 180 * Math.PI) * 20;
         this.spdY = Math.sin(angle / 180 * Math.PI) * 20;
+        this.damage = 5;
         this.timer = 0;
         this.isActive = true;
         this.lifeTime = 60; //Ticks
@@ -164,11 +167,14 @@ class Projectile extends Entity {
         super.update();
 
         for(var i in Player.list) {
-            var p = Player.list[i];
+            var player = Player.list[i];
 
             //Check for collision between player and projectiles
-            if(super.getDistance(p) < 32 && this.parent !== p.id) {
+            if(super.getDistance(player) < 32 && this.parent !== player.id) {
+                player.hp - this.damage;
                 this.isActive = false;
+                serverMessage('DAMAGE - [PLAYER: ' + Player.list[this.parent].username + '] dealt ' + this.damage + ' to [PLAYER' +
+                    player.username + '].');
             }
         }
     }
@@ -206,7 +212,7 @@ io.sockets.on('connection', function(socket) {
     //Add socket to list
     socket.id = getNextAvailableSocketID();
     SOCKET_LIST[socket.id] = socket;
-    serverAlert("INFO - [CLIENT " + socket.id + "] connected to the server. ");
+    serverMessage("INFO - [CLIENT " + socket.id + "] connected to the server. ");
 
     //Listen for sign in attempts
     socket.on('signIn', function(data) {
@@ -223,7 +229,7 @@ io.sockets.on('connection', function(socket) {
         if(true) {
             Player.onConnect(socket, data.username);
             socket.emit('signInResponse', {success: true});
-            serverAlert("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
+            serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
         } else {
             socket.emit('signInResponse', {success: false});
         }
@@ -232,7 +238,7 @@ io.sockets.on('connection', function(socket) {
     //Listen for new messages from clients
     socket.on('sendMessageToServer', function(data) {
         var playerName = Player.list[socket.id].name;
-        serverAlert("INFO - [CLIENT: " + socket.id + "] sent [MESSAGE: " + data + "]");
+        serverMessage("INFO - [CLIENT: " + socket.id + "] sent [MESSAGE: " + data + "]");
 
         //Send new message to all players
         for(var i in SOCKET_LIST) {
@@ -242,7 +248,7 @@ io.sockets.on('connection', function(socket) {
 
     //Remove client if disconnected (client sends disconnect automatically)
     socket.on('disconnect', function() {
-        serverAlert("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
+        serverMessage("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
         SOCKET_LIST.splice(socket.id);
         Player.onDisconnect(socket);
     });
@@ -265,7 +271,7 @@ setInterval(function() {
 }, 1000 / tickRate);
 
 //Custom server alert messages
-function serverAlert(message) {
+function serverMessage(message) {
     console.log(message);
 }
 
