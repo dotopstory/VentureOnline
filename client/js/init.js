@@ -45,12 +45,15 @@ $(window).on('load', function() {
         renderProjectiles(gameCanvas);
     }, 1000 / fps);
 
+    //Render the map
     function renderMap(ctx) {
         var drawX = canvasWidth / 2 - gameStateCache.players[clientID].x;
         var drawY = canvasHeight / 2 - gameStateCache.players[clientID].y;
-        ctx.drawImage(spritesheet, drawX, drawY);
+        //gameCanvas.drawImage(images['spritesheet1'], 0, 0);
+        getSprite(gameStateCache.players[clientID].map).render(gameCanvas, drawX, drawY);
     }
 
+    //Render players
     function renderPlayers(ctx) {
         ctx.font = "20px Arial";
         //Render players
@@ -58,6 +61,10 @@ $(window).on('load', function() {
             var player = gameStateCache.players[i]; //Save player
             var drawX = player.x - gameStateCache.players[clientID].x + canvasWidth / 2;
             var drawY = player.y - gameStateCache.players[clientID].y + canvasHeight / 2;
+            var map = player.map;
+
+            //Skip rendering of players on different map
+            if(gameStateCache.players[clientID].map !== player.map) continue;
 
             //Render player sprite
             var sprite = getSprite(player.spriteName);
@@ -77,12 +84,16 @@ $(window).on('load', function() {
         }
     }
 
+    //Render projectiles
     function renderProjectiles(ctx) {
         //Render projectiles
         for(var i in gameStateCache.projectiles) {
             var projectile = gameStateCache.projectiles[i];
             var drawX = projectile.x - gameStateCache.players[clientID].x + canvasWidth / 2;
             var drawY = projectile.y - gameStateCache.players[clientID].y + canvasHeight / 2;
+
+            //Skip rendering of projectiles on different maps
+            if(gameStateCache.players[clientID].map !== projectile.map) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             var sprite = getSprite(projectile.spriteName);

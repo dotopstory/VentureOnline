@@ -33,13 +33,14 @@ var DEBUG = true;
 // ENTITY CLASS
 //*****************************
 class Entity {
-    constructor(id, spriteName) {
+    constructor(id, spriteName, map) {
         this.id = id;
         this.x = 250;
         this.y = 250;
         this.spdX = 0;
         this.spdY = 0;
         this.spriteName = spriteName;
+        this.map = map;
     }
 
     update() {
@@ -51,8 +52,8 @@ class Entity {
         this.y += this.spdY;
     }
 
-    getDistance(pt) {
-        return Math.sqrt(Math.pow(this.x - pt.x, 2) + Math.pow(this.y - pt.y, 2));
+    getDistance(point) {
+        return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
     }
 }
 Entity.nextID = 0;
@@ -61,9 +62,9 @@ Entity.nextID = 0;
 // PLAYER CLASS
 //*****************************
 class Player extends Entity {
-    constructor(id, username, spriteName) {
+    constructor(id, username, spriteName, map) {
         //META
-        super(id, spriteName);
+        super(id, spriteName, map);
         this.username = username;
 
         //MOVEMENT
@@ -93,7 +94,7 @@ class Player extends Entity {
     }
 
     shootProjectile(angle) {
-        var p = new Projectile(this.id, angle, 'test2');
+        var p = new Projectile(this.id, angle, 'test2', this.map);
         p.x = this.x;
         p.y = this.y;
     }
@@ -124,8 +125,11 @@ class Player extends Entity {
 }
 Player.list = [];
 Player.onConnect = function(socket, username) {
+    //Map
+    var map = Math.random() < 0.5 ? "map1" : "map2";
+
     //Create player and add to list
-    var player = new Player(socket.id, username, 'test1');
+    var player = new Player(socket.id, username, 'test1', map);
 
     //Listen for input events
     socket.on('keyPress', function(data) {
@@ -155,7 +159,8 @@ Player.updateAll = function() {
             x: player.x,
             y: player.y,
             hp: player.hp,
-            maxHP: player.maxHP
+            maxHP: player.maxHP,
+            map: player.map
         });
     }
     return pack;
@@ -165,8 +170,8 @@ Player.updateAll = function() {
 // PROJECTILE CLASS
 //*****************************
 class Projectile extends Entity {
-    constructor(parent, angle, spriteName) {
-        super(Entity.nextID++, spriteName);
+    constructor(parent, angle, spriteName, map) {
+        super(Entity.nextID++, spriteName, map);
         this.parent = parent;
         this.spdX = Math.cos(angle / 180 * Math.PI) * 20;
         this.spdY = Math.sin(angle / 180 * Math.PI) * 20;
@@ -183,10 +188,11 @@ class Projectile extends Entity {
 
         for(var i in Player.list) {
             var player = Player.list[i];
+            var shooter = Player.list[this.parent];
 
             //Check for collision between player and projectiles
-            if(super.getDistance(player) < 32 && this.parent !== player.id) {
-                serverMessage('DAMAGE - [PLAYER: "' + Player.list[this.parent].username + '"] dealt ' + this.damage + ' to [PLAYER "' +
+            if(this.map === player.map && super.getDistance(player) < 32 && this.parent !== player.id) {
+                serverMessage('DAMAGE - [PLAYER: "' + (shooter == undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
                     player.username + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                 player.takeDamage(this.damage);
                 this.isActive = false;
@@ -211,6 +217,7 @@ Projectile.updateAll = function() {
             x: projectile.x,
             y: projectile.y,
             spriteName: projectile.spriteName,
+            map: projectile.map
         });
     }
     return pack;

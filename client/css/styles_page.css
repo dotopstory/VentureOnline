@@ -3,6 +3,7 @@ body {
     background-repeat: none;
     font-family: 'Ubuntu', sans-serif;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .container-fluid {
