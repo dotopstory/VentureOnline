@@ -9,7 +9,7 @@ function clientAlert(message) {
 $(window).on('load', function() {
     //Game objects
     var gameCanvas = document.getElementById('gameCanvas').getContext('2d');
-    var fps = 100, canvasWidth = 1000, canvasHeight = 750;
+    var fps = 60, canvasWidth = 1000, canvasHeight = 750;
     var clientID = null;
 
     //Canvas init
@@ -37,6 +37,7 @@ $(window).on('load', function() {
     //RENDER
     setInterval(function() {
         if(clientID == null) return;
+        if(gameStateCache.players[clientID] == undefined) return;
         gameCanvas.clearRect(0, 0, canvasWidth, canvasHeight); //Clear canvas
 
         //Draw game objects

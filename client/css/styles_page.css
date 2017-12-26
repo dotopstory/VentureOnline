@@ -1,9 +1,12 @@
 body {
-    background-color: #30B694;
-    background-repeat: none;
+    background-color: #ff5e62;
+    background: linear-gradient(0deg, #ff9966, #ff5e62);
+    background-repeat: no-repeat;
+    background-size: cover;
     font-family: 'Ubuntu', sans-serif;
     overflow-x: hidden;
     overflow-y: hidden;
+    height: 100vh;
 }
 
 .container-fluid {
@@ -18,8 +21,6 @@ body {
 }
 
 #gameCanvas {
-    width: 800px;
-    height: 600px;
     border: 5px solid rgba(0, 0, 0, 1);
     background: white;
     border-radius: 20px;
@@ -33,6 +34,7 @@ body {
     background-color: #2C3E50;
     margin: 0;
     padding: 0 4vw;
+    z-index: 999;
 }
 
 .col-logo {

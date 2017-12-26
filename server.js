@@ -2,7 +2,7 @@
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
-var tickRate = 30; //Updates per second
+var tickRate = 20; //Updates per second
 var MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
 
 //Default route
@@ -22,9 +22,9 @@ app.get('/about', function(req, res) {
 
 //Allow client to use client directory only
 app.use('/client', express.static(__dirname + '/client'));
-serv.listen(process.env.PORT || 2000); //Listen for requests on port 2000
+serv.listen(process.env.PORT || 2000); //Listen for requests
 
-serverMessage("INFO - server has been started.");
+serverMessage("INFO - Venture Online server has been started.");
 var nextSocketID = 0;
 var SOCKET_LIST = [];
 var DEBUG = true;
@@ -76,7 +76,7 @@ class Player extends Entity {
         this.mouseAngle = 0;
 
         //STATS
-        this.maxSpd = 10;
+        this.maxSpd = 20;
         this.maxHP = 100;
         this.hp = this.maxHP;
 
@@ -173,8 +173,9 @@ class Projectile extends Entity {
     constructor(parent, angle, spriteName, map) {
         super(Entity.nextID++, spriteName, map);
         this.parent = parent;
-        this.spdX = Math.cos(angle / 180 * Math.PI) * 20;
-        this.spdY = Math.sin(angle / 180 * Math.PI) * 20;
+        this.spd = 40;
+        this.spdX = Math.cos(angle / 180 * Math.PI) * this.spd;
+        this.spdY = Math.sin(angle / 180 * Math.PI) * this.spd;
         this.damage = 5;
         this.timer = 0;
         this.isActive = true;

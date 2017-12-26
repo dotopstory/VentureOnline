@@ -20,7 +20,7 @@
 
         <!-- Custom Styles -->
         <link rel="stylesheet" type="text/css" href="/client/css/styles_page.css">
-        <link rel="stylesheet" type="text/css" href="/client/css/styles_chat.css">
+        <link rel="stylesheet" type="text/css" href="/client/css/styles_ui.css">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Bungee|Ubuntu:700" rel="stylesheet">
@@ -32,7 +32,7 @@
     <body>
         <div class="container-fluid">
             <!-- NAVBAR-->
-            <div class="row nav">
+            <div id="navbar" class="row nav">
                 <div class="col-md-6 col-logo">
                     <a href="/play"><span class="logo">Venture Online</span></a>
                 </div>
@@ -58,12 +58,12 @@
                 <!-- Game canvas row -->
                 <div class="row canvas-row">
                     <div class="col-md-12">
-                        <canvas id="gameCanvas"></canvas>
+                        <canvas id="gameCanvas">Error - canvas not supported on your browser.</canvas>
                     </div>
                 </div>
 
                 <!-- Chat row -->
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-md-8 offset-md-2">
                         <div id="chat-text">
                             <div class="chat-message">Welcome to Venture.</div>
@@ -73,6 +73,18 @@
                             <input id="chat-input" type="text" class="form-control" placeholder="Type message here.." required autocomplete="off"></input>
                         </form>
                     </div>
+                </div>-->
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div id="alertDiv" class="hidden">
+            <div class="row">
+                <div class="col-md-3">
+                    <img id="alertIcon" src="/client/res/img/turnipguy.png" width="64" height="64">
+                </div>
+
+                <div id="alertMessage" class="col-md-9">
                 </div>
             </div>
         </div>

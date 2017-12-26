@@ -19,9 +19,11 @@ function getSprite(name) {
 
 var cachedSprites = {};
 var images = {
-    'spritesheet1': new Image(1600, 1600) //Load main spritesheet}
+    'spritesheet1': new Image(1600, 1600), //Load main spritesheet}
+    'turnipGuy': new Image(64, 64)
 }
 images['spritesheet1'].src = '/client/res/img/spritesheet_64x64.png';
+images['turnipGuy'].src = '/client/res/img/turnipguy.png';
 
 cachedSprites = {
     'default': new Sprite(0, 0, 1),
