@@ -58,6 +58,17 @@ function showAlert(message, showTimeSecs) {
 //********************
 //*** MENU EVENTS
 //********************
+//Show/hide the menu
+function toggleMenu() {
+    $('#menuDiv').toggle('slide');
+}
+
+//Hide menu when clicking menu button
+$('.menuButton').on('click', function() {
+    toggleMenu();
+});
+
+//Change map
 function changeMap(mapName) {
     socket.emit('changeMap', mapName);
     showAlert('Changed Map', 2);
