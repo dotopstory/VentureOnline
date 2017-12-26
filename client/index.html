@@ -58,8 +58,14 @@
                 <!-- Game canvas row -->
                 <div class="row canvas-row">
                     <div class="col-md-12">
-                        <canvas id="gameCanvas">Error - canvas not supported on your browser.</canvas>
+                        <canvas id="gameCanvas">Error - canvas not supported on your browser.</canvas><br>
                     </div>
+                </div>
+
+                <div class="row logo-row">
+                    <div class="col-md-4"><img src="/client/res/img/nodejs_logo.png" alt="NodeJS Logo" width="74" height="74"></div>
+                    <div class="col-md-4"><img src="/client/res/img/tjkeast_logo.png" alt="TJKeast Designs Logo" width="200" height="74"></div>
+                    <div class="col-md-4"><img src="/client/res/img/socketio_logo.png" alt="Socket.IO Logo" width="74" height="74"></div>
                 </div>
 
                 <!-- Chat row -->
@@ -85,6 +91,21 @@
                 </div>
 
                 <div id="alertMessage" class="col-md-9">
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div id="menuDiv" class="hidden">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="menuTitle">Menu</span><br>
+
+                    <!-- Menu buttons -->
+                    <button class="btn menuButton" onclick="changeMap()">Change Map</button>
+                    <a href="/about"><button class="btn menuButton">About</button></a>
+                    <a href="/bug_report"><button class="btn menuButton">Bug Report</button></a>
+                    <a href="/play"><button class="btn menuButton">Sign Out</button></a>
                 </div>
             </div>
         </div>

@@ -51,4 +51,12 @@ $(window).on('load', function() {
             alertDiv.toggle("slide");
         }, showTimeSecs * 1000);
     }
+
+    //********************
+    //*** MENU EVENTS
+    //********************
+    function changeMap(mapName) {
+        if(mapName == null) return;
+        socket.emit('changeMap', mapName);
+    }
 });

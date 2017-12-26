@@ -30,6 +30,7 @@
     font-size: 2vmax;
     font-weight: bold;
     width: 25vw;
+    vertical-align: center;
     background-color: white;
     position: fixed;
     top: 0;
@@ -37,4 +38,44 @@
     background: rgba(38, 38, 38, 0.9);
     color: white;
     padding: 1vh 1vw;
+}
+
+/* MENU STYLES */
+.menuTitle {
+    font-family: 'Bungee', cursive;
+    font-weight: bold;
+    color: #2C3E50;
+    box-shadow: 2px 2px 2px 2px solid #1b2631;
+}
+
+#menuDiv {
+    font-size: 3vmax;
+    border-radius: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.8);
+    width: 20vw;
+    position: absolute;
+    left: calc((100vw - 20vw) / 2);
+    top: 10vh;
+    padding: 2vh 1vw;
+    text-align: center;
+}
+
+.menuButton {
+    width: 100%;
+    background: transparent;
+    border: 5px solid #1b2631;
+    border-width: 2px 5px 5px 2px;
+    background-color: #2C3E50;
+    font-size: 1.5vmax;
+    color: white;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 2%;
+    font-family: 'Bungee', cursive;
+    margin: 2vh 0 0 0;
+}
+
+.menuButton:hover {
+    background-color: #1b2631;
 }

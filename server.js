@@ -76,7 +76,7 @@ class Player extends Entity {
         this.mouseAngle = 0;
 
         //STATS
-        this.maxSpd = 20;
+        this.maxSpd = 25;
         this.maxHP = 100;
         this.hp = this.maxHP;
 
@@ -290,6 +290,7 @@ setInterval(function() {
     //Send package data to all clients
     for(var i in Player.list) {
         var socket = SOCKET_LIST[Player.list[i].id];
+        if(socket == undefined) continue;
         socket.emit('update', pack);
     }
 
