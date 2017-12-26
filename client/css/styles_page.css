@@ -1,6 +1,6 @@
 body {
-    background-color: #000;
-    background: linear-gradient(0deg, #ff9966, #ff5e62);
+    background-color: #CF4647;
+    background: linear-gradient(0deg, #ff9966, #CF4647);
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'Ubuntu', sans-serif;
@@ -16,7 +16,7 @@ body {
 /* CANVAS STYLES */
 .canvas-row {
     text-align: center;
-    margin-top: 0vh;
+    padding: 1vh 0 0 0;
 }
 
 #gameCanvas {
@@ -35,7 +35,7 @@ body {
     font-family: 'Bungee', cursive;
     width: 100vw;
     color: white;
-    background-color: #2C3E50;
+    background: transparent;
     margin: 0;
     padding: 0 4vw;
     z-index: 999;
@@ -58,11 +58,11 @@ body {
 
 .navItem:hover {
     text-decoration: underline;
-    transform: scale(1.4);
 }
 
-a {
-    color: inherit !important;
+a, a:hover, a:active, a:visited {
+    all: unset;
+    cursor: pointer;
 }
 
 /* SIGN IN STYLES */
@@ -109,7 +109,7 @@ a {
 /* LOGOS */
 .logo-row {
     text-align: center;
-    padding: 0.5vh 20vw;
+    padding: 1vh 20vw;
 }
 
 /* DISPLAYS */

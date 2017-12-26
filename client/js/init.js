@@ -56,7 +56,7 @@ $(window).on('load', function() {
 
     //Render players
     function renderPlayers(ctx) {
-        ctx.font = "20px Arial";
+        ctx.font = "16px Arial";
         //Render players
         for(var i in gameStateCache.players) {
             var player = gameStateCache.players[i]; //Save player
@@ -81,7 +81,7 @@ $(window).on('load', function() {
 
             //Render player name
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            ctx.fillText(player.username, drawX + sprite.width / 2 - 50 + 2, drawY - sprite.width + 18);
+            ctx.fillText(player.username, drawX + sprite.width / 2 - 50 + 2, drawY - sprite.width + 16);
         }
     }
 
