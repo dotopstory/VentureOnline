@@ -33,30 +33,32 @@ $(window).on('load', function() {
         }
     });
 
-    //********************
-    //*** ALERTS EVENTS
-    //********************
-    function showAlert(message, showTimeSecs) {
-        var alertDiv = $('#alertDiv');
-        alertDiv.hide();
 
-        //Fill alert contents
-        alertDiv.css({'margin-top': $('#navbar').height() + 'px'})
-        $('#alertMessage').html(message);
-        $('#alertIcon').attr('src', images['turnipGuy'].src)
 
-        //Show alert and set timer for hiding alert
-        alertDiv.toggle("slide");
-        setTimeout(function() {
-            alertDiv.toggle("slide");
-        }, showTimeSecs * 1000);
-    }
 
-    //********************
-    //*** MENU EVENTS
-    //********************
-    function changeMap(mapName) {
-        if(mapName == null) return;
-        socket.emit('changeMap', mapName);
-    }
 });
+//********************
+//*** ALERTS EVENTS
+//********************
+function showAlert(message, showTimeSecs) {
+    var alertDiv = $('#alertDiv');
+
+    //Fill alert contents
+    alertDiv.css({'margin-top': $('#navbar').height() + 'px'})
+    $('#alertMessage').html(message);
+    $('#alertIcon').attr('src', images['turnipGuy'].src)
+
+    //Show alert and set timer for hiding alert
+    alertDiv.toggle("slide");
+    setTimeout(function() {
+        alertDiv.toggle("slide");
+    }, showTimeSecs * 1000);
+}
+
+//********************
+//*** MENU EVENTS
+//********************
+function changeMap(mapName) {
+    socket.emit('changeMap', mapName);
+    showAlert('Changed Map', 2);
+}

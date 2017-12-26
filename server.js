@@ -140,6 +140,12 @@ Player.onConnect = function(socket, username) {
         if(data.inputId === 'attack') player.pressingAttack = data.state;
         if(data.inputId === 'mouseAngle') player.mouseAngle = data.state;
     });
+
+    //Listen for map changes
+    socket.on('changeMap', function(data) {
+        if(player.map == 'map1') player.map = 'map2';
+        else if(player.map == 'map2') player.map = 'map1';
+    });
 }
 
 Player.onDisconnect = function(socket) {
