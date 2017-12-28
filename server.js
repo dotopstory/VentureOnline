@@ -25,7 +25,6 @@ app.use('/client', express.static(__dirname + '/client'));
 serv.listen(process.env.PORT || 2000); //Listen for requests
 
 serverMessage("INFO - Venture Online server has been started.");
-var nextSocketID = 0;
 var SOCKET_LIST = [];
 var DEBUG = true;
 
@@ -130,6 +129,7 @@ Player.onConnect = function(socket, username) {
 
     //Create player and add to list
     var player = new Player(socket.id, username, 'test1', map);
+    sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info', 'SERVER');
 
     //Listen for input events
     socket.on('keyPress', function(data) {
@@ -141,6 +141,12 @@ Player.onConnect = function(socket, username) {
         if(data.inputId === 'mouseAngle') player.mouseAngle = data.state;
     });
 
+    //Listen for new messages from clients
+    socket.on('sendMessageToServer', function(data) {
+        if(data[0] == '/') processServerCommand(data, socket.id);
+        else sendMessageToClients(SOCKET_LIST, data, 'default', player.username);
+    });
+
     //Listen for map changes
     socket.on('changeMap', function(data) {
         if(player.map == 'map1') player.map = 'map2';
@@ -149,6 +155,9 @@ Player.onConnect = function(socket, username) {
 }
 
 Player.onDisconnect = function(socket) {
+    var player = Player.list[socket.id];
+    if(player == undefined) return; //If client never signed in
+    sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info', 'SERVER');
     Player.list.splice(socket.id);
 }
 
@@ -158,7 +167,7 @@ Player.updateAll = function() {
     for(var i in Player.list) {
         var player = Player.list[i];
         player.update();
-        pack.push({
+        pack[player.id] = {
             id: player.id,
             username: player.username,
             spriteName: player.spriteName,
@@ -167,7 +176,7 @@ Player.updateAll = function() {
             hp: player.hp,
             maxHP: player.maxHP,
             map: player.map
-        });
+        };
     }
     return pack;
 }
@@ -232,10 +241,11 @@ Projectile.updateAll = function() {
 
 //Listen for connection events
 var io = require('socket.io')(serv, {});
+
 io.sockets.on('connection', function(socket) {
     //Deny client connection if too many clients connected
     if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
-        console.log('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
+        serverMessage('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
         return;
     }
 
@@ -248,7 +258,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('signIn', function(data) {
         //Deny player sign in if too many players
         if(Player.list.length + 1 > MAX_SERVER_PLAYERS) {
-            console.log('ALERT - denied player signi-in on [SLOT ' + socket.id + '].');
+            serverMessage('ALERT - denied player sign-in on [SLOT ' + socket.id + '].');
             return;
         }
 
@@ -266,28 +276,11 @@ io.sockets.on('connection', function(socket) {
         }
     });
 
-    //Listen for new messages from clients
-    socket.on('sendMessageToServer', function(data) {
-        if(Player.list[socket.id] == undefined) {
-            serverMessage("ERROR - [CLIENT: " + socket.id + "] attempted to send a message but it failed.");
-            return;
-        }
-
-        var playerName = getPlayerAtSocketID(socket.id).username;
-        console.log(playerName);
-        serverMessage('INFO - [CLIENT: ID' + socket.id + ' / USERNAME: ' + playerName + '] sent [MESSAGE: ' + data + ']');
-
-        //Send new message to all players
-        for(var i in SOCKET_LIST) {
-            SOCKET_LIST[i].emit('addToChat', {username: playerName, message: data, messageStyle: 'announcement'});
-        }
-    });
-
     //Remove client if disconnected (client sends disconnect automatically)
     socket.on('disconnect', function() {
         serverMessage("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
-        SOCKET_LIST.splice(socket.id);
         Player.onDisconnect(socket);
+        SOCKET_LIST.splice(socket.id);
     });
 });
 
@@ -302,7 +295,7 @@ setInterval(function() {
     //Send package data to all clients
     for(var i in Player.list) {
         var socket = SOCKET_LIST[Player.list[i].id];
-        if(socket == undefined) continue;
+        //if(socket == undefined) continue;
         socket.emit('update', pack);
     }
 
@@ -313,16 +306,30 @@ function serverMessage(message) {
     console.log(message);
 }
 
-//Return next available socket id
+function sendMessageToClients(messageToList, messageContent, messageStyle, messageFrom) {
+    //Send new message to all players
+    for(var i in SOCKET_LIST) {
+        SOCKET_LIST[i].emit('addToChat', {username: messageFrom, message: messageContent, messageStyle: messageStyle});
+    }
+}
+
+function processServerCommand(commandLine, senderSocketID) {
+    var splitMessage = commandLine.split(' ');
+    var command = splitMessage[0];
+
+    if(command == '/announce' || command == '/ann') {
+        delete splitMessage[0];
+        var message = splitMessage.join(' ');
+        sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
+    }
+    else if(command == '/shutdown') {
+        process.exit(1);
+    }
+}
+
 function getNextAvailableSocketID() {
     for(var i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
         if(SOCKET_LIST[i] == undefined) return i;
     }
     return -1;
-}
-
-function getPlayerAtSocketID(socketID) {
-    for(var i = 0; i < MAX_SERVER_PLAYERS; i++) {
-        if(Player.list[i].id === socketID) return Player.list[i];
-    }
 }

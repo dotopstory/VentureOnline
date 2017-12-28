@@ -60,6 +60,11 @@
     color: red;
 }
 
+.message-info {
+    font-weight: bold;
+    color: blue;
+}
+
 /* ALERT STYLES */
 #alertDiv {
     margin-top: 6vh;

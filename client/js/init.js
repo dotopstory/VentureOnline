@@ -65,6 +65,7 @@ $(window).on('load', function() {
         //Render players
         for(var i in gameStateCache.players) {
             var player = gameStateCache.players[i]; //Save player
+            if(player == undefined) continue;
             var drawX = player.x - gameStateCache.players[clientID].x + canvasWidth / 2;
             var drawY = player.y - gameStateCache.players[clientID].y + canvasHeight / 2;
             var map = player.map;
