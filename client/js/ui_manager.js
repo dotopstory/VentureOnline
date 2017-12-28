@@ -2,33 +2,41 @@
 //*** UI MANAGER
 //********************
 class uiItem {
-    constructor(element, name) {
+    constructor(element, name,showSeparate, initFunction) {
         this.id = uiItem.nextID++;
         this.element = element;
         this.name = name;
+        this.initFunction = initFunction;
+        this.showSeparate = showSeparate; //True if ui item must be shown with no other ui items visible
     }
 }
 uiItem.nextID = 0;
-uiItem.uiList = [new uiItem($('#menuDiv'), 'Menu'), new uiItem($('#chatDiv'), 'Chat')];
+uiItem.uiList = [
+    new uiItem($('#menuDiv'), 'Menu', true),
+    new uiItem($('#chatDiv'), 'Chat', true, initChat),
+    new uiItem($('#alertDiv'), 'Alert', false)];
 
 function toggleUiItem(uiName) {
     //Get ui item
-    var uiItem = getUiItemByName(uiName);
+    var item = getUiItemByName(uiName);
 
     //Hide all elements except toggled element
-    for(var i in uiItem.uiList) if(uiItem.uiList[i].id !== uiitem.id) uiItem.uiList[i].element.hide();
+    for(var i in uiItem.uiList) {
+        if(uiItem.uiList[i].id != item.id && (uiItem.uiList[i].showSeparate && item.showSeparate)) uiItem.uiList[i].element.hide();
+    }
 
     //Close ui item if it exists
-    if(uiItem != null) {
-        uiItem.element.toggle('slide');
+    if(item != null) {
+        item.element.toggle('slide');
+        if(item.initFunction != undefined) item.initFunction();
     } else console.log('UI Manager Error - could not find UI item with name: ' + uiName);
 }
 
 function getUiItemByName(searchName) {
     for(var i in uiItem.uiList) {
         if(uiItem.uiList[i].name.toLowerCase() == searchName.toLowerCase()) return uiItem.uiList[i];
-        return null;
     }
+    return null;
 }
 
 $(window).on('load', function() {
@@ -58,18 +66,18 @@ $(window).on('load', function() {
         if(data.success) {
             $('#div-signIn').hide();
             $('#div-game').fadeIn('slow');
-            showAlert("Signed In!", 2);
+            showAlert("Signed In!");
         } else {
-            showAlert("Incorrect Login.", 2);
+            showAlert("Incorrect Login.");
             console.log("Error - failed sign in.");
         }
     });
 });
 
 //********************
-//*** ALERTS EVENTS
+//*** ALERT EVENTS
 //********************
-function showAlert(message, showTimeSecs) {
+function showAlert(message) {
     var alertDiv = $('#alertDiv');
 
     //Fill alert contents
@@ -78,10 +86,10 @@ function showAlert(message, showTimeSecs) {
     $('#alertIcon').attr('src', images['turnipGuy'].src)
 
     //Show alert and set timer for hiding alert
-    alertDiv.toggle("slide");
+    toggleUiItem('Alert');
     setTimeout(function() {
-        alertDiv.toggle("slide");
-    }, showTimeSecs * 1000);
+        toggleUiItem('Alert');
+    }, 2000);
 }
 
 //********************
@@ -95,5 +103,39 @@ $('.menuButton').on('click', function() {
 //Change map
 function changeMap(mapName) {
     socket.emit('changeMap', mapName);
-    showAlert('Changed Map', 2);
+    showAlert('Changed Map');
+}
+
+
+//********************
+//*** CHAT EVENTS
+//********************
+var chatText = document.getElementById('chat-text');
+var chatInput = $('#chat-input');
+var chatForm = document.getElementById('chat-form');
+var isChatOpen = false;
+
+function initChat() {
+    $('#chat-input').focus();
+    isChatOpen = !isChatOpen;
+}
+
+//Listen for chat events
+socket.on("addToChat", function(data) {
+    chatText.innerHTML += '<span class="chat-message message-' + data.messageStyle + '"><b>' + data.username+ '</b>: ' + escapeHtml(data.message) + '</span><br>';
+    chatText.scrollTop = chatText.scrollHeight;
+});
+
+//Chat form submitted event
+chatForm.onsubmit = function(e) {
+    e.preventDefault(); //Prevent page refresh on form submit
+    var message = chatInput.val();
+    if(isValidMessage(message)) socket.emit('sendMessageToServer', chatInput.val());
+    chatInput.val('');
+}
+
+//Check if a message is valid
+function isValidMessage(message) {
+    if(message.length < 1 || message.length > 100) return false;
+    return true;
 }

@@ -24,7 +24,7 @@
 #chat-text {
     background-color: transparent;
     padding: 1vh 1vw;
-    font-size: 1vmax;
+    font-size: 1.2vmax;
     overflow-y: scroll;
     height: 15vh;
 }
@@ -45,6 +45,19 @@
 
 #chatSendButton:hover {
     background-color: #1b2631;
+}
+
+.chat-message {
+
+}
+
+.message-default {
+
+}
+
+.message-announcement {
+    font-weight: bold;
+    color: red;
 }
 
 /* ALERT STYLES */

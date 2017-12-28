@@ -272,14 +272,14 @@ io.sockets.on('connection', function(socket) {
             serverMessage("ERROR - [CLIENT: " + socket.id + "] attempted to send a message but it failed.");
             return;
         }
-        
+
         var playerName = getPlayerAtSocketID(socket.id).username;
         console.log(playerName);
         serverMessage('INFO - [CLIENT: ID' + socket.id + ' / USERNAME: ' + playerName + '] sent [MESSAGE: ' + data + ']');
 
         //Send new message to all players
         for(var i in SOCKET_LIST) {
-            SOCKET_LIST[i].emit('addToChat', playerName + ": " + data);
+            SOCKET_LIST[i].emit('addToChat', {username: playerName, message: data, messageStyle: 'announcement'});
         }
     });
 
