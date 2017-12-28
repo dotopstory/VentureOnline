@@ -268,8 +268,14 @@ io.sockets.on('connection', function(socket) {
 
     //Listen for new messages from clients
     socket.on('sendMessageToServer', function(data) {
-        var playerName = Player.list[socket.id].name;
-        serverMessage("INFO - [CLIENT: " + socket.id + "] sent [MESSAGE: " + data + "]");
+        if(Player.list[socket.id] == undefined) {
+            serverMessage("ERROR - [CLIENT: " + socket.id + "] attempted to send a message but it failed.");
+            return;
+        }
+        
+        var playerName = getPlayerAtSocketID(socket.id).username;
+        console.log(playerName);
+        serverMessage('INFO - [CLIENT: ID' + socket.id + ' / USERNAME: ' + playerName + '] sent [MESSAGE: ' + data + ']');
 
         //Send new message to all players
         for(var i in SOCKET_LIST) {
@@ -313,4 +319,10 @@ function getNextAvailableSocketID() {
         if(SOCKET_LIST[i] == undefined) return i;
     }
     return -1;
+}
+
+function getPlayerAtSocketID(socketID) {
+    for(var i = 0; i < MAX_SERVER_PLAYERS; i++) {
+        if(Player.list[i].id === socketID) return Player.list[i];
+    }
 }

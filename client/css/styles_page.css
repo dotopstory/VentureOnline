@@ -116,3 +116,15 @@ a, a:hover, a:active, a:visited {
 .hidden {
     display: none;
 }
+
+input:focus, button:focus {
+    outline: none;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+.align-right {
+    text-align: right;
+}

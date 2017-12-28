@@ -1,27 +1,50 @@
 /* CHAT STYLES */
-#chat-form {
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 50px;
-        padding: 1%;
-}
-
-#chat-text {
-    border: 10px solid white;
-    height: 20vh;
-    overflow-y: scroll;
-    background-color: white;
+#chatDiv {
+    position: fixed;
+    top: 0;
+    left: 10vw;
+    width: 40vw;
+    text-align: left;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.8);
+    color: #2C3E50;
+    padding: 2vh 1vw;
     border-radius: 20px;
-    margin: 1% 0 0 0;
-    padding: 1%;
 }
 
 #chat-input {
-    border-radius: 20px;
+    background: transparent;
+    border: 1px solid #1b2631;
+    border-radius: 0;
+    padding: 1vh 1vw;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1vmax;
 }
 
-.chat-message {
-    margin: 0;
-    padding: 0;
+#chat-text {
+    background-color: transparent;
+    padding: 1vh 1vw;
+    font-size: 1vmax;
+    overflow-y: scroll;
+    height: 15vh;
+}
+
+#chatSendButton {
+    width: 95%;
+    background: transparent;
+    border: 5px solid #1b2631;
+    border-width: 2px 5px 5px 2px;
+    background-color: #2C3E50;
+    font-size: 1.5vmax;
+    color: white;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 2%;
+    font-family: 'Bungee', cursive;
+}
+
+#chatSendButton:hover {
+    background-color: #1b2631;
 }
 
 /* ALERT STYLES */
@@ -45,7 +68,6 @@
     font-family: 'Bungee', cursive;
     font-weight: bold;
     color: #2C3E50;
-    box-shadow: 2px 2px 2px 2px solid #1b2631;
 }
 
 #menuDiv {
