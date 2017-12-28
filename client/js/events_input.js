@@ -41,7 +41,7 @@ document.onkeyup = function(event) {
         socket.emit('keyPress', {inputId: 'attack', state: false});
 
     //Menu events
-    if(event.keyCode === 27) toggleMenu();
+    if(event.keyCode === 27) toggleUiItem('Menu');
 }
 
 //MOUSE EVENTS

@@ -1,3 +1,35 @@
+//********************
+//*** UI MANAGER
+//********************
+class uiItem {
+    constructor(element, name) {
+        this.id = uiItem.nextID++;
+        this.element = element;
+        this.name = name;
+    }
+}
+uiItem.nextID = 0;
+uiItem.uiList = [new uiItem($('#menuDiv'), 'Menu'), new uiItem($('#chatDiv'), 'Chat')];
+
+function toggleUiItem(uiName) {
+    //Get ui item
+    var uiItem = getUiItemByName(uiName);
+
+    //Hide all elements except toggled element
+    for(var i in uiItem.uiList) if(uiItem.uiList[i].id !== uiitem.id) uiItem.uiList[i].element.hide();
+
+    //Close ui item if it exists
+    if(uiItem != null) {
+        uiItem.element.toggle('slide');
+    } else console.log('UI Manager Error - could not find UI item with name: ' + uiName);
+}
+
+function getUiItemByName(searchName) {
+    for(var i in uiItem.uiList) {
+        if(uiItem.uiList[i].name.toLowerCase() == searchName.toLowerCase()) return uiItem.uiList[i];
+        return null;
+    }
+}
 
 $(window).on('load', function() {
     //********************
@@ -32,11 +64,8 @@ $(window).on('load', function() {
             console.log("Error - failed sign in.");
         }
     });
-
-
-
-
 });
+
 //********************
 //*** ALERTS EVENTS
 //********************
@@ -58,14 +87,9 @@ function showAlert(message, showTimeSecs) {
 //********************
 //*** MENU EVENTS
 //********************
-//Show/hide the menu
-function toggleMenu() {
-    $('#menuDiv').toggle('slide');
-}
-
 //Hide menu when clicking menu button
 $('.menuButton').on('click', function() {
-    toggleMenu();
+    toggleUiItem('Menu');
 });
 
 //Change map

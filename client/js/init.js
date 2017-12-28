@@ -2,6 +2,11 @@
 var socket = io();
 var DEBUG_ON = true;
 
+//Prevent right click popup menu
+document.oncontextmenu = function(event) {
+    event.preventDefault();
+}
+
 function clientAlert(message) {
     if(DEBUG_ON) console.log(message);
 }
