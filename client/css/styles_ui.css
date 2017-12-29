@@ -1,6 +1,6 @@
 /* CHAT STYLES */
 #chatDiv {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 10vw;
     width: 40vw;

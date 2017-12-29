@@ -2,19 +2,19 @@
 //*** UI MANAGER
 //********************
 class uiItem {
-    constructor(element, name,showSeparate, initFunction) {
+    constructor(element, name, showSeparate, toggleFunction) {
         this.id = uiItem.nextID++;
         this.element = element;
         this.name = name;
-        this.initFunction = initFunction;
+        this.toggleFunction = toggleFunction;
         this.showSeparate = showSeparate; //True if ui item must be shown with no other ui items visible
     }
 }
 uiItem.nextID = 0;
 uiItem.uiList = [
-    new uiItem($('#menuDiv'), 'Menu', true),
+    new uiItem($('#menuDiv'), 'Menu', true, null),
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
-    new uiItem($('#alertDiv'), 'Alert', false)];
+    new uiItem($('#alertDiv'), 'Alert', false, null)];
 
 function toggleUiItem(uiName) {
     //Get ui item
@@ -28,7 +28,7 @@ function toggleUiItem(uiName) {
     //Close ui item if it exists
     if(item != null) {
         item.element.toggle('slide');
-        if(item.initFunction != undefined) item.initFunction();
+        if(item.toggleFunction != null) item.toggleFunction();
     } else console.log('UI Manager Error - could not find UI item with name: ' + uiName);
 }
 
@@ -100,12 +100,21 @@ $('.menuButton').on('click', function() {
     toggleUiItem('Menu');
 });
 
+$('#signOutButton').on('click', function() {
+    signOut();
+});
+
 //Change map
 function changeMap(mapName) {
     socket.emit('changeMap', mapName);
-    showAlert('Changed Map');
+    showAlert('Changed Map.');
 }
 
+//Sign out
+function signOut() {
+    socket.emit('signOut');
+    location.href = '/play';
+}
 
 //********************
 //*** CHAT EVENTS
@@ -113,11 +122,9 @@ function changeMap(mapName) {
 var chatText = document.getElementById('chat-text');
 var chatInput = $('#chat-input');
 var chatForm = document.getElementById('chat-form');
-var isChatOpen = false;
 
 function initChat() {
     $('#chat-input').focus();
-    isChatOpen = !isChatOpen;
 }
 
 //Listen for chat events

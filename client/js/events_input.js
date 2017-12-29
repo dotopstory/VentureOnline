@@ -1,6 +1,6 @@
 //KEY DOWN EVENTS
 document.onkeydown = function(event) {
-    if(!isChatOpen) {
+    if(!$('#chatDiv').is(":visible")) {
         if(event.keyCode === 68) //D
             socket.emit('keyPress', {inputId: 'right', state: true});
         else if(event.keyCode === 83) //S
@@ -28,7 +28,7 @@ document.onkeydown = function(event) {
 
 //KEY UP EVENTS
 document.onkeyup = function(event) {
-    if(!isChatOpen) {
+    if(!$('#chatDiv').is(":visible")) {
         //Movement events
         if(event.keyCode === 68) //D
             socket.emit('keyPress', {inputId: 'right', state: false});
