@@ -2,8 +2,8 @@ class Sprite {
     constructor(startX, startY, width) {
         this.id = Sprite.nextID++;
         this.spritesheet = images['spritesheet1'];
-        this.startX = startX == 0 ? startX * 64 : startX * 64 + 1;
-        this.startY = startY == 0 ? startY * 64 : startY * 64 + 1;
+        this.startX = startX * 64;
+        this.startY = startY * 64;
         this.width = width * 64;
     }
 
@@ -14,10 +14,10 @@ class Sprite {
 Sprite.nextID = 0;
 
 function getSprite(name) {
-    return cachedSprites[name];
+    return sprites[name];
 }
 
-let cachedSprites = {};
+let sprites = {};
 let images = {
     'spritesheet1': new Image(1600, 1600), //Load main spritesheet}
     'turnipGuy': new Image(64, 64)
@@ -26,10 +26,8 @@ let images = {
 images['spritesheet1'].src = '/client/res/img/spritesheet_64x64.png';
 images['turnipGuy'].src = '/client/res/img/turnipguy.png';
 
-cachedSprites = {
-    'default': new Sprite(0, 0, 1),
-    'test1': new Sprite(0, 0, 1),
-    'test2': new Sprite(1, 0, 1),
-    'map1': new Sprite(0, 0, 5),
-    'map2': new Sprite(5, 5, 5)
+sprites = {
+    playerDefault: new Sprite(0, 0, 1),
+    projectTileTest: new Sprite(1, 0, 1),
+    lightWaterTile: new Sprite(4, 0, 1)
 };

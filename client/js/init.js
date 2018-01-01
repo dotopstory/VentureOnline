@@ -17,18 +17,17 @@ $(window).on('load', function() {
     let gameCanvasCtx = gameElement[0].getContext('2d');
     let fps = 60, canvasWidth = 1000, canvasHeight = 750;
     let clientID = null;
-
-    //Canvas init
-
-    gameElement.css({'width': canvasWidth, 'height': canvasHeight});
-    gameElement.attr('width', canvasWidth);
-    gameElement.attr('height', canvasHeight);
-
-    //Game state cache
+    let clientPlayer = null;
     let gameStateCache = {
         players: {},
         projectiles: {}
     };
+    let gameCamera = new GameCamera(0, 0);
+
+    //Canvas init
+    gameElement.css({'width': canvasWidth, 'height': canvasHeight});
+    gameElement.attr('width', canvasWidth);
+    gameElement.attr('height', canvasHeight);
 
     //Listen for init pack from server
     socket.on('initPack', function(data) {
@@ -39,26 +38,34 @@ $(window).on('load', function() {
     socket.on('update', function(data) {
         gameStateCache.players = data.players;
         gameStateCache.projectiles = data.projectiles;
+        clientPlayer = gameStateCache.players[clientID];
     });
 
     //RENDER
     setInterval(function() {
         if(clientID == null) return;
-        if(gameStateCache.players[clientID] === undefined) return;
+        if(clientPlayer == undefined) return;
         gameCanvasCtx.clearRect(0, 0, canvasWidth, canvasHeight); //Clear canvas
 
         //Draw game objects
+        gameCamera.setPosition(clientPlayer.x, clientPlayer.y, canvasWidth, canvasHeight);
         renderMap(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
         renderProjectiles(gameCanvasCtx);
+
     }, 1000 / fps);
 
     //Render the map
     function renderMap(ctx) {
-        let drawX = canvasWidth / 2 - gameStateCache.players[clientID].x;
-        let drawY = canvasHeight / 2 - gameStateCache.players[clientID].y;
-        //gameCanvas.drawImage(images['spritesheet1'], 0, 0);
-        getSprite(gameStateCache.players[clientID].map).render(gameCanvasCtx, drawX, drawY);
+        let map = clientPlayer.map;
+
+        for(let y = 0; y < map.height; y++) {
+            for (let x = 0; x < map.width; x++) {
+                let drawX = x * 64 - gameCamera.xOffset;
+                let drawY = y * 64 - gameCamera.yOffset;
+                sprites.lightWaterTile.render(ctx, drawX, drawY);
+            }
+        }
     }
 
     //Render players
@@ -67,16 +74,15 @@ $(window).on('load', function() {
         //Render players
         for(let i in gameStateCache.players) {
             let player = gameStateCache.players[i]; //Save player
-            if(player === undefined) continue;
-            let drawX = player.x - gameStateCache.players[clientID].x + canvasWidth / 2;
-            let drawY = player.y - gameStateCache.players[clientID].y + canvasHeight / 2;
-            let map = player.map;
+            if(player == undefined) continue;
+            let drawX = player.x - gameCamera.xOffset;
+            let drawY = player.y - gameCamera.yOffset;
 
             //Skip rendering of players on different map
-            if(gameStateCache.players[clientID].map !== player.map) continue;
+            if(clientPlayer.map.id !== player.map.id) continue;
 
             //Render player sprite
-            let sprite = getSprite(player.spriteName);
+            let sprite = sprites.playerDefault;
             sprite.render(ctx, drawX, drawY);
 
             //Render HP bar
@@ -98,14 +104,14 @@ $(window).on('load', function() {
         //Render projectiles
         for(let i in gameStateCache.projectiles) {
             let projectile = gameStateCache.projectiles[i];
-            let drawX = projectile.x - gameStateCache.players[clientID].x + canvasWidth / 2;
-            let drawY = projectile.y - gameStateCache.players[clientID].y + canvasHeight / 2;
+            let drawX = projectile.x - gameCamera.xOffset;
+            let drawY = projectile.y - gameCamera.yOffset;
 
             //Skip rendering of projectiles on different maps
-            if(gameStateCache.players[clientID].map !== projectile.map) continue;
+            if(clientPlayer.map.id !== projectile.map.id) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            let sprite = getSprite(projectile.spriteName);
+            let sprite = sprites.projectTileTest;
             sprite.render(ctx, drawX, drawY);
         }
     }

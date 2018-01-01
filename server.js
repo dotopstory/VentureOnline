@@ -1,9 +1,12 @@
+//Imports
+
+
 //Initialise express routing
-var express = require('express');
-var app = express();
-var serv = require('http').Server(app);
-var tickRate = 20; //Updates per second
-var MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
+let express = require('express');
+let app = express();
+let serv = require('http').Server(app);
+let tickRate = 20; //Updates per second
+let MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
 
 //Default route
 app.get('/', function(req, res) {
@@ -25,8 +28,103 @@ app.use('/client', express.static(__dirname + '/client'));
 serv.listen(process.env.PORT || 2000); //Listen for requests
 
 serverMessage("INFO - Venture Online server has been started.");
-var SOCKET_LIST = [];
-var DEBUG = true;
+let SOCKET_LIST = [];
+let DEBUG = true;
+
+//Listen for connection events
+let io = require('socket.io')(serv, {});
+
+io.sockets.on('connection', function(socket) {
+    //Deny client connection if too many clients connected
+    if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
+        serverMessage('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
+        return;
+    }
+
+    //Add socket to list
+    socket.id = getNextAvailableSocketID();
+    SOCKET_LIST[socket.id] = socket;
+    serverMessage("INFO - [CLIENT " + socket.id + "] connected to the server. ");
+
+    //Listen for sign in attempts
+    socket.on('signIn', function(data) {
+        //Deny player sign in if too many players
+        if(Player.list.length + 1 > MAX_SERVER_PLAYERS) {
+            serverMessage('ALERT - denied player sign-in on [SLOT ' + socket.id + '].');
+            return;
+        }
+
+        //Give default username if empty
+        if(data.username === '') data.username = "Eddie " + socket.id;
+
+        //Authenticate user
+        if(true) {
+            Player.onConnect(socket, data.username);
+            socket.emit('signInResponse', {success: true});
+            socket.emit('initPack', {playerID: socket.id});
+            serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
+        } else {
+            socket.emit('signInResponse', {success: false});
+        }
+    });
+
+    //Remove client if disconnected (client sends disconnect automatically)
+    socket.on('disconnect', function() {
+        serverMessage("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
+        Player.onDisconnect(socket);
+        SOCKET_LIST.splice(socket.id);
+    });
+});
+
+//UPDATE CLIENTS
+setInterval(function() {
+    //Load package data
+    let pack = {
+        players: Player.updateAll(),
+        projectiles: Projectile.updateAll()
+    };
+
+    //Send package data to all clients
+    for(let i in Player.list) {
+        let socket = SOCKET_LIST[Player.list[i].id];
+        //if(socket == undefined) continue;
+        socket.emit('update', pack);
+    }
+
+}, 1000 / tickRate);
+
+//Custom server alert messages
+function serverMessage(message) {
+    console.log(message);
+}
+
+//Send a message to a list of clients
+function sendMessageToClients(messageToList, messageContent, messageStyle, messageFrom) {
+    //Send new message to all players
+    for(let i in SOCKET_LIST) {
+        SOCKET_LIST[i].emit('addToChat', {username: messageFrom, message: messageContent, messageStyle: messageStyle});
+    }
+}
+
+//Handle server commands from the client
+function processServerCommand(commandLine, senderSocketID) {
+    let splitMessage = commandLine.split(' ');
+    let command = splitMessage[0];
+
+    if(command === '/announce' || command === '/ann') {
+        delete splitMessage[0];
+        let message = splitMessage.join(' ');
+        sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
+    }
+}
+
+//Search for an open socket ID
+function getNextAvailableSocketID() {
+    for(let i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
+        if(SOCKET_LIST[i] === undefined) return i;
+    }
+    return -1;
+}
 
 //*****************************
 // ENTITY CLASS
@@ -34,8 +132,8 @@ var DEBUG = true;
 class Entity {
     constructor(id, spriteName, map) {
         this.id = id;
-        this.x = 250;
-        this.y = 250;
+        this.x = 0;
+        this.y = 0;
         this.spdX = 0;
         this.spdY = 0;
         this.spriteName = spriteName;
@@ -125,11 +223,8 @@ class Player extends Entity {
 
 Player.list = [];
 Player.onConnect = function(socket, username) {
-    //Map
-    let map = Math.random() < 0.5 ? "map1" : "map2";
-
     //Create player and add to list
-    let player = new Player(socket.id, username, 'test1', map);
+    let player = new Player(socket.id, username, 'test1', Map.mapList[0]);
     sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info', 'SERVER');
 
     //Listen for input events
@@ -240,94 +335,33 @@ Projectile.updateAll = function() {
     return pack;
 };
 
-//Listen for connection events
-let io = require('socket.io')(serv, {});
-
-io.sockets.on('connection', function(socket) {
-    //Deny client connection if too many clients connected
-    if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
-        serverMessage('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
-        return;
+//*****************************
+// MAP CLASS
+//*****************************
+class Map {
+    constructor(name, width, height, tiles) {
+        this.id = Map.nextID++;
+        this.name = name;
+        this.width = width;
+        this.height = height;
+        this.tiles = tiles == null ? Map.generateNewMapTiles(width, height) : tiles;
     }
 
-    //Add socket to list
-    socket.id = getNextAvailableSocketID();
-    SOCKET_LIST[socket.id] = socket;
-    serverMessage("INFO - [CLIENT " + socket.id + "] connected to the server. ");
-
-    //Listen for sign in attempts
-    socket.on('signIn', function(data) {
-        //Deny player sign in if too many players
-        if(Player.list.length + 1 > MAX_SERVER_PLAYERS) {
-            serverMessage('ALERT - denied player sign-in on [SLOT ' + socket.id + '].');
-            return;
+    static generateNewMapTiles(width, height) {
+        let tileMap = [];
+        for (let y = 0; y < height; y++) {
+            tileMap.push(1);
         }
+        return tileMap;
+    }
 
-        //Give default username if empty
-        if(data.username === '') data.username = "Eddie " + socket.id;
-
-        //Authenticate user
-        if(true) {
-            Player.onConnect(socket, data.username);
-            socket.emit('signInResponse', {success: true});
-            socket.emit('initPack', {playerID: socket.id});
-            serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
-        } else {
-            socket.emit('signInResponse', {success: false});
+    static getMapByName(searchName) {
+        for(let i in Map.mapList) {
+            let map = Map.mapList;
+            if(map.name.toLowerCase() === searchName.toLowerCase()) return map;
         }
-    });
-
-    //Remove client if disconnected (client sends disconnect automatically)
-    socket.on('disconnect', function() {
-        serverMessage("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
-        Player.onDisconnect(socket);
-        SOCKET_LIST.splice(socket.id);
-    });
-});
-
-//UPDATE CLIENTS
-setInterval(function() {
-    //Load package data
-    let pack = {
-        players: Player.updateAll(),
-        projectiles: Projectile.updateAll()
-    };
-
-    //Send package data to all clients
-    for(let i in Player.list) {
-        let socket = SOCKET_LIST[Player.list[i].id];
-        //if(socket == undefined) continue;
-        socket.emit('update', pack);
-    }
-
-}, 1000 / tickRate);
-
-//Custom server alert messages
-function serverMessage(message) {
-    console.log(message);
-}
-
-function sendMessageToClients(messageToList, messageContent, messageStyle, messageFrom) {
-    //Send new message to all players
-    for(let i in SOCKET_LIST) {
-        SOCKET_LIST[i].emit('addToChat', {username: messageFrom, message: messageContent, messageStyle: messageStyle});
+        return false;
     }
 }
-
-function processServerCommand(commandLine, senderSocketID) {
-    let splitMessage = commandLine.split(' ');
-    let command = splitMessage[0];
-
-    if(command === '/announce' || command === '/ann') {
-        delete splitMessage[0];
-        let message = splitMessage.join(' ');
-        sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
-    }
-}
-
-function getNextAvailableSocketID() {
-    for(let i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
-        if(SOCKET_LIST[i] === undefined) return i;
-    }
-    return -1;
-}
+Map.nextID = 0;
+Map.mapList = [new Map('Limbo', 100, 100, null)];

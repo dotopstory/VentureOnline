@@ -6,3 +6,5 @@ node_modules
 
 .ebextensions
 .idea
+version_archive
+*.zip
