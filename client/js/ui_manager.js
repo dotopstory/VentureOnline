@@ -18,11 +18,11 @@ uiItem.uiList = [
 
 function toggleUiItem(uiName) {
     //Get ui item
-    var item = getUiItemByName(uiName);
+    let item = getUiItemByName(uiName);
 
     //Hide all elements except toggled element
-    for(var i in uiItem.uiList) {
-        if(uiItem.uiList[i].id != item.id && (uiItem.uiList[i].showSeparate && item.showSeparate)) uiItem.uiList[i].element.hide();
+    for(let i in uiItem.uiList) {
+        if(uiItem.uiList[i].id !== item.id && (uiItem.uiList[i].showSeparate && item.showSeparate)) uiItem.uiList[i].element.hide();
     }
 
     //Close ui item if it exists
@@ -33,8 +33,8 @@ function toggleUiItem(uiName) {
 }
 
 function getUiItemByName(searchName) {
-    for(var i in uiItem.uiList) {
-        if(uiItem.uiList[i].name.toLowerCase() == searchName.toLowerCase()) return uiItem.uiList[i];
+    for(let i in uiItem.uiList) {
+        if(uiItem.uiList[i].name.toLowerCase() === searchName.toLowerCase()) return uiItem.uiList[i];
     }
     return null;
 }
@@ -78,7 +78,7 @@ $(window).on('load', function() {
 //*** ALERT EVENTS
 //********************
 function showAlert(message) {
-    var alertDiv = $('#alertDiv');
+    let alertDiv = $('#alertDiv');
 
     //Fill alert contents
     alertDiv.css({'margin-top': $('#navbar').height() + 'px'})
@@ -119,9 +119,9 @@ function signOut() {
 //********************
 //*** CHAT EVENTS
 //********************
-var chatText = document.getElementById('chat-text');
-var chatInput = $('#chat-input');
-var chatForm = document.getElementById('chat-form');
+let chatText = document.getElementById('chat-text');
+let chatInput = $('#chat-input');
+let chatForm = document.getElementById('chat-form');
 
 function initChat() {
     $('#chat-input').focus();
@@ -136,10 +136,10 @@ socket.on("addToChat", function(data) {
 //Chat form submitted event
 chatForm.onsubmit = function(e) {
     e.preventDefault(); //Prevent page refresh on form submit
-    var message = chatInput.val();
+    let message = chatInput.val();
     if(isValidMessage(message)) socket.emit('sendMessageToServer', chatInput.val());
     chatInput.val('');
-}
+};
 
 //Check if a message is valid
 function isValidMessage(message) {

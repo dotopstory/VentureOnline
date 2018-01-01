@@ -24,7 +24,7 @@ document.onkeydown = function(event) {
         if(event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
             socket.emit('keyPress', {inputId: 'attack', state: true});
     }
-}
+};
 
 //KEY UP EVENTS
 document.onkeyup = function(event) {
@@ -49,15 +49,15 @@ document.onkeyup = function(event) {
 
     //Chat events
     if(event.keyCode === 13) toggleUiItem('Chat');
-}
+};
 
 //MOUSE EVENTS
 document.onmousedown = function(event) {
-}
+};
 
 document.onmouseup = function(event) {
-}
+};
 
 //Listen for mouse events, send mouse angle to server
 document.onmousemove = function(event) {
-}
+};

@@ -5,7 +5,7 @@ var DEBUG_ON = true;
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
     event.preventDefault();
-}
+};
 
 function clientAlert(message) {
     if(DEBUG_ON) console.log(message);
@@ -13,20 +13,22 @@ function clientAlert(message) {
 
 $(window).on('load', function() {
     //Game objects
-    var gameCanvas = document.getElementById('gameCanvas').getContext('2d');
-    var fps = 60, canvasWidth = 1000, canvasHeight = 750;
-    var clientID = null;
+    let gameElement = $('#gameCanvas');
+    let gameCanvasCtx = gameElement[0].getContext('2d');
+    let fps = 60, canvasWidth = 1000, canvasHeight = 750;
+    let clientID = null;
 
     //Canvas init
-    $('#gameCanvas').css({'width': canvasWidth, 'height': canvasHeight});
-    $('#gameCanvas').attr('width', canvasWidth);
-    $('#gameCanvas').attr('height', canvasHeight);
+
+    gameElement.css({'width': canvasWidth, 'height': canvasHeight});
+    gameElement.attr('width', canvasWidth);
+    gameElement.attr('height', canvasHeight);
 
     //Game state cache
-    var gameStateCache = {
+    let gameStateCache = {
         players: {},
         projectiles: {}
-    }
+    };
 
     //Listen for init pack from server
     socket.on('initPack', function(data) {
@@ -42,39 +44,39 @@ $(window).on('load', function() {
     //RENDER
     setInterval(function() {
         if(clientID == null) return;
-        if(gameStateCache.players[clientID] == undefined) return;
-        gameCanvas.clearRect(0, 0, canvasWidth, canvasHeight); //Clear canvas
+        if(gameStateCache.players[clientID] === undefined) return;
+        gameCanvasCtx.clearRect(0, 0, canvasWidth, canvasHeight); //Clear canvas
 
         //Draw game objects
-        renderMap(gameCanvas);
-        renderPlayers(gameCanvas);
-        renderProjectiles(gameCanvas);
+        renderMap(gameCanvasCtx);
+        renderPlayers(gameCanvasCtx);
+        renderProjectiles(gameCanvasCtx);
     }, 1000 / fps);
 
     //Render the map
     function renderMap(ctx) {
-        var drawX = canvasWidth / 2 - gameStateCache.players[clientID].x;
-        var drawY = canvasHeight / 2 - gameStateCache.players[clientID].y;
+        let drawX = canvasWidth / 2 - gameStateCache.players[clientID].x;
+        let drawY = canvasHeight / 2 - gameStateCache.players[clientID].y;
         //gameCanvas.drawImage(images['spritesheet1'], 0, 0);
-        getSprite(gameStateCache.players[clientID].map).render(gameCanvas, drawX, drawY);
+        getSprite(gameStateCache.players[clientID].map).render(gameCanvasCtx, drawX, drawY);
     }
 
     //Render players
     function renderPlayers(ctx) {
         ctx.font = "16px Arial";
         //Render players
-        for(var i in gameStateCache.players) {
-            var player = gameStateCache.players[i]; //Save player
-            if(player == undefined) continue;
-            var drawX = player.x - gameStateCache.players[clientID].x + canvasWidth / 2;
-            var drawY = player.y - gameStateCache.players[clientID].y + canvasHeight / 2;
-            var map = player.map;
+        for(let i in gameStateCache.players) {
+            let player = gameStateCache.players[i]; //Save player
+            if(player === undefined) continue;
+            let drawX = player.x - gameStateCache.players[clientID].x + canvasWidth / 2;
+            let drawY = player.y - gameStateCache.players[clientID].y + canvasHeight / 2;
+            let map = player.map;
 
             //Skip rendering of players on different map
             if(gameStateCache.players[clientID].map !== player.map) continue;
 
             //Render player sprite
-            var sprite = getSprite(player.spriteName);
+            let sprite = getSprite(player.spriteName);
             sprite.render(ctx, drawX, drawY);
 
             //Render HP bar
@@ -94,16 +96,16 @@ $(window).on('load', function() {
     //Render projectiles
     function renderProjectiles(ctx) {
         //Render projectiles
-        for(var i in gameStateCache.projectiles) {
-            var projectile = gameStateCache.projectiles[i];
-            var drawX = projectile.x - gameStateCache.players[clientID].x + canvasWidth / 2;
-            var drawY = projectile.y - gameStateCache.players[clientID].y + canvasHeight / 2;
+        for(let i in gameStateCache.projectiles) {
+            let projectile = gameStateCache.projectiles[i];
+            let drawX = projectile.x - gameStateCache.players[clientID].x + canvasWidth / 2;
+            let drawY = projectile.y - gameStateCache.players[clientID].y + canvasHeight / 2;
 
             //Skip rendering of projectiles on different maps
             if(gameStateCache.players[clientID].map !== projectile.map) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            var sprite = getSprite(projectile.spriteName);
+            let sprite = getSprite(projectile.spriteName);
             sprite.render(ctx, drawX, drawY);
         }
     }

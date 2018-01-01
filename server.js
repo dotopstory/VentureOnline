@@ -93,7 +93,7 @@ class Player extends Entity {
     }
 
     shootProjectile(angle) {
-        var p = new Projectile(this.id, angle, 'test2', this.map);
+        let p = new Projectile(this.id, angle, 'test2', this.map);
         p.x = this.x;
         p.y = this.y;
     }
@@ -122,13 +122,14 @@ class Player extends Entity {
 
     }
 }
+
 Player.list = [];
 Player.onConnect = function(socket, username) {
     //Map
-    var map = Math.random() < 0.5 ? "map1" : "map2";
+    let map = Math.random() < 0.5 ? "map1" : "map2";
 
     //Create player and add to list
-    var player = new Player(socket.id, username, 'test1', map);
+    let player = new Player(socket.id, username, 'test1', map);
     sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info', 'SERVER');
 
     //Listen for input events
@@ -143,29 +144,29 @@ Player.onConnect = function(socket, username) {
 
     //Listen for new messages from clients
     socket.on('sendMessageToServer', function(data) {
-        if(data[0] == '/') processServerCommand(data, socket.id);
+        if(data[0] === '/') processServerCommand(data, socket.id);
         else sendMessageToClients(SOCKET_LIST, data, 'default', player.username);
     });
 
     //Listen for map changes
     socket.on('changeMap', function(data) {
-        if(player.map == 'map1') player.map = 'map2';
-        else if(player.map == 'map2') player.map = 'map1';
+        if(player.map === 'map1') player.map = 'map2';
+        else if(player.map === 'map2') player.map = 'map1';
     });
-}
+};
 
 Player.onDisconnect = function(socket) {
-    var player = Player.list[socket.id];
-    if(player == undefined) return; //If client never signed in
+    let player = Player.list[socket.id];
+    if(player === undefined) return; //If client never signed in
     sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info', 'SERVER');
     Player.list.splice(socket.id);
-}
+};
 
 Player.updateAll = function() {
     //Get data from all connected players
-    var pack = [];
-    for(var i in Player.list) {
-        var player = Player.list[i];
+    let pack = [];
+    for(let i in Player.list) {
+        let player = Player.list[i];
         player.update();
         pack[player.id] = {
             id: player.id,
@@ -179,7 +180,7 @@ Player.updateAll = function() {
         };
     }
     return pack;
-}
+};
 
 //*****************************
 // PROJECTILE CLASS
@@ -202,13 +203,13 @@ class Projectile extends Entity {
         //if(this.timer++ > this.lifeTime) this.isActive = false;
         super.update();
 
-        for(var i in Player.list) {
-            var player = Player.list[i];
-            var shooter = Player.list[this.parent];
+        for(let i in Player.list) {
+            let player = Player.list[i];
+            let shooter = Player.list[this.parent];
 
             //Check for collision between player and projectiles
             if(this.map === player.map && super.getDistance(player) < 32 && this.parent !== player.id) {
-                serverMessage('DAMAGE - [PLAYER: "' + (shooter == undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
+                serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
                     player.username + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                 player.takeDamage(this.damage);
                 this.isActive = false;
@@ -220,9 +221,9 @@ Projectile.list = [];
 
 Projectile.updateAll = function() {
     //Get data from all connected players
-    var pack = [];
-    for(var i in Projectile.list) {
-        var projectile = Projectile.list[i];
+    let pack = [];
+    for(let i in Projectile.list) {
+        let projectile = Projectile.list[i];
         projectile.update();
         if(!projectile.isActive) {
             delete Projectile.list[i];
@@ -237,10 +238,10 @@ Projectile.updateAll = function() {
         });
     }
     return pack;
-}
+};
 
 //Listen for connection events
-var io = require('socket.io')(serv, {});
+let io = require('socket.io')(serv, {});
 
 io.sockets.on('connection', function(socket) {
     //Deny client connection if too many clients connected
@@ -287,14 +288,14 @@ io.sockets.on('connection', function(socket) {
 //UPDATE CLIENTS
 setInterval(function() {
     //Load package data
-    var pack = {
+    let pack = {
         players: Player.updateAll(),
         projectiles: Projectile.updateAll()
-    }
+    };
 
     //Send package data to all clients
-    for(var i in Player.list) {
-        var socket = SOCKET_LIST[Player.list[i].id];
+    for(let i in Player.list) {
+        let socket = SOCKET_LIST[Player.list[i].id];
         //if(socket == undefined) continue;
         socket.emit('update', pack);
     }
@@ -308,28 +309,25 @@ function serverMessage(message) {
 
 function sendMessageToClients(messageToList, messageContent, messageStyle, messageFrom) {
     //Send new message to all players
-    for(var i in SOCKET_LIST) {
+    for(let i in SOCKET_LIST) {
         SOCKET_LIST[i].emit('addToChat', {username: messageFrom, message: messageContent, messageStyle: messageStyle});
     }
 }
 
 function processServerCommand(commandLine, senderSocketID) {
-    var splitMessage = commandLine.split(' ');
-    var command = splitMessage[0];
+    let splitMessage = commandLine.split(' ');
+    let command = splitMessage[0];
 
-    if(command == '/announce' || command == '/ann') {
+    if(command === '/announce' || command === '/ann') {
         delete splitMessage[0];
-        var message = splitMessage.join(' ');
+        let message = splitMessage.join(' ');
         sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
-    }
-    else if(command == '/shutdown') {
-        process.exit(1);
     }
 }
 
 function getNextAvailableSocketID() {
-    for(var i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
-        if(SOCKET_LIST[i] == undefined) return i;
+    for(let i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
+        if(SOCKET_LIST[i] === undefined) return i;
     }
     return -1;
 }

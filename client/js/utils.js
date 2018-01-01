@@ -1,6 +1,6 @@
 //Escape html in a string
 function escapeHtml (string) {
-    var entityMap = {
+    let entityMap = {
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',

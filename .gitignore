@@ -3,3 +3,6 @@ node_modules
 *.ink
 [SERVER RUN].lnk
 [SERVER RUN].lnk
+
+.ebextensions
+.idea
