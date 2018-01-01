@@ -1,54 +1,72 @@
+let eventRegister = [];
+
 //KEY DOWN EVENTS
-document.onkeydown = function(event) {
-    if(!$('#chatDiv').is(":visible")) {
-        if(event.keyCode === 68) //D
+document.onkeydown = function(e) {
+    let code = e.keyCode;
+    if(eventRegister[code] === true) return;
+    eventRegister[code] = true;
+
+    //Prevent scrolling page with certain keys
+    let blockDefaultKeysArr = [32, 37, 38, 39, 40];
+    if(blockDefaultKeysArr.includes(e.keyCode)) {
+        e.preventDefault();
+    }
+
+    if(!isUiFocused()) {
+        //Move events
+        if(e.keyCode === 68) //D
             socket.emit('keyPress', {inputId: 'right', state: true});
-        else if(event.keyCode === 83) //S
+        else if(e.keyCode === 83) //S
             socket.emit('keyPress', {inputId: 'down', state: true});
-        else if(event.keyCode === 65) //A
+        else if(e.keyCode === 65) //A
             socket.emit('keyPress', {inputId: 'left', state: true});
-        else if(event.keyCode === 87) //W
+        else if(e.keyCode === 87) //W
             socket.emit('keyPress', {inputId: 'up', state: true});
 
         //Attack events
-        else if(event.keyCode === 37) //LEFT
+        else if(e.keyCode === 37) //LEFT
             socket.emit('keyPress', {inputId: 'mouseAngle', state: 180});
-        else if(event.keyCode === 38) //UP
+        else if(e.keyCode === 38) //UP
             socket.emit('keyPress', {inputId: 'mouseAngle', state: 270});
-        else if(event.keyCode === 39) //RIGHT
+        else if(e.keyCode === 39) //RIGHT
             socket.emit('keyPress', {inputId: 'mouseAngle', state: 360});
-        else if(event.keyCode === 40) //DOWN
+
+        else if(e.keyCode === 40) //DOWN
             socket.emit('keyPress', {inputId: 'mouseAngle', state: 90});
 
         //Attack events
-        if(event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
+        if(e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
             socket.emit('keyPress', {inputId: 'attack', state: true});
     }
 };
 
 //KEY UP EVENTS
-document.onkeyup = function(event) {
-    if(!$('#chatDiv').is(":visible")) {
-        //Movement events
-        if(event.keyCode === 68) //D
+document.onkeyup = function(e) {
+    let code = e.keyCode;
+
+    eventRegister[code] = false;
+
+    if(!isUiFocused()) {
+        //Move events
+        if(e.keyCode === 68) //D
             socket.emit('keyPress', {inputId: 'right', state: false});
-        else if(event.keyCode === 83) //S
+        else if(e.keyCode === 83) //S
             socket.emit('keyPress', {inputId: 'down', state: false});
-        else if(event.keyCode === 65) //A
+        else if(e.keyCode === 65) //A
             socket.emit('keyPress', {inputId: 'left', state: false});
-        else if(event.keyCode === 87) //W
+        else if(e.keyCode === 87) //W
             socket.emit('keyPress', {inputId: 'up', state: false});
 
         //Attack events
-        if(event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
+        if(e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
             socket.emit('keyPress', {inputId: 'attack', state: false});
     }
 
     //Menu events
-    if(event.keyCode === 27) toggleUiItem('Menu');
+    if(e.keyCode === 27) toggleUiItem('Menu');
 
     //Chat events
-    if(event.keyCode === 13) toggleUiItem('Chat');
+    if(e.keyCode === 17) toggleUiItem('Chat');
 };
 
 //MOUSE EVENTS

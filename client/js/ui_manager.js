@@ -2,12 +2,12 @@
 //*** UI MANAGER
 //********************
 class uiItem {
-    constructor(element, name, showSeparate, toggleFunction) {
+    constructor(element, name, requireFocus, toggleFunction) {
         this.id = uiItem.nextID++;
         this.element = element;
         this.name = name;
         this.toggleFunction = toggleFunction;
-        this.showSeparate = showSeparate; //True if ui item must be shown with no other ui items visible
+        this.requireFocus = requireFocus; //True if ui item must be shown with no other ui items visible
     }
 }
 uiItem.nextID = 0;
@@ -16,13 +16,14 @@ uiItem.uiList = [
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false, null)];
 
+//Show/hide a ui item
 function toggleUiItem(uiName) {
     //Get ui item
     let item = getUiItemByName(uiName);
 
     //Hide all elements except toggled element
     for(let i in uiItem.uiList) {
-        if(uiItem.uiList[i].id !== item.id && (uiItem.uiList[i].showSeparate && item.showSeparate)) uiItem.uiList[i].element.hide();
+        if(uiItem.uiList[i].id !== item.id && (uiItem.uiList[i].requireFocus && item.requireFocus)) uiItem.uiList[i].element.hide();
     }
 
     //Close ui item if it exists
@@ -32,6 +33,7 @@ function toggleUiItem(uiName) {
     } else console.log('UI Manager Error - could not find UI item with name: ' + uiName);
 }
 
+//Return an item in the ui item list
 function getUiItemByName(searchName) {
     for(let i in uiItem.uiList) {
         if(uiItem.uiList[i].name.toLowerCase() === searchName.toLowerCase()) return uiItem.uiList[i];
@@ -39,40 +41,14 @@ function getUiItemByName(searchName) {
     return null;
 }
 
-$(window).on('load', function() {
-    //********************
-    //*** SIGN IN EVENTS
-    //********************
-    //Init
-    $('#div-signIn').fadeIn('slow');
-
-    //Sign in on eneter press while in username textbox
-    $('#signInUsernameTextbox').on('keypress', function(e) {
-        if(e.keyCode === 13) sendSignInRequest();
-    });
-
-    //Sign in when Play! button clicked
-    $('#signInSubmitButton').on('click', function() {
-        sendSignInRequest();
-    });
-
-    //Send sign in
-    function sendSignInRequest() {
-        socket.emit('signIn', {username: $('#signInUsernameTextbox').val(), password: ""});
+//Check if there is a ui item showing and requires focus
+function isUiFocused() {
+    for(let i in uiItem.uiList) {
+        let item = uiItem.uiList[i];
+        if(item.element.is(":visible") && item.requireFocus) return true;
     }
-
-    //Receive sign in response
-    socket.on('signInResponse', function(data) {
-        if(data.success) {
-            $('#div-signIn').hide();
-            $('#div-game').fadeIn('slow');
-            showAlert("Signed In!");
-        } else {
-            showAlert("Incorrect Login.");
-            console.log("Error - failed sign in.");
-        }
-    });
-});
+    return false;
+}
 
 //********************
 //*** ALERT EVENTS
@@ -122,9 +98,13 @@ function signOut() {
 let chatText = document.getElementById('chat-text');
 let chatInput = $('#chat-input');
 let chatForm = document.getElementById('chat-form');
+let minMessageLength = 1, maxMessageLength = 100;
+
+chatInput.attr('maxlength', maxMessageLength);
 
 function initChat() {
-    $('#chat-input').focus();
+    chatInput.focus();
+    chatInput.val('');
 }
 
 //Listen for chat events
@@ -143,6 +123,41 @@ chatForm.onsubmit = function(e) {
 
 //Check if a message is valid
 function isValidMessage(message) {
-    if(message.length < 1 || message.length > 100) return false;
+    if(message.length < minMessageLength || message.length > maxMessageLength) return false;
     return true;
 }
+
+$(window).on('load', function() {
+    //********************
+    //*** SIGN IN EVENTS
+    //********************
+    //Init
+    $('#div-signIn').fadeIn('slow');
+
+    //Sign in on eneter press while in username textbox
+    $('#signInUsernameTextbox').on('keypress', function(e) {
+        if(e.keyCode === 13) sendSignInRequest();
+    });
+
+    //Sign in when Play! button clicked
+    $('#signInSubmitButton').on('click', function() {
+        sendSignInRequest();
+    });
+
+    //Send sign in
+    function sendSignInRequest() {
+        socket.emit('signIn', {username: $('#signInUsernameTextbox').val(), password: ""});
+    }
+
+    //Receive sign in response
+    socket.on('signInResponse', function(data) {
+        if(data.success) {
+            $('#div-signIn').hide();
+            $('#div-game').fadeIn('slow');
+            showAlert("Signed In!");
+        } else {
+            showAlert("Incorrect Login.");
+            console.log("Error - failed sign in.");
+        }
+    });
+});
