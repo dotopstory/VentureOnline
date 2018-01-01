@@ -59,11 +59,21 @@ $(window).on('load', function() {
     function renderMap(ctx) {
         let map = clientPlayer.map;
 
-        for(let y = 0; y < map.height; y++) {
-            for (let x = 0; x < map.width; x++) {
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
+        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 1));
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT));
+        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 1));
+
+        //console.log('xStart: ' + xStart + ' / xEnd: ' + xEnd + ' / yStart: ' + yStart + ' / yEnd: ' + yEnd);
+
+        for(let y = yStart; y < yEnd; y++) {
+            for (let x = xStart; x < xEnd; x++) {
                 let drawX = x * 64 - gameCamera.xOffset;
                 let drawY = y * 64 - gameCamera.yOffset;
-                sprites.lightWaterTile.render(ctx, drawX, drawY);
+                //console.log(map);
+
+                let sprite = map.tiles[y * map.width + x] === 0 ? sprites.lightGrassFlowers : sprites.lightWaterTile;
+                sprite.render(ctx, drawX, drawY);
             }
         }
     }

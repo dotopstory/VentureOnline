@@ -349,8 +349,8 @@ class Map {
 
     static generateNewMapTiles(width, height) {
         let tileMap = [];
-        for (let y = 0; y < height; y++) {
-            tileMap.push(1);
+        for (let i = 0; i < width * height; i++) {
+            tileMap.push(Math.random() < 0.5 ? 0 : 1);
         }
         return tileMap;
     }

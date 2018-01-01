@@ -29,5 +29,6 @@ images['turnipGuy'].src = '/client/res/img/turnipguy.png';
 sprites = {
     playerDefault: new Sprite(0, 0, 1),
     projectTileTest: new Sprite(1, 0, 1),
-    lightWaterTile: new Sprite(4, 0, 1)
+    lightWaterTile: new Sprite(4, 0, 1),
+    lightGrassFlowers: new Sprite(3, 1, 1)
 };
