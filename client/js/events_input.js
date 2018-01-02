@@ -7,7 +7,7 @@ document.onkeydown = function(e) {
     eventRegister[code] = true;
 
     //Prevent scrolling page with certain keys
-    let blockDefaultKeysArr = [32, 37, 38, 39, 40];
+    let blockDefaultKeysArr = [];
     if(blockDefaultKeysArr.includes(e.keyCode)) {
         e.preventDefault();
     }

@@ -1,6 +1,7 @@
 //Open socket
 var socket = io();
 var DEBUG_ON = true;
+let client = new Client();
 
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
@@ -31,24 +32,24 @@ $(window).on('load', function() {
 
     //Listen for init pack from server
     socket.on('initPack', function(data) {
-        clientID = data.playerID;
+        client.id = data.socketID;
+        client.map = data.map;
     });
 
     //Listen for player packet updates
     socket.on('update', function(data) {
         gameStateCache.players = data.players;
         gameStateCache.projectiles = data.projectiles;
-        clientPlayer = gameStateCache.players[clientID];
+        client.player = gameStateCache.players[client.id];
     });
 
     //RENDER
     setInterval(function() {
-        if(clientID == null) return;
-        if(clientPlayer == undefined) return;
+        if(client.player == null) return;
         gameCanvasCtx.clearRect(0, 0, canvasWidth, canvasHeight); //Clear canvas
 
         //Draw game objects
-        gameCamera.setPosition(clientPlayer.x, clientPlayer.y, canvasWidth, canvasHeight);
+        gameCamera.setPosition(client.player.x, client.player.y, canvasWidth, canvasHeight);
         renderMap(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
         renderProjectiles(gameCanvasCtx);
@@ -57,7 +58,7 @@ $(window).on('load', function() {
 
     //Render the map
     function renderMap(ctx) {
-        let map = clientPlayer.map;
+        let map = client.map;
 
         let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
         let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 1));
@@ -89,7 +90,7 @@ $(window).on('load', function() {
             let drawY = player.y - gameCamera.yOffset;
 
             //Skip rendering of players on different map
-            if(clientPlayer.map.id !== player.map.id) continue;
+            if(client.player.mapID !== player.mapID) continue;
 
             //Render player sprite
             let sprite = sprites.playerDefault;
@@ -118,7 +119,7 @@ $(window).on('load', function() {
             let drawY = projectile.y - gameCamera.yOffset;
 
             //Skip rendering of projectiles on different maps
-            if(clientPlayer.map.id !== projectile.map.id) continue;
+            if(client.player.mapID !== projectile.mapID) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = sprites.projectTileTest;

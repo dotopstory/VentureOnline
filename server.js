@@ -61,7 +61,7 @@ io.sockets.on('connection', function(socket) {
         if(true) {
             Player.onConnect(socket, data.username);
             socket.emit('signInResponse', {success: true});
-            socket.emit('initPack', {playerID: socket.id});
+            socket.emit('initPack', {socketID: socket.id, map: Player.list[socket.id].map});
             serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
         } else {
             socket.emit('signInResponse', {success: false});
@@ -173,7 +173,7 @@ class Player extends Entity {
         this.mouseAngle = 0;
 
         //STATS
-        this.maxSpd = 25;
+        this.maxSpd = 40;
         this.maxHP = 100;
         this.hp = this.maxHP;
 
@@ -224,7 +224,7 @@ class Player extends Entity {
 Player.list = [];
 Player.onConnect = function(socket, username) {
     //Create player and add to list
-    let player = new Player(socket.id, username, 'test1', Map.mapList[0]);
+    let player = new Player(socket.id, username, 'test1', Map.mapList[Math.random() > 0.5 ? 0 : 1]);
     sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info', 'SERVER');
 
     //Listen for input events
@@ -271,7 +271,7 @@ Player.updateAll = function() {
             y: player.y,
             hp: player.hp,
             maxHP: player.maxHP,
-            map: player.map
+            mapID: player.map.id
         };
     }
     return pack;
@@ -290,12 +290,12 @@ class Projectile extends Entity {
         this.damage = 5;
         this.timer = 0;
         this.isActive = true;
-        this.lifeTime = 60; //Ticks
+        this.lifeTime = 10; //Ticks
         Projectile.list[this.id] = this;
     }
 
     update() {
-        //if(this.timer++ > this.lifeTime) this.isActive = false;
+        if(this.timer++ > this.lifeTime) this.isActive = false;
         super.update();
 
         for(let i in Player.list) {
@@ -329,7 +329,7 @@ Projectile.updateAll = function() {
             x: projectile.x,
             y: projectile.y,
             spriteName: projectile.spriteName,
-            map: projectile.map
+            mapID: projectile.map.id
         });
     }
     return pack;
@@ -364,4 +364,5 @@ class Map {
     }
 }
 Map.nextID = 0;
-Map.mapList = [new Map('Limbo', 100, 100, null)];
+Map.mapList = [ new Map('Limbo', 10, 10, null),
+                new Map('Desert', 10, 10, null)];
