@@ -69,7 +69,9 @@ $(window).on('load', function() {
             output.html(output.html() + '<br>Client Username: ' + client.player.username);
             output.html(output.html() + '<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
             output.html(output.html() + '<br>Map Name: ' + client.map.name);
-            output.html(output.html() + '<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height); ``
+            output.html(output.html() + '<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height);
+            output.html(output.html() + '<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
+            output.html(output.html() + '<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
         }, 1000);
     }
 });

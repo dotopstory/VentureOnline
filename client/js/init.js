@@ -2,6 +2,7 @@
 var socket = io();
 var DEBUG_ON = true;
 let client = new Client();
+var gameCamera = null;
 
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
@@ -23,7 +24,7 @@ $(window).on('load', function() {
         players: {},
         projectiles: {}
     };
-    let gameCamera = new GameCamera(0, 0);
+    gameCamera = new GameCamera(0, 0);
 
     //Canvas init
     gameElement.css({'width': canvasWidth, 'height': canvasHeight});

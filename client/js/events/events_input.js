@@ -1,4 +1,8 @@
 let eventRegister = [];
+let mouseX = 0, mouseY = 0;
+let mouseMapX = 0, mouseMapY = 0;
+let lastMouseMapX = 0, lastMouseMapY = 0;
+let pressingMouse1 = false;
 
 //KEY DOWN EVENTS
 document.onkeydown = function(e) {
@@ -72,12 +76,26 @@ document.onkeyup = function(e) {
 };
 
 //MOUSE EVENTS
-document.onmousedown = function(event) {
+document.onmousedown = function(e) {
+    pressingMouse1 = true;
 };
 
-document.onmouseup = function(event) {
+document.onmouseup = function(e) {
+    pressingMouse1 = false;
 };
 
 //Listen for mouse events, send mouse angle to server
-document.onmousemove = function(event) {
+document.onmousemove = function(e) {
+    let rect = document.getElementById("gameCanvas").getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    mouseMapX = parseInt((mouseX + gameCamera.xOffset) / 64);
+    mouseMapY = parseInt((mouseY + gameCamera.yOffset) / 64);
+
+    if(!pressingMouse1 || (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY)) return;
+    client.map.tiles[mouseMapY * client.map.width + mouseMapX] = 0;
+    lastMouseMapX = mouseMapX;
+    lastMouseMapY = mouseMapY;
 };
+
+
