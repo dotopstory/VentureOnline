@@ -13,7 +13,7 @@ class GameCamera {
     }
 
     setPosition(x, y, screenWidth, screenHeight) {
-        this.xOffset = x - screenWidth / 2;
-        this.yOffset = y - screenHeight / 2;
+        this.xOffset = x - screenWidth / 2 + 32;
+        this.yOffset = y - screenHeight / 2 + 32;
     }
 }

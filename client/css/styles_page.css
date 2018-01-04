@@ -5,6 +5,7 @@ body {
     background-size: cover;
     font-family: 'Ubuntu', sans-serif;
     overflow-x: hidden;
+    overflow-y: hidden;
     height: 100vh;
 }
 

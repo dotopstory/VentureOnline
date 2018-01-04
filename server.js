@@ -126,6 +126,12 @@ function getNextAvailableSocketID() {
     return -1;
 }
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //Min is inclusive, max in exclusive
+}
+
 //*****************************
 // ENTITY CLASS
 //*****************************
@@ -173,7 +179,7 @@ class Player extends Entity {
         this.mouseAngle = 0;
 
         //STATS
-        this.maxSpd = 40;
+        this.maxSpd = 25;
         this.maxHP = 100;
         this.hp = this.maxHP;
 
@@ -350,7 +356,7 @@ class Map {
     static generateNewMapTiles(width, height) {
         let tileMap = [];
         for (let i = 0; i < width * height; i++) {
-            tileMap.push(Math.random() < 0.5 ? 0 : 1);
+            tileMap.push(getRandomInt(3, 6));
         }
         return tileMap;
     }
@@ -364,5 +370,5 @@ class Map {
     }
 }
 Map.nextID = 0;
-Map.mapList = [ new Map('Limbo', 10, 10, null),
-                new Map('Desert', 10, 10, null)];
+Map.mapList = [ new Map('Limbo', 1000, 1000, null),
+                new Map('Desert', 1000, 1000, null)];

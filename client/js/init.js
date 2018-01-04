@@ -73,7 +73,7 @@ $(window).on('load', function() {
                 let drawY = y * 64 - gameCamera.yOffset;
                 //console.log(map);
 
-                let sprite = map.tiles[y * map.width + x] === 0 ? sprites.lightGrassFlowers : sprites.lightWaterTile;
+                let sprite = getSpriteByID(map.tiles[y * map.width + x]);
                 sprite.render(ctx, drawX, drawY);
             }
         }
@@ -122,7 +122,7 @@ $(window).on('load', function() {
             if(client.player.mapID !== projectile.mapID) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            let sprite = sprites.projectTileTest;
+            let sprite = sprites.itemCorn;
             sprite.render(ctx, drawX, drawY);
         }
     }
