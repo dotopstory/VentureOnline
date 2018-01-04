@@ -109,7 +109,14 @@ function initChat() {
 
 //Listen for chat events
 socket.on("addToChat", function(data) {
-    chatText.innerHTML += '<span class="chat-message message-' + data.messageStyle + '"><b>' + data.username+ '</b>: ' + escapeHtml(data.message) + '</span><br>';
+    //Craft message from data
+    let message = '<span class="chat-message message-' + data.messageStyle + '">';
+    if(data.messageMap != null) message += '[' + data.messageMap + '] ';
+    if(data.username != null) message += '<b>' + data.username+ '</b>: ';
+    message += escapeHtml(data.message) + '</span><br>';
+
+    //Push message into html
+    chatText.innerHTML += message;
     chatText.scrollTop = chatText.scrollHeight;
 });
 

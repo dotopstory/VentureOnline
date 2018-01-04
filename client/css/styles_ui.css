@@ -20,6 +20,10 @@
     font-family: 'Ubuntu', sans-serif;
     font-size: 1vmax;
 }
+#chat-input:focus {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 
 #chat-text {
     background-color: transparent;
@@ -31,7 +35,6 @@
 
 #chatSendButton {
     width: 95%;
-    background: transparent;
     border: 5px solid #1b2631;
     border-width: 2px 5px 5px 2px;
     background-color: #2C3E50;

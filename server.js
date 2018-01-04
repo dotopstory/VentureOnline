@@ -102,10 +102,10 @@ function serverMessage(message) {
 }
 
 //Send a message to a list of clients
-function sendMessageToClients(messageToList, messageContent, messageStyle, messageFrom) {
+function sendMessageToClients(messageToList, messageContent, messageStyle, messageFrom, senderMap) {
     //Send new message to all players
     for(let i in SOCKET_LIST) {
-        SOCKET_LIST[i].emit('addToChat', {username: messageFrom, message: messageContent, messageStyle: messageStyle});
+        SOCKET_LIST[i].emit('addToChat', {username: messageFrom, message: messageContent, messageStyle: messageStyle, messageMap: senderMap});
     }
 }
 
@@ -237,7 +237,9 @@ class Player extends Entity {
     }
 
     respawn() {
-
+        this.x = this.x + getRandomInt(-4, 4) * 64;
+        this.y = this.y + getRandomInt(-4, 4) * 64;
+        this.hp = this.maxHP;
     }
 }
 
@@ -245,7 +247,7 @@ Player.list = [];
 Player.onConnect = function(socket, username) {
     //Create player and add to list
     let player = new Player(socket.id, username, 'test1', Map.mapList[0]);
-    sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info', 'SERVER');
+    sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info');
 
     //Listen for input events
     socket.on('keyPress', function(data) {
@@ -259,8 +261,8 @@ Player.onConnect = function(socket, username) {
 
     //Listen for new messages from clients
     socket.on('sendMessageToServer', function(data) {
-        if(data[0] === '/') processServerCommand(data, socket.id);
-        else sendMessageToClients(SOCKET_LIST, data, 'default', player.username);
+        if (data[0] === '/') processServerCommand(data, socket.id); //Process a server command
+        else sendMessageToClients(SOCKET_LIST, data, 'default', player.username, player.map.name);
     });
 
     //Listen for map changes
@@ -273,7 +275,7 @@ Player.onConnect = function(socket, username) {
 Player.onDisconnect = function(socket) {
     let player = Player.list[socket.id];
     if(player === undefined) return; //If client never signed in
-    sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info', 'SERVER');
+    sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info');
     delete Player.list[socket.id];
 };
 
