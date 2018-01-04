@@ -1,10 +1,12 @@
-node_modules
+node_modules/
 *.bat
 *.ink
 [SERVER RUN].lnk
 [SERVER RUN].lnk
 
-.ebextensions
-.idea
-version_archive
+.ebextensions/
+.idea/
+version_archive/
 *.zip
+*.lnk
+*.bat

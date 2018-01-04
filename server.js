@@ -1,12 +1,10 @@
-//Imports
-
-
 //Initialise express routing
 let express = require('express');
 let app = express();
 let serv = require('http').Server(app);
 let tickRate = 20; //Updates per second
 let MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
+const DEBUG = true;
 
 //Default route
 app.get('/', function(req, res) {
@@ -27,12 +25,10 @@ app.get('/about', function(req, res) {
 app.use('/client', express.static(__dirname + '/client'));
 serv.listen(process.env.PORT || 2000); //Listen for requests
 
-serverMessage("INFO - Venture Online server has been started.");
-let SOCKET_LIST = [];
-let DEBUG = true;
-
 //Listen for connection events
 let io = require('socket.io')(serv, {});
+let SOCKET_LIST = [];
+serverMessage("INFO - Venture Online server has been started.");
 
 io.sockets.on('connection', function(socket) {
     //Deny client connection if too many clients connected
@@ -42,7 +38,7 @@ io.sockets.on('connection', function(socket) {
     }
 
     //Add socket to list
-    socket.id = getNextAvailableSocketID();
+    socket.id = getNextAvailableSocketID()
     SOCKET_LIST[socket.id] = socket;
     serverMessage("INFO - [CLIENT " + socket.id + "] connected to the server. ");
 
@@ -72,7 +68,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('disconnect', function() {
         serverMessage("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
         Player.onDisconnect(socket);
-        SOCKET_LIST.splice(socket.id);
+        delete SOCKET_LIST[socket.id];
     });
 });
 
@@ -86,12 +82,19 @@ setInterval(function() {
 
     //Send package data to all clients
     for(let i in Player.list) {
-        let socket = SOCKET_LIST[Player.list[i].id];
-        //if(socket == undefined) continue;
+        let socket = SOCKET_LIST[i];
+        if(socket == undefined) continue;
         socket.emit('update', pack);
     }
 
 }, 1000 / tickRate);
+
+//Log the server's status
+if(DEBUG) {
+    setInterval(function() {
+        serverMessage('SERVER STATUS: RUNNING / CLIENT COUNT: ' + getArrayIndexesInUse(SOCKET_LIST) + ' / PLAYER COUNT: ' + getArrayIndexesInUse(Player.list));
+    }, 5000);
+}
 
 //Custom server alert messages
 function serverMessage(message) {
@@ -110,20 +113,31 @@ function sendMessageToClients(messageToList, messageContent, messageStyle, messa
 function processServerCommand(commandLine, senderSocketID) {
     let splitMessage = commandLine.split(' ');
     let command = splitMessage[0];
+    let param1 = splitMessage[1];
+    let param2 = splitMessage[2];
 
     if(command === '/announce' || command === '/ann') {
         delete splitMessage[0];
         let message = splitMessage.join(' ');
         sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
+    } else if(command === '/tp' || command === '/teleport') {
+        Player.list[senderSocketID].x = parseInt(param1) * 64;
+        Player.list[senderSocketID].y = parseInt(param2) * 64;
     }
 }
 
 //Search for an open socket ID
 function getNextAvailableSocketID() {
     for(let i = 0; i < MAX_SERVER_CONNECTIONS; i++) {
-        if(SOCKET_LIST[i] === undefined) return i;
+        if(SOCKET_LIST[i] == undefined) return i;
     }
     return -1;
+}
+
+function getArrayIndexesInUse(array) {
+    playerCount = 0;
+    for(let i in array) if(array[i] != undefined) playerCount++;
+    return playerCount;
 }
 
 function getRandomInt(min, max) {
@@ -138,8 +152,8 @@ function getRandomInt(min, max) {
 class Entity {
     constructor(id, spriteName, map) {
         this.id = id;
-        this.x = 0;
-        this.y = 0;
+        this.x = map.width / 2 * 64;
+        this.y = map.height / 2 * 64;
         this.spdX = 0;
         this.spdY = 0;
         this.spriteName = spriteName;
@@ -190,9 +204,9 @@ class Player extends Entity {
         this.updateSpd();
         super.update();
         if(this.pressingAttack) {
-            this.shootProjectile(this.mouseAngle - 10);
-            this.shootProjectile(this.mouseAngle);
-            this.shootProjectile(this.mouseAngle + 10);
+            for(let angle = -180; angle < 180; angle += 20) {
+                this.shootProjectile(this.mouseAngle + angle);
+            }
         }
     }
 
@@ -230,7 +244,7 @@ class Player extends Entity {
 Player.list = [];
 Player.onConnect = function(socket, username) {
     //Create player and add to list
-    let player = new Player(socket.id, username, 'test1', Map.mapList[Math.random() > 0.5 ? 0 : 1]);
+    let player = new Player(socket.id, username, 'test1', Map.mapList[0]);
     sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info', 'SERVER');
 
     //Listen for input events
@@ -260,7 +274,7 @@ Player.onDisconnect = function(socket) {
     let player = Player.list[socket.id];
     if(player === undefined) return; //If client never signed in
     sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info', 'SERVER');
-    Player.list.splice(socket.id);
+    delete Player.list[socket.id];
 };
 
 Player.updateAll = function() {
@@ -310,8 +324,8 @@ class Projectile extends Entity {
 
             //Check for collision between player and projectiles
             if(this.map === player.map && super.getDistance(player) < 32 && this.parent !== player.id) {
-                serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
-                    player.username + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
+                //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
+                    //player.username + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                 player.takeDamage(this.damage);
                 this.isActive = false;
             }
@@ -370,5 +384,4 @@ class Map {
     }
 }
 Map.nextID = 0;
-Map.mapList = [ new Map('Limbo', 1000, 1000, null),
-                new Map('Desert', 1000, 1000, null)];
+Map.mapList = [ new Map('Limbo', 1000, 1000, null)];
