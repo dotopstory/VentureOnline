@@ -7,7 +7,7 @@ document.onkeydown = function(e) {
     eventRegister[code] = true;
 
     //Prevent scrolling page with certain keys
-    let blockDefaultKeysArr = [];
+    let blockDefaultKeysArr = [9];
     if(blockDefaultKeysArr.includes(e.keyCode)) {
         e.preventDefault();
     }
@@ -60,6 +60,8 @@ document.onkeyup = function(e) {
         //Attack events
         if(e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
             socket.emit('keyPress', {inputId: 'attack', state: false});
+
+        if(e.keyCode === 9) toggleUiItem('Debug');
     }
 
     //Menu events

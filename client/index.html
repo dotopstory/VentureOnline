@@ -125,10 +125,20 @@
                     <span class="menuTitle">Menu</span><br>
 
                     <!-- Menu buttons -->
-                    <button class="btn menuButton" onclick="changeMap()">Change Map</button>
-                    <button class="btn menuButton">About</button>
+                    <button class="btn menuButton">Help</button>
+                    <button class="btn menuButton">Settings</button>
                     <button class="btn menuButton">Bug Report</button>
-                    <button id="signOutButton" class="btn menuButton">Sign Out</button>
+                    <button class="btn menuButton" onclick="location.href = '/play'">Sign Out</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debug -->
+        <div id="debugDiv" class="hidden">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="menuTitle">Debug</span><br>
+                    <div id="debugContent"></div>
                 </div>
             </div>
         </div>

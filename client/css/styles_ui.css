@@ -89,6 +89,7 @@
     font-family: 'Bungee', cursive;
     font-weight: bold;
     color: #2C3E50;
+    font-size: 3vmax;
 }
 
 #menuDiv {
@@ -106,8 +107,7 @@
 
 .menuButton {
     width: 100%;
-    background: transparent;
-    border: 5px solid #1b2631;
+    border: 0px solid #1b2631;
     border-width: 2px 5px 5px 2px;
     background-color: #2C3E50;
     font-size: 1.5vmax;
@@ -116,9 +116,23 @@
     border-radius: 20px;
     padding: 2%;
     font-family: 'Bungee', cursive;
-    margin: 2vh 0 0 0;
+    margin: 0;
 }
 
 .menuButton:hover {
     background-color: #1b2631;
+}
+
+/* DEBUG STYLES */
+#debugDiv {
+    font-size: 1.5vmax;
+    border-radius: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.8);
+    width: 30vw;
+    position: absolute;
+    left: 1vw;
+    top: 7vh;
+    padding: 2vh 1vw;
+    text-align: left;
 }

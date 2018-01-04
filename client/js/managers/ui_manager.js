@@ -12,9 +12,10 @@ class uiItem {
 }
 uiItem.nextID = 0;
 uiItem.uiList = [
-    new uiItem($('#menuDiv'), 'Menu', true, null),
+    new uiItem($('#menuDiv'), 'Menu', true),
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
-    new uiItem($('#alertDiv'), 'Alert', false, null)];
+    new uiItem($('#alertDiv'), 'Alert', false),
+    new uiItem($('#debugDiv'), 'Debug', false)];
 
 //Show/hide a ui item
 function toggleUiItem(uiName) {
@@ -51,6 +52,29 @@ function isUiFocused() {
 }
 
 //********************
+//*** DEBUG EVENTS
+//********************
+$(window).on('load', function() {
+    if(!DEBUG_ON) return;
+
+    $('#menuDiv').html($('#menuDiv').html() + '<button class="btn menuButton" onclick="toggleUiItem(\'Debug\')">Debug</button>')
+
+    let debug = $('#debugDiv');
+    let output = $('#debugContent');
+
+    if(true) {
+        setInterval(function() {
+            output.html('');
+            output.html(output.html() + 'Client ID: ' + client.id);
+            output.html(output.html() + '<br>Client Username: ' + client.player.username);
+            output.html(output.html() + '<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
+            output.html(output.html() + '<br>Map Name: ' + client.map.name);
+            output.html(output.html() + '<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height); ``
+        }, 1000);
+    }
+});
+
+//********************
 //*** ALERT EVENTS
 //********************
 function showAlert(message) {
@@ -71,26 +95,7 @@ function showAlert(message) {
 //********************
 //*** MENU EVENTS
 //********************
-//Hide menu when clicking menu button
-$('.menuButton').on('click', function() {
-    toggleUiItem('Menu');
-});
 
-$('#signOutButton').on('click', function() {
-    signOut();
-});
-
-//Change map
-function changeMap(mapName) {
-    socket.emit('changeMap', mapName);
-    showAlert('Changed Map.');
-}
-
-//Sign out
-function signOut() {
-    socket.emit('signOut');
-    location.href = '/play';
-}
 
 //********************
 //*** CHAT EVENTS

@@ -4,7 +4,7 @@ let app = express();
 let serv = require('http').Server(app);
 let tickRate = 20; //Updates per second
 let MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
-const DEBUG = true;
+const DEBUG_ON = true;
 
 //Default route
 app.get('/', function(req, res) {
@@ -90,7 +90,7 @@ setInterval(function() {
 }, 1000 / tickRate);
 
 //Log the server's status
-if(DEBUG) {
+if(DEBUG_ON) {
     setInterval(function() {
         serverMessage('SERVER STATUS: RUNNING / CLIENT COUNT: ' + getArrayIndexesInUse(SOCKET_LIST) + ' / PLAYER COUNT: ' + getArrayIndexesInUse(Player.list));
     }, 5000);
