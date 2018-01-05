@@ -65,7 +65,7 @@ document.onkeyup = function(e) {
         if(e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
             socket.emit('keyPress', {inputId: 'attack', state: false});
 
-        if(e.keyCode === 9) toggleUiItem('Debug');
+
     }
 
     //Menu events
@@ -73,6 +73,12 @@ document.onkeyup = function(e) {
 
     //Chat events
     if(e.keyCode === 17) toggleUiItem('Chat');
+
+    //Debug events
+    if(e.keyCode === 9) toggleUiItem('Debug');
+
+    //World Edit events
+    if(e.keyCode === 192) toggleUiItem('Map Editor');
 };
 
 //MOUSE EVENTS
@@ -92,10 +98,7 @@ document.onmousemove = function(e) {
     mouseMapX = parseInt((mouseX + gameCamera.xOffset) / 64);
     mouseMapY = parseInt((mouseY + gameCamera.yOffset) / 64);
 
-    if(!pressingMouse1 || (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY)) return;
-    client.map.tiles[mouseMapY * client.map.width + mouseMapX] = 0;
-    lastMouseMapX = mouseMapX;
-    lastMouseMapY = mouseMapY;
+    if(pressingMouse1 && (mouseMapX != lastMouseMapX || mouseMapY != lastMouseMapY)) processMapEditor();
 };
 
 

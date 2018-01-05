@@ -16,7 +16,7 @@ module.exports = function() {
         static generateNewMapTiles(width, height) {
             let tileMap = [];
             for (let i = 0; i < width * height; i++) {
-                tileMap.push(getRandomInt(3, 6));
+                tileMap.push(getRandomInt(2, 3));
             }
             return tileMap;
         }
@@ -30,5 +30,5 @@ module.exports = function() {
         }
     };
     Map.nextID = 0;
-    Map.mapList = [ new Map('Limbo', 1000, 1000, null)];
+    Map.mapList = [ new Map('Limbo', 500, 500, null)];
 };

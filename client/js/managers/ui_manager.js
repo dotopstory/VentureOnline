@@ -15,7 +15,8 @@ uiItem.uiList = [
     new uiItem($('#menuDiv'), 'Menu', true),
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false),
-    new uiItem($('#debugDiv'), 'Debug', false)];
+    new uiItem($('#debugDiv'), 'Debug', true),
+    new uiItem($('#mapEditDiv'), 'Map Editor', true)];
 
 //Show/hide a ui item
 function toggleUiItem(uiName) {
@@ -175,3 +176,41 @@ $(window).on('load', function() {
         }
     });
 });
+
+//***********************
+//*** MAP EDITOR EVENTS
+//***********************
+let selectedTileID = 0;
+$(window).on('load', function(){
+    let tileSelect = $('#tileSelect');
+    loadTileSelection(tileSelect);
+});
+
+function loadTileSelection(element) {
+    let canvasSize = 64;
+    for(let i in Tile.tileList) {
+        //Create canvas and apply attributes
+        let newCanvas =
+            $('<canvas/>',{'class':'tileSelectCanvas'});
+        newCanvas.css({'width': canvasSize, 'height': canvasSize});
+        newCanvas.attr('width', canvasSize);
+        newCanvas.attr('height', canvasSize);
+        newCanvas.attr('tileID', Tile.tileList[i].id);
+        newCanvas.attr('onclick', 'mapEditSelectTile(' + i + ')');
+        element.append(newCanvas);
+
+        //Render sprite to canvas
+        let newCanvasCtx = newCanvas[0].getContext('2d');
+        Tile.tileList[i].sprite.render(newCanvasCtx, 0, 0);
+    }
+}
+
+function processMapEditor() {
+    client.map.tiles[mouseMapY * client.map.width + mouseMapX] = selectedTileID;
+    lastMouseMapX = mouseMapX;
+    lastMouseMapY = mouseMapY;
+}
+
+function mapEditSelectTile(id) {
+    selectedTileID = id;
+}

@@ -88,11 +88,12 @@
 .menuTitle {
     font-family: 'Bungee', cursive;
     font-weight: bold;
-    color: #2C3E50;
+    color: inherit;
     font-size: 3vmax;
 }
 
 #menuDiv {
+    color: #2C3E50;
     font-size: 3vmax;
     border-radius: 20px;
     border: 2px solid rgba(0, 0, 0, 0.8);
@@ -126,13 +127,38 @@
 /* DEBUG STYLES */
 #debugDiv {
     font-size: 1.5vmax;
-    border-radius: 20px;
+    color: white;
     border: 2px solid rgba(0, 0, 0, 0.8);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(38, 38, 38, 0.9);
     width: 30vw;
     position: absolute;
     left: 1vw;
     top: 7vh;
     padding: 2vh 1vw;
     text-align: left;
+}
+
+/* MAP EDITOR STYLES */
+#mapEditDiv {
+    font-size: 1.5vmax;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    color: white;
+    background: rgba(38, 38, 38, 0.9);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 2vh 1vw;
+    text-align: left;
+}
+
+#tileSelect {
+    overflow-y: scroll;
+}
+
+.tileSelectCanvas {
+    background: white;
+    margin: 1px;
+    padding: 0;
+    cursor: pointer;
 }

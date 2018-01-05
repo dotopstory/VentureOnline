@@ -72,9 +72,8 @@ $(window).on('load', function() {
             for (let x = xStart; x < xEnd; x++) {
                 let drawX = x * 64 - gameCamera.xOffset;
                 let drawY = y * 64 - gameCamera.yOffset;
-                //console.log(map);
 
-                let sprite = getSpriteByID(map.tiles[y * map.width + x]);
+                let sprite = Tile.tileList[map.tiles[y * map.width + x]].sprite;
                 sprite.render(ctx, drawX, drawY);
             }
         }
