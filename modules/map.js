@@ -1,3 +1,4 @@
+let fs = require('fs');
 require('./utils.js')();
 
 //*****************************
@@ -5,18 +6,37 @@ require('./utils.js')();
 //*****************************
 module.exports = function() {
     this.Map = class {
-        constructor(name, width, height, tiles) {
+        constructor(params) {
             this.id = Map.nextID++;
-            this.name = name;
-            this.width = width;
-            this.height = height;
-            this.tiles = tiles == null ? Map.generateNewMapTiles(width, height) : tiles;
+
+            //Create new random map
+            if(params.fileName != null) {
+                fs.readFile('./maps/' + params.fileName + '.ven', (err, data) => {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+
+                    //Populate object with map data
+                    data = JSON.parse(data);
+                    this.name = data.name;
+                    this.width = data.width;
+                    this.height = data.height;
+                    this.tiles = data.tiles;
+                });
+            } else {
+                this.name = params.name;
+                this.width = params.width;
+                this.height = params.height;
+                this.tiles = Map.generateNewBlankMap(this.width, this.height, params.tileSeedID);
+            }
+
         }
 
-        static generateNewMapTiles(width, height) {
+        static generateNewBlankMap(width, height, tileSeedID) {
             let tileMap = [];
             for (let i = 0; i < width * height; i++) {
-                tileMap.push(getRandomInt(2, 3));
+                tileMap.push(tileSeedID);
             }
             return tileMap;
         }
@@ -30,5 +50,4 @@ module.exports = function() {
         }
     };
     Map.nextID = 0;
-    Map.mapList = [ new Map('Limbo', 500, 500, null)];
 };

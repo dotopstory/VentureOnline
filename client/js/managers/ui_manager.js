@@ -246,5 +246,5 @@ function cancelMapEdit() {
 }
 
 function saveMap(filePath, pushToServer) {
-    socket.emit('sendNewMapToServer', {map: client.map, filePath: filePath, pushToServer: pushToServer});
+    socket.emit('sendNewMapToServer', {map: client.map, fileName: 'limbo', pushToServer: pushToServer});
 }

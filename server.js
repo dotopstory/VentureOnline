@@ -34,6 +34,9 @@ let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started.");
 
+//Create map list
+Map.mapList = [new Map({fileName: 'limbo'}), new Map({name: 'Desert', width: 1000, height: 1000, tileSeedID: 1})];
+
 io.sockets.on('connection', function(socket) {
     //Deny client connection if too many clients connected
     if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
@@ -92,11 +95,4 @@ setInterval(function() {
     }
 
 }, 1000 / tickRate);
-
-//Log the server's status
-if(DEBUG_ON) {
-    setInterval(function() {
-        serverMessage('SERVER STATUS: RUNNING / CLIENT COUNT: ' + getArrayIndexesInUse(SOCKET_LIST) + ' / PLAYER COUNT: ' + getArrayIndexesInUse(Player.list));
-    }, 5000);
-}
 
