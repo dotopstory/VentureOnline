@@ -1,5 +1,7 @@
+var fs = require('fs');
 require('./entity.js')();
 require('./utils.js')();
+require('./map.js')();
 
 module.exports = function() {
     //*****************************
@@ -93,13 +95,34 @@ module.exports = function() {
         });
 
         //Listen for map changes
-        socket.on('changeMap', function(data) {
-            if(player.map === 'map1') player.map = 'map2';
-            else if(player.map === 'map2') player.map = 'map1';
-        });
-    };
+        socket.on('sendNewMapToServer', function(data) {
+            let newMap = data.map;
 
-    Player.onDisconnect = function(SOCKET_LIST, socket) {
+            //Update map of all players on the edited map
+            if(data.pushToServer)
+                for(let i in Player.list)  if(Player.list[i].map.id === newMap.id) changePlayerMap(i, newMap);
+
+            //Update server saved version of map
+            Map.mapList[newMap.id] = newMap;
+
+            //Save map to text file on server
+            fs.writeFile('maps/limbo.ven', JSON.stringify(newMap), function(err){
+                if(err) {
+                    return console.log(err);
+                }
+                console.log("The file was saved!");
+            });
+        });
+
+    //Change the map of a player
+    function changePlayerMap(playerID, map) {
+        Player.list[playerID].map = map;
+        SOCKET_LIST[playerID].emit('changeMap', {map: map});
+        console.log('Sent new map to ' + playerID + " MAP=" + map);
+    }
+};
+
+Player.onDisconnect = function(SOCKET_LIST, socket) {
         let player = Player.list[socket.id];
         if(player === undefined) return; //If client never signed in
         sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info');

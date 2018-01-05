@@ -7,6 +7,13 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .container-fluid {
@@ -122,10 +129,53 @@ input:focus, button:focus {
     outline: none;
 }
 
+input {
+    font: inherit;
+}
+
 .fa {
     cursor: pointer;
 }
 
 .align-right {
     text-align: right;
+}
+
+/* BUTTONS */
+.venButton {
+    width: 100%;
+    border: 0px solid #1b2631;
+    border-width: 2px 5px 5px 2px;
+    background-color: #2C3E50;
+    font-size: 1.5vmax;
+    color: white;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 2%;
+    font-family: 'Bungee', cursive;
+    margin: 2px 0;
+}
+
+.venButton:hover {
+    background-color: #1b2631;
+}
+
+.venButtonOrange {
+    border: 0px solid #cc2900 !important;
+    border-width: 2px 5px 5px 2px !important;
+    background-color: #ff471a !important;
+}
+
+.venButtonOrange:hover {
+    background-color: #cc2900 !important;
+}
+
+.venButtonGreen {
+    border: 0px solid #00802b !important;
+    border-width: 2px 5px 5px 2px !important;
+    background-color: #00b33c !important;
+}
+
+.venButtonGreen:hover {
+    background-color: #00802b !important;
 }

@@ -15,7 +15,7 @@ uiItem.uiList = [
     new uiItem($('#menuDiv'), 'Menu', true),
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false),
-    new uiItem($('#debugDiv'), 'Debug', true),
+    new uiItem($('#debugDiv'), 'Debug', false),
     new uiItem($('#mapEditDiv'), 'Map Editor', false)];
 
 //Show/hide a ui item
@@ -52,6 +52,12 @@ function isUiFocused() {
     return false;
 }
 
+function isOpen(searchName) {
+    for(let i in uiItem.uiList)
+        if(uiItem.uiList[i].name.toLowerCase() === searchName.toLowerCase() && uiItem.uiList[i].element.is(":visible")) return true;
+    return false;
+}
+
 //********************
 //*** DEBUG EVENTS
 //********************
@@ -61,8 +67,9 @@ $(window).on('load', function() {
     let debug = $('#debugDiv');
     let output = $('#debugContent');
 
-    if(true) {
+
         setInterval(function() {
+            if(client.id == null) return;
             output.html('');
             output.append('Client ID: ' + client.id);
             output.append('<br>Client Username: ' + client.player.username);
@@ -72,7 +79,6 @@ $(window).on('load', function() {
             output.append('<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
             output.append('<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
         }, 1000);
-    }
 });
 
 //********************
@@ -97,8 +103,8 @@ function showAlert(message) {
 //*** MENU EVENTS
 //********************
 //Add menu items depending on privelages
-if(DEBUG_ON && client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton menuButtonSpecial" onclick="toggleUiItem(\'Debug\')">Debug</button>');
-if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton menuButtonSpecial" onclick="toggleUiItem(\'Map Editor\')">Map Editor</button>');
+if(DEBUG_ON && client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Debug\')">Debug</button>');
+if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Map Editor\')">Map Editor</button>');
 
 
 //********************
@@ -186,18 +192,29 @@ $(window).on('load', function() {
 //***********************
 //*** MAP EDITOR EVENTS
 //***********************
-let selectedTileID = 0;
+let selectedTileID;
+let previewTileCanvas;
+
+
 $(window).on('load', function(){
     let tileSelect = $('#tileSelect');
     loadTileSelection(tileSelect);
+
+    //Init the tile preview canvas
+    let previewSize = 128;
+    previewTileCanvas = $('#editPreviewTile');
+    previewTileCanvas.css({'width': previewSize, 'height': previewSize});
+    previewTileCanvas.attr('width', previewSize);
+    previewTileCanvas.attr('height', previewSize);
+    mapEditSelectTile(0);
 });
 
 function loadTileSelection(element) {
     let canvasSize = 64;
     for(let i in Tile.tileList) {
         //Create canvas and apply attributes
-        let newCanvas =
-            $('<canvas/>',{'class':'tileSelectCanvas'});
+        let newCanvas = $('<canvas/>',{'class':'tileSelectCanvas'});
+        let newCanvasCtx = newCanvas[0].getContext('2d');
         newCanvas.css({'width': canvasSize, 'height': canvasSize});
         newCanvas.attr('width', canvasSize);
         newCanvas.attr('height', canvasSize);
@@ -206,12 +223,12 @@ function loadTileSelection(element) {
         element.append(newCanvas);
 
         //Render sprite to canvas
-        let newCanvasCtx = newCanvas[0].getContext('2d');
         Tile.tileList[i].sprite.render(newCanvasCtx, 0, 0);
     }
 }
 
 function processMapEditor() {
+    if(!pressingMouse1 | (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY) || !client.is('admin') || client.id == null || !isOpen('Map Editor')) return;
     client.map.tiles[mouseMapY * client.map.width + mouseMapX] = selectedTileID;
     lastMouseMapX = mouseMapX;
     lastMouseMapY = mouseMapY;
@@ -219,4 +236,15 @@ function processMapEditor() {
 
 function mapEditSelectTile(id) {
     selectedTileID = id;
+    let ctx = previewTileCanvas[0].getContext('2d');
+    Tile.tileList[selectedTileID].sprite.renderSize(ctx, 0, 0, 128, 128);
+}
+
+function cancelMapEdit() {
+    client.setMap(client.backupMap);
+    toggleUiItem('Map Editor');
+}
+
+function saveMap(filePath, pushToServer) {
+    socket.emit('sendNewMapToServer', {map: client.map, filePath: filePath, pushToServer: pushToServer});
 }

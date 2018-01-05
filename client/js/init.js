@@ -1,8 +1,9 @@
 //Open socket
-var socket = io();
-var DEBUG_ON = true;
+let socket = io();
+let DEBUG_ON = true;
 let client = new Client();
-var gameCamera = null;
+let gameCamera = null;
+let gameElement;
 
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
@@ -15,7 +16,7 @@ function clientAlert(message) {
 
 $(window).on('load', function() {
     //Game objects
-    let gameElement = $('#gameCanvas');
+    gameElement = $('#gameCanvas');
     let gameCanvasCtx = gameElement[0].getContext('2d');
     let fps = 60, canvasWidth = 1000, canvasHeight = 750;
     let clientID = null;
@@ -34,7 +35,7 @@ $(window).on('load', function() {
     //Listen for init pack from server
     socket.on('initPack', function(data) {
         client.id = data.socketID;
-        client.map = data.map;
+        client.setMap(data.map);
     });
 
     //Listen for player packet updates
@@ -42,6 +43,12 @@ $(window).on('load', function() {
         gameStateCache.players = data.players;
         gameStateCache.projectiles = data.projectiles;
         client.player = gameStateCache.players[client.id];
+    });
+
+    //Listen for new map changes
+    socket.on('changeMap', function(data) {
+        console.log(data);
+        client.setMap(data.map);
     });
 
     //RENDER

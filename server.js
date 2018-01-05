@@ -42,7 +42,7 @@ io.sockets.on('connection', function(socket) {
     }
 
     //Add socket to list
-    socket.id = getNextAvailableArrayIndex(SOCKET_LIST, MAX_SERVER_CONNECTIONS)
+    socket.id = getNextAvailableArrayIndex(SOCKET_LIST, MAX_SERVER_CONNECTIONS);
     SOCKET_LIST[socket.id] = socket;
     serverMessage("INFO - [CLIENT " + socket.id + "] connected to the server. ");
 

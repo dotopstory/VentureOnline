@@ -124,16 +124,6 @@
     background-color: #1b2631;
 }
 
-.menuButtonSpecial {
-    border: 0px solid #cc2900;
-    border-width: 2px 5px 5px 2px;
-    background-color: #ff471a;
-}
-
-.menuButtonSpecial:hover {
-    background-color: #cc2900;
-}
-
 /* DEBUG STYLES */
 #debugDiv {
     font-size: 1.5vmax;
@@ -146,6 +136,7 @@
     top: 7vh;
     padding: 2vh 1vw;
     text-align: left;
+    z-index: 999;
 }
 
 /* MAP EDITOR STYLES */
@@ -171,4 +162,8 @@
     padding: 0;
     cursor: pointer;
     border: 2px solid white;
+}
+
+#editPreviewTile {
+    border: 5px solid white;
 }

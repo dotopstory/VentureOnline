@@ -106,33 +106,6 @@
             </div>
         </div>
 
-        <!-- Alerts -->
-        <div id="alertDiv" class="hidden">
-            <div class="row">
-                <div class="col-md-3">
-                    <img id="alertIcon" src="/client/res/img/turnipguy.png" width="64" height="64">
-                </div>
-
-                <div id="alertMessage" class="col-md-9">
-                </div>
-            </div>
-        </div>
-
-        <!-- Menu -->
-        <div id="menuDiv" class="hidden">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="menuTitle">Menu</span><br>
-
-                    <!-- Menu buttons -->
-                    <button class="btn menuButton">Help</button>
-                    <button class="btn menuButton">Settings</button>
-                    <button class="btn menuButton">Bug Report</button>
-                    <button class="btn menuButton" onclick="location.href = '/play'">Sign Out</button>
-                </div>
-            </div>
-        </div>
-
         <!-- Debug -->
         <div id="debugDiv" class="hidden">
             <div class="row">
@@ -155,8 +128,44 @@
             <div class="row">
                 <div id="tileSelect" class="col-md-8">
                 </div>
+                <div class="col-md-2">
+                    <canvas id="editPreviewTile" width="128" height="128"></canvas>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn venButton venButtonGreen" onclick="saveMap('', true)">Save</button>
+                    <button class="btn venButton venButtonGreen" onclick="saveMap('', false)">Save As</button>
+                    <button class="btn venButton venButtonOrange" onclick="cancelMapEdit()">Cancel</button>
+                </div>
             </div>
         </div>
+
+        <!-- Menu -->
+        <div id="menuDiv" class="hidden">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="menuTitle">Menu</span><br>
+
+                    <!-- Menu buttons -->
+                    <button class="btn menuButton">Help</button>
+                    <button class="btn menuButton">Settings</button>
+                    <button class="btn menuButton">Bug Report</button>
+                    <button class="btn menuButton" onclick="location.href = '/play'">Sign Out</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div id="alertDiv" class="hidden">
+            <div class="row">
+                <div class="col-md-3">
+                    <img id="alertIcon" src="/client/res/img/turnipguy.png" width="64" height="64">
+                </div>
+
+                <div id="alertMessage" class="col-md-9">
+                </div>
+            </div>
+        </div>
+
     </body>
     <script src="/client/js/classes/client.js"></script>
     <script src="/client/js/managers/utils.js"></script>

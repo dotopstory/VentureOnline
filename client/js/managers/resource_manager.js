@@ -5,11 +5,16 @@ class Sprite {
         this.startX = startX * 64;
         this.startY = startY * 64;
         this.width = width * 64;
+        this.height = width * 64;
         Sprite.spriteCount++;
     }
 
     render(ctx, x, y) {
-        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.width, x, y, this.width, this.width);
+        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.height, x, y, this.width, this.height);
+    }
+
+    renderSize(ctx, x, y, width, height) {
+        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.height, x, y, width, height);
     }
 }
 Sprite.nextID = 0;
