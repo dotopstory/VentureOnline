@@ -16,7 +16,7 @@ uiItem.uiList = [
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false),
     new uiItem($('#debugDiv'), 'Debug', true),
-    new uiItem($('#mapEditDiv'), 'Map Editor', true)];
+    new uiItem($('#mapEditDiv'), 'Map Editor', false)];
 
 //Show/hide a ui item
 function toggleUiItem(uiName) {
@@ -58,21 +58,19 @@ function isUiFocused() {
 $(window).on('load', function() {
     if(!DEBUG_ON) return;
 
-    $('#menuDiv').html($('#menuDiv').html() + '<button class="btn menuButton" onclick="toggleUiItem(\'Debug\')">Debug</button>')
-
     let debug = $('#debugDiv');
     let output = $('#debugContent');
 
     if(true) {
         setInterval(function() {
             output.html('');
-            output.html(output.html() + 'Client ID: ' + client.id);
-            output.html(output.html() + '<br>Client Username: ' + client.player.username);
-            output.html(output.html() + '<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
-            output.html(output.html() + '<br>Map Name: ' + client.map.name);
-            output.html(output.html() + '<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height);
-            output.html(output.html() + '<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
-            output.html(output.html() + '<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
+            output.append('Client ID: ' + client.id);
+            output.append('<br>Client Username: ' + client.player.username);
+            output.append('<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
+            output.append('<br>Map Name: ' + client.map.name);
+            output.append('<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height);
+            output.append('<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
+            output.append('<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
         }, 1000);
     }
 });
@@ -98,6 +96,9 @@ function showAlert(message) {
 //********************
 //*** MENU EVENTS
 //********************
+//Add menu items depending on privelages
+if(DEBUG_ON && client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton menuButtonSpecial" onclick="toggleUiItem(\'Debug\')">Debug</button>');
+if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton menuButtonSpecial" onclick="toggleUiItem(\'Map Editor\')">Map Editor</button>');
 
 
 //********************
@@ -131,10 +132,15 @@ socket.on("addToChat", function(data) {
 //Chat form submitted event
 chatForm.onsubmit = function(e) {
     e.preventDefault(); //Prevent page refresh on form submit
+    sendMessageToServer();
+};
+
+
+function sendMessageToServer() {
     let message = chatInput.val();
     if(isValidMessage(message)) socket.emit('sendMessageToServer', chatInput.val());
     chatInput.val('');
-};
+}
 
 //Check if a message is valid
 function isValidMessage(message) {

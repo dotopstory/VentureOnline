@@ -60,12 +60,12 @@
 
 .message-announcement {
     font-weight: bold;
-    color: red;
+    color: #ff3300;
 }
 
 .message-info {
     font-weight: bold;
-    color: blue;
+    color: #0066cc;
 }
 
 /* ALERT STYLES */
@@ -124,6 +124,16 @@
     background-color: #1b2631;
 }
 
+.menuButtonSpecial {
+    border: 0px solid #cc2900;
+    border-width: 2px 5px 5px 2px;
+    background-color: #ff471a;
+}
+
+.menuButtonSpecial:hover {
+    background-color: #cc2900;
+}
+
 /* DEBUG STYLES */
 #debugDiv {
     font-size: 1.5vmax;
@@ -141,7 +151,6 @@
 /* MAP EDITOR STYLES */
 #mapEditDiv {
     font-size: 1.5vmax;
-    border: 2px solid rgba(0, 0, 0, 0.8);
     color: white;
     background: rgba(38, 38, 38, 0.9);
     width: 100%;
@@ -158,7 +167,8 @@
 
 .tileSelectCanvas {
     background: white;
-    margin: 1px;
+    margin: 0 3px;
     padding: 0;
     cursor: pointer;
+    border: 2px solid white;
 }

@@ -98,7 +98,7 @@ document.onmousemove = function(e) {
     mouseMapX = parseInt((mouseX + gameCamera.xOffset) / 64);
     mouseMapY = parseInt((mouseY + gameCamera.yOffset) / 64);
 
-    if(pressingMouse1 && (mouseMapX != lastMouseMapX || mouseMapY != lastMouseMapY)) processMapEditor();
+    if(pressingMouse1 && (mouseMapX != lastMouseMapX || mouseMapY != lastMouseMapY) && client.accountType === 'admin') processMapEditor();
 };
 
 
