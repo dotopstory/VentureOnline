@@ -95,4 +95,7 @@ sprites = {
     itemTomato: new Sprite(17, 1, 1),
     itemBlueberry: new Sprite(17, 2, 1),
     itemPotato: new Sprite(17, 2, 1),
+
+    //STAVES
+    staffCorn: new Sprite(14, 0, 1),
 };
