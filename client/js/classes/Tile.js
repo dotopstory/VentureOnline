@@ -50,5 +50,6 @@ function initTiles() {
 
 //Init
 $(window).on('load', function() {
-    initTiles();
+
 });
+initTiles();

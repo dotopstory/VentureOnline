@@ -1,84 +1,80 @@
 //********************
 //*** UI MANAGER
 //********************
-class uiItem {
-    constructor(element, name, requireFocus, toggleFunction) {
-        this.id = uiItem.nextID++;
-        this.element = element;
-        this.name = name;
-        this.toggleFunction = toggleFunction;
-        this.requireFocus = requireFocus; //True if ui item must be shown with no other ui items visible
+class UIManager {
+    constructor() {
+        this.uiItems = [];
+    }
+
+    addUiItem(newUiItem) {
+        this.uiItems.push(newUiItem);
+    }
+
+    static toggleUiItem(uiItemName) {
+        //Get ui item
+        let item = UIManager.getUiItemByName(uiItemName);
+        let uiItems = UIManager.uiItems;
+
+        //Hide all elements except toggled element
+        for(let i in uiItems) {
+            if(uiItems[i].id !== item.id && (uiItems[i].requireFocus && item.requireFocus)) uiItems[i].element.hide();
+        }
+
+        //Close ui item if it exists
+        if(item != null) {
+            item.element.toggle('slide');
+            if(item.toggleFunction != null) item.toggleFunction();
+        } else console.log('UI Manager Error - could not find UI item with name: ' + uiItemName);
+    }
+
+    static getUiItemByName(searchName) {
+        for(let i in UIManager.uiItems) {
+            if(UIManager.uiItems[i].name.toLowerCase() === searchName.toLowerCase()) return UIManager.uiItems[i];
+        }
+        return null;
+    }
+
+    static isUiOpen(searchName) {
+        for(let i in UIManager.uiItems)
+            if(UIManager.uiItems[i].name.toLowerCase() === searchName.toLowerCase() && UIManager.uiItems[i].element.is(":visible")) return true;
+        return false;
+    }
+
+    static isUiFocused() {
+        for(let i in UIManager.uiItems) {
+            let item = UIManager.uiItems[i];
+            if(item.element.is(":visible") && item.requireFocus) return true;
+        }
+        return false;
     }
 }
-uiItem.nextID = 0;
-uiItem.uiList = [
+UIManager.uiItems = [
     new uiItem($('#menuDiv'), 'Menu', true),
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false),
     new uiItem($('#debugDiv'), 'Debug', false),
-    new uiItem($('#mapEditDiv'), 'Map Editor', false)];
-
-//Show/hide a ui item
-function toggleUiItem(uiName) {
-    //Get ui item
-    let item = getUiItemByName(uiName);
-
-    //Hide all elements except toggled element
-    for(let i in uiItem.uiList) {
-        if(uiItem.uiList[i].id !== item.id && (uiItem.uiList[i].requireFocus && item.requireFocus)) uiItem.uiList[i].element.hide();
-    }
-
-    //Close ui item if it exists
-    if(item != null) {
-        item.element.toggle('slide');
-        if(item.toggleFunction != null) item.toggleFunction();
-    } else console.log('UI Manager Error - could not find UI item with name: ' + uiName);
-}
-
-//Return an item in the ui item list
-function getUiItemByName(searchName) {
-    for(let i in uiItem.uiList) {
-        if(uiItem.uiList[i].name.toLowerCase() === searchName.toLowerCase()) return uiItem.uiList[i];
-    }
-    return null;
-}
-
-//Check if there is a ui item showing and requires focus
-function isUiFocused() {
-    for(let i in uiItem.uiList) {
-        let item = uiItem.uiList[i];
-        if(item.element.is(":visible") && item.requireFocus) return true;
-    }
-    return false;
-}
-
-function isOpen(searchName) {
-    for(let i in uiItem.uiList)
-        if(uiItem.uiList[i].name.toLowerCase() === searchName.toLowerCase() && uiItem.uiList[i].element.is(":visible")) return true;
-    return false;
-}
+    new uiItem($('#mapEditDiv'), 'Map Editor', false)
+];
 
 //********************
 //*** DEBUG EVENTS
 //********************
 $(window).on('load', function() {
-    if(!DEBUG_ON) return;
-
     let debug = $('#debugDiv');
     let output = $('#debugContent');
 
 
-        setInterval(function() {
-            if(client.id == null) return;
-            output.html('');
-            output.append('Client ID: ' + client.id);
-            output.append('<br>Client Username: ' + client.player.username);
-            output.append('<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
-            output.append('<br>Map Name: ' + client.map.name);
-            output.append('<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height);
-            output.append('<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
-            output.append('<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
-        }, 1000);
+    setInterval(function() {
+        if(client.id == null) return;
+        output.html('');
+        output.append('Client ID: ' + client.id);
+        output.append('<br>Client Username: ' + client.player.username);
+        output.append('<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
+        output.append('<br>Map Name: ' + client.map.name);
+        output.append('<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height);
+        output.append('<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
+        output.append('<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
+    }, 1000);
 });
 
 //********************
@@ -93,18 +89,21 @@ function showAlert(message) {
     $('#alertIcon').attr('src', ResourceManager.images['turnipGuy'].src);
 
     //Show alert and set timer for hiding alert
-    toggleUiItem('Alert');
+    UIManager.toggleUiItem('Alert');
     setTimeout(function() {
-        toggleUiItem('Alert');
+        UIManager.toggleUiItem('Alert');
     }, 2000);
 }
 
 //********************
 //*** MENU EVENTS
 //********************
-//Add menu items depending on privelages
-if(DEBUG_ON && client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Debug\')">Debug</button>');
-if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Map Editor\')">Map Editor</button>');
+$(window).on('load', function () {
+    //Add menu items depending on privelages
+    if(client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Debug\')">Debug</button>');
+    if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Map Editor\')">Map Editor</button>');
+
+});
 
 
 //********************
@@ -123,24 +122,25 @@ function initChat() {
 }
 
 //Listen for chat events
-socket.on("addToChat", function(data) {
-    //Craft message from data
-    let message = '<span class="chat-message message-' + data.messageStyle + '">';
-    if(data.messageMap != null) message += '[' + data.messageMap + '] ';
-    if(data.username != null) message += '<b>' + data.username+ '</b>: ';
-    message += escapeHtml(data.message) + '</span><br>';
+$(window).on('load', function() {
+    socket.on("addToChat", function(data) {
+        //Craft message from data
+        let message = '<span class="chat-message message-' + data.messageStyle + '">';
+        if(data.messageMap != null) message += '[' + data.messageMap + '] ';
+        if(data.username != null) message += '<b>' + data.username+ '</b>: ';
+        message += escapeHtml(data.message) + '</span><br>';
 
-    //Push message into html
-    chatText.innerHTML += message;
-    chatText.scrollTop = chatText.scrollHeight;
+        //Push message into html
+        chatText.innerHTML += message;
+        chatText.scrollTop = chatText.scrollHeight;
+    });
+
+    //Chat form submitted event
+    chatForm.onsubmit = function(e) {
+        e.preventDefault(); //Prevent page refresh on form submit
+        sendMessageToServer();
+    };
 });
-
-//Chat form submitted event
-chatForm.onsubmit = function(e) {
-    e.preventDefault(); //Prevent page refresh on form submit
-    sendMessageToServer();
-};
-
 
 function sendMessageToServer() {
     let message = chatInput.val();
@@ -228,7 +228,8 @@ function loadTileSelection(element) {
 }
 
 function processMapEditor() {
-    if(!pressingMouse1 | (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY) || !client.is('admin') || client.id == null || !isOpen('Map Editor')) return;
+    if(!pressingMouse1 || (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY) || !client.is('admin') || client.id == null ||
+        !UIManager.isUiOpen('Map Editor')) return;
     client.map.tiles[mouseMapY * client.map.width + mouseMapX] = selectedTileID;
     lastMouseMapX = mouseMapX;
     lastMouseMapY = mouseMapY;
@@ -242,7 +243,7 @@ function mapEditSelectTile(id) {
 
 function cancelMapEdit() {
     client.setMap(client.backupMap);
-    toggleUiItem('Map Editor');
+    UIManager.toggleUiItem('Map Editor');
 }
 
 function saveMap(filePath, pushToServer) {

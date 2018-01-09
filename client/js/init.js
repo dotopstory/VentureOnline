@@ -1,12 +1,12 @@
 //Open socket
 let socket = io();
-let DEBUG_ON = true;
-let client = new Client();
 let gameElement = null;
 
 //Game objects
+let client = new Client();
 let gameCamera = null;
 let resourceManager = null;
+let uiManager = null;
 
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
@@ -29,6 +29,7 @@ $(window).on('load', function() {
 
     gameCamera = new GameCamera(0, 0);
     resourceManager = new ResourceManager();
+    uiManager = new UIManager();
 
     //Canvas init
     gameElement.css({'width': canvasWidth, 'height': canvasHeight});

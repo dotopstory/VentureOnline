@@ -17,7 +17,7 @@ $(window).on('load', function() {
             e.preventDefault();
         }
 
-        if(!isUiFocused()) {
+        if(!UIManager.isUiFocused()) {
             //Move events
             if(e.keyCode === 68) //D
                 socket.emit('keyPress', {inputId: 'right', state: true});
@@ -51,7 +51,7 @@ $(window).on('load', function() {
 
         eventRegister[code] = false;
 
-        if(!isUiFocused()) {
+        if(!UIManager.isUiFocused()) {
             //Move events
             if(e.keyCode === 68) //D
                 socket.emit('keyPress', {inputId: 'right', state: false});
@@ -70,16 +70,16 @@ $(window).on('load', function() {
         }
 
         //Menu events
-        if(e.keyCode === 27) toggleUiItem('Menu');
+        if(e.keyCode === 27) UIManager.toggleUiItem('Menu');
 
         //Chat events
-        if(e.keyCode === 17) toggleUiItem('Chat');
+        if(e.keyCode === 17) UIManager.toggleUiItem('Chat');
 
         //Debug events
-        if(e.keyCode === 9) toggleUiItem('Debug');
+        if(e.keyCode === 9) UIManager.toggleUiItem('Debug');
 
         //World Edit events
-        if(e.keyCode === 192) toggleUiItem('Map Editor');
+        if(e.keyCode === 192) UIManager.toggleUiItem('Map Editor');
     };
 
     //MOUSE EVENTS
