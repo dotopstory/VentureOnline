@@ -2,8 +2,11 @@
 let socket = io();
 let DEBUG_ON = true;
 let client = new Client();
+let gameElement = null;
+
+//Game objects
 let gameCamera = null;
-let gameElement;
+let resourceManager = null;
 
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
@@ -19,13 +22,13 @@ $(window).on('load', function() {
     gameElement = $('#gameCanvas');
     let gameCanvasCtx = gameElement[0].getContext('2d');
     let fps = 60, canvasWidth = 1000, canvasHeight = 750;
-    let clientID = null;
-    let clientPlayer = null;
     let gameStateCache = {
         players: {},
         projectiles: {}
     };
+
     gameCamera = new GameCamera(0, 0);
+    resourceManager = new ResourceManager();
 
     //Canvas init
     gameElement.css({'width': canvasWidth, 'height': canvasHeight});
@@ -100,7 +103,7 @@ $(window).on('load', function() {
             if(client.player.mapID !== player.mapID) continue;
 
             //Render player sprite
-            let sprite = sprites.playerDefault;
+            let sprite = ResourceManager.sprites.playerDefault;
             sprite.render(ctx, drawX, drawY);
 
             //Render HP bar
@@ -129,7 +132,7 @@ $(window).on('load', function() {
             if(client.player.mapID !== projectile.mapID) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            let sprite = sprites.itemCorn;
+            let sprite = ResourceManager.sprites.itemCorn;
             sprite.render(ctx, drawX, drawY);
         }
     }

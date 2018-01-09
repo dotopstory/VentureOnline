@@ -5,9 +5,9 @@
     left: 10vw;
     width: 40vw;
     text-align: left;
+    color: white;
     border: 2px solid rgba(0, 0, 0, 0.8);
-    background: rgba(255, 255, 255, 0.8);
-    color: #2C3E50;
+    background: rgba(38, 38, 38, 0.9);
     padding: 2vh 1vw;
     border-radius: 20px;
 }
@@ -19,11 +19,15 @@
     padding: 1vh 1vw;
     font-family: 'Ubuntu', sans-serif;
     font-size: 1vmax;
+    color: white;
 }
 #chat-input:focus {
     background: rgba(255, 255, 255, 0.2);
 }
 
+#chatDiv input::-webkit-input-placeholder {
+    color: white !important;
+}
 
 #chat-text {
     background-color: transparent;
@@ -93,11 +97,11 @@
 }
 
 #menuDiv {
-    color: #2C3E50;
     font-size: 3vmax;
     border-radius: 20px;
+    color: white;
     border: 2px solid rgba(0, 0, 0, 0.8);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(38, 38, 38, 0.9);
     width: 20vw;
     position: absolute;
     left: calc((100vw - 20vw) / 2);
@@ -118,10 +122,12 @@
     padding: 2%;
     font-family: 'Bungee', cursive;
     margin: 0;
+
 }
 
 .menuButton:hover {
     background-color: #1b2631;
+    transform: scale(1.1);
 }
 
 /* DEBUG STYLES */

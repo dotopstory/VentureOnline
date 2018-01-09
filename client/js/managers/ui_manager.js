@@ -90,7 +90,7 @@ function showAlert(message) {
     //Fill alert contents
     alertDiv.css({'margin-top': $('#navbar').height() + 'px'})
     $('#alertMessage').html(message);
-    $('#alertIcon').attr('src', images['turnipGuy'].src)
+    $('#alertIcon').attr('src', ResourceManager.images['turnipGuy'].src);
 
     //Show alert and set timer for hiding alert
     toggleUiItem('Alert');
