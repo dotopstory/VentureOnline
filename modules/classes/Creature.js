@@ -2,8 +2,8 @@ require('./Entity.js')();
 
 module.exports = function() {
     this.Creature = class extends Entity {
-        constructor(id, spriteName, map) {
-            super(id, spriteName, map);
+        constructor(id, spriteName, map, x, y) {
+            super(id, spriteName, map, x, y);
 
             //STATS
             this.maxHP = 1000;

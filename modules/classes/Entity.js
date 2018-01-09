@@ -3,10 +3,10 @@
 //*****************************
 module.exports = function() {
     this.Entity = class {
-        constructor(id, spriteName, map) {
+        constructor(id, spriteName, map, x, y) {
             this.id = id;
-            this.x = map.width / 2 * 64;
-            this.y = map.height / 2 * 64;
+            this.x = x;
+            this.y = y;
             this.spdX = 0;
             this.spdY = 0;
             this.spriteName = spriteName;
@@ -48,6 +48,19 @@ module.exports = function() {
             });
         }
         return pack;
+    };
+    Entity.spawnEntitiesNearPlayer = function(player) {
+        let offset = 10;
+        let startX = player.x / 64 - offset;
+        let startY = player.y / 64 - offset;
+        let endX = player.x / 64 + offset;
+        let endY = player.y / 64 + offset;
+
+        for(let y = startY; y < endY; y++) {
+            for(let x = startX; x < endX; x++) {
+                let mob =  Math.random() < 0.05 ? new Mob('itemCorn', player.map, x * 64, y * 64) : null;
+            }
+        }
     };
 };
 

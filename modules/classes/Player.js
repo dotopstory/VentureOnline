@@ -1,6 +1,7 @@
 let fs = require('fs');
 require('../utils.js')();
 require('./Creature.js')();
+require('./Mob.js')();
 
 module.exports = function() {
     //*****************************
@@ -9,7 +10,7 @@ module.exports = function() {
     this.Player = class extends Creature {
         constructor(SOCKET_LIST, id, username, spriteName, map) {
             //META
-            super(id, spriteName, map);
+            super(id, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64);
             this.SOCKET_LIST = SOCKET_LIST;
             this.username = username;
 
@@ -72,6 +73,7 @@ module.exports = function() {
         //Create player and add to list
         let player = new Player(SOCKET_LIST, socket.id, username, 'playerDefault', Map.getMapByName('Limbo'));
         sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info');
+        Entity.spawnEntitiesNearPlayer(player);
 
         //Listen for input events
         socket.on('keyPress', function(data) {
