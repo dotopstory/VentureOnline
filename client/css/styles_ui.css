@@ -6,8 +6,8 @@
     width: 40vw;
     text-align: left;
     color: white;
-    border: 2px solid rgba(0, 0, 0, 0.8);
-    background: rgba(38, 38, 38, 0.9);
+    border: 2px solid rgba(0, 0, 0, 0.9);
+    background: rgba(38, 38, 38, 0.8);
     padding: 2vh 1vw;
     border-radius: 20px;
 }

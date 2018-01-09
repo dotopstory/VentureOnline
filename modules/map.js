@@ -7,7 +7,8 @@ require('./utils.js')();
 module.exports = function() {
     this.Map = class {
         constructor(params) {
-            this.id = Map.nextID++;
+            if(params.id === undefined) this.id = Map.nextID++;
+            else this.id = params.id;
 
             //Create new random map
             if(params.fileName != null) {
@@ -28,7 +29,7 @@ module.exports = function() {
                 this.name = params.name;
                 this.width = params.width;
                 this.height = params.height;
-                this.tiles = Map.generateNewBlankMap(this.width, this.height, params.tileSeedID);
+                this.tiles = params.tiles === undefined ? Map.generateNewBlankMap(this.width, this.height, params.tileSeedID) : params.tiles;
             }
 
         }
@@ -43,10 +44,19 @@ module.exports = function() {
 
         static getMapByName(searchName) {
             for(let i in Map.mapList) {
-                let map = Map.mapList;
-                if(map.name.toLowerCase() === searchName.toLowerCase()) return map;
+                let map = Map.mapList[i];
+                if(map.name.toString().toLowerCase() === searchName.toString().toLowerCase()) return map;
             }
             return false;
+        }
+
+        static getMapListString() {
+            let mapListString = '';
+            for(let i = 0; i < Map.mapList.length; i++) {
+                mapListString += Map.mapList[i].name;
+                if(i < Map.mapList.length - 1) mapListString += ', ';
+            }
+            return mapListString;
         }
     };
     Map.nextID = 0;

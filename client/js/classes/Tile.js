@@ -32,6 +32,7 @@ class WaterTile extends Tile {
 
 function initTiles() {
     let sprites = ResourceManager.sprites;
+
     new GrassTile(sprites.tileLightGrass);
     new GrassTile(sprites.tileLightGrassFlowers);
     new GrassTile(sprites.tileDarkGrass);

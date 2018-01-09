@@ -35,7 +35,10 @@ let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started.");
 
 //Create map list
-Map.mapList = [new Map({fileName: 'limbo'}), new Map({name: 'Desert', width: 1000, height: 1000, tileSeedID: 1})];
+Map.mapList = [
+    new Map({fileName: 'limbo'}),
+    new Map({name: 'Desert', width: 1000, height: 1000, tileSeedID: 9})
+];
 
 io.sockets.on('connection', function(socket) {
     //Deny client connection if too many clients connected
