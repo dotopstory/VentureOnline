@@ -1,11 +1,12 @@
 let fs = require('fs');
-require('./utils.js')();
+require('../utils.js')();
+require('./Creature.js')();
 
 module.exports = function() {
     //*****************************
     // PLAYER CLASS
     //*****************************
-    this.Player = class extends Entity {
+    this.Player = class extends Creature {
         constructor(SOCKET_LIST, id, username, spriteName, map) {
             //META
             super(id, spriteName, map);
@@ -22,7 +23,7 @@ module.exports = function() {
 
             //STATS
             this.maxSpd = 25;
-            this.maxHP = 100;
+            this.maxHP = 2000;
             this.hp = this.maxHP;
 
             Player.list[id] = this;
@@ -32,16 +33,10 @@ module.exports = function() {
             this.updateSpd();
             super.update();
             if(this.pressingAttack) {
-                for(let angle = -180; angle < 180; angle += 20) {
+                for(let angle = -180; angle < 180; angle += 15) {
                     this.shootProjectile(this.mouseAngle + angle);
                 }
             }
-        }
-
-        shootProjectile(angle) {
-            let p = new Projectile(this.id, angle, 'test2', this.map);
-            p.x = this.x;
-            p.y = this.y;
         }
 
         updateSpd() {
@@ -52,16 +47,6 @@ module.exports = function() {
             if(this.pressingUp) this.spdY = -this.maxSpd;
             else if(this.pressingDown) this.spdY = this.maxSpd;
             else this.spdY = 0;
-        }
-
-        takeDamage(damageAmount) {
-            this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
-            if(this.hp <= 0) this.die();
-        }
-
-        setTileLocation(x, y) {
-            this.x = parseInt(x) * 64;
-            this.y = parseInt(y) * 64;
         }
 
         changeMap(map) {
@@ -85,7 +70,7 @@ module.exports = function() {
     Player.list = [];
     Player.onConnect = function(SOCKET_LIST, socket, username) {
         //Create player and add to list
-        let player = new Player(SOCKET_LIST, socket.id, username, 'test1', Map.getMapByName('Limbo'));
+        let player = new Player(SOCKET_LIST, socket.id, username, 'playerDefault', Map.getMapByName('Limbo'));
         sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info');
 
         //Listen for input events

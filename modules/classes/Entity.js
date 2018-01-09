@@ -11,6 +11,8 @@ module.exports = function() {
             this.spdY = 0;
             this.spriteName = spriteName;
             this.map = map;
+            this.isActive = true;
+            if(!(this instanceof Player)) Entity.entityList.push(this);
         }
 
         update() {
@@ -26,5 +28,26 @@ module.exports = function() {
             return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
         }
     };
-    Entity.nextID = 0;
+    Entity.entityList = [];
+    Entity.updateAll = function() {
+        //Get data from all connected players
+        let pack = [];
+        for(let i in Entity.entityList) {
+            let e = Entity.entityList[i];
+            e.update();
+            if(!e.isActive) {
+                delete Entity.entityList[i];
+                continue;
+            }
+            pack.push({
+                id: e.id,
+                x: e.x,
+                y: e.y,
+                spriteName: e.spriteName,
+                mapID: e.map.id
+            });
+        }
+        return pack;
+    };
 };
+

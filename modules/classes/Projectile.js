@@ -1,7 +1,7 @@
-require('./entity.js')();
-require('./utils.js')();
-require('./map.js')();
-require('./player.js')();
+require('./Entity.js')();
+require('../utils.js')();
+require('./Map.js')();
+require('./Player.js')();
 
 module.exports = function() {
     //*****************************
@@ -14,9 +14,8 @@ module.exports = function() {
             this.spd = 40;
             this.spdX = Math.cos(angle / 180 * Math.PI) * this.spd;
             this.spdY = Math.sin(angle / 180 * Math.PI) * this.spd;
-            this.damage = 5;
+            this.damage = 100;
             this.timer = 0;
-            this.isActive = true;
             this.lifeTime = 10; //Ticks
             Projectile.list[this.id] = this;
         }
@@ -40,25 +39,4 @@ module.exports = function() {
         }
     };
     Projectile.list = [];
-
-    Projectile.updateAll = function() {
-        //Get data from all connected players
-        let pack = [];
-        for(let i in Projectile.list) {
-            let projectile = Projectile.list[i];
-            projectile.update();
-            if(!projectile.isActive) {
-                delete Projectile.list[i];
-                continue;
-            }
-            pack.push({
-                id: projectile.id,
-                x: projectile.x,
-                y: projectile.y,
-                spriteName: projectile.spriteName,
-                mapID: projectile.map.id
-            });
-        }
-        return pack;
-    };
 };

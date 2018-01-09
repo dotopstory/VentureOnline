@@ -1,6 +1,6 @@
 //Imports
-require('./modules/map.js')();
-require('./modules/projectile.js')();
+require('./modules/classes/Map.js')();
+require('./modules/classes/Projectile.js')();
 
 //Initialise express routing
 let express = require('express');
@@ -35,9 +35,11 @@ let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started.");
 
 //Create map list
+Entity.nextID = MAX_SERVER_PLAYERS;
 Map.mapList = [
     new Map({fileName: 'limbo'}),
-    new Map({name: 'Desert', width: 1000, height: 1000, tileSeedID: 9})
+    new Map({fileName: 'desert'}),
+    new Map({name: 'Test', width: 1000, height: 1000, tileSeedID: 0})
 ];
 
 io.sockets.on('connection', function(socket) {
@@ -87,7 +89,7 @@ setInterval(function() {
     //Load package data
     let pack = {
         players: Player.updateAll(),
-        projectiles: Projectile.updateAll()
+        entities: Entity.updateAll()
     };
 
     //Send package data to all clients

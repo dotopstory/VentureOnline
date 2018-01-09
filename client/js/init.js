@@ -45,7 +45,7 @@ $(window).on('load', function() {
     //Listen for player packet updates
     socket.on('update', function(data) {
         gameStateCache.players = data.players;
-        gameStateCache.projectiles = data.projectiles;
+        gameStateCache.entities = data.entities;
         client.player = gameStateCache.players[client.id];
     });
 
@@ -64,7 +64,7 @@ $(window).on('load', function() {
         gameCamera.setPosition(client.player.x, client.player.y, canvasWidth, canvasHeight);
         renderMap(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
-        renderProjectiles(gameCanvasCtx);
+        renderEntities(gameCanvasCtx);
 
     }, 1000 / fps);
 
@@ -104,7 +104,7 @@ $(window).on('load', function() {
             if(client.player.mapID !== player.mapID) continue;
 
             //Render player sprite
-            let sprite = ResourceManager.sprites.playerDefault;
+            let sprite = ResourceManager.getSpriteByName(player.spriteName);
             sprite.render(ctx, drawX, drawY);
 
             //Render HP bar
@@ -121,19 +121,19 @@ $(window).on('load', function() {
         }
     }
 
-    //Render projectiles
-    function renderProjectiles(ctx) {
+    //Render all non player entities
+    function renderEntities(ctx) {
         //Render projectiles
-        for(let i in gameStateCache.projectiles) {
-            let projectile = gameStateCache.projectiles[i];
-            let drawX = projectile.x - gameCamera.xOffset;
-            let drawY = projectile.y - gameCamera.yOffset;
+        for(let i in gameStateCache.entities) {
+            let e = gameStateCache.entities[i];
+            let drawX = e.x - gameCamera.xOffset;
+            let drawY = e.y - gameCamera.yOffset;
 
             //Skip rendering of projectiles on different maps
-            if(client.player.mapID !== projectile.mapID) continue;
+            if(client.player.mapID !== e.mapID) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            let sprite = ResourceManager.sprites.itemCorn;
+            let sprite = ResourceManager.getSpriteByName(e.spriteName);
             sprite.render(ctx, drawX, drawY);
         }
     }

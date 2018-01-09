@@ -2,9 +2,13 @@ class ResourceManager {
     constructor() {
     }
 
-    getSpriteByID(searchID) {
+    static getSpriteByID(searchID) {
         for(let i in this.sprites) if(this.sprites[i].id === searchID) return this.sprites[i];
         return this.sprites[0];
+    }
+
+    static getSpriteByName(searchName) {
+        return ResourceManager.sprites[searchName] == undefined ? ResourceManager.sprites.tileDarkWater : ResourceManager.sprites[searchName];
     }
 }
 //Images

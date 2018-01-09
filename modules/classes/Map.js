@@ -1,5 +1,5 @@
 let fs = require('fs');
-require('./utils.js')();
+require('../utils.js')();
 
 //*****************************
 // MAP CLASS
