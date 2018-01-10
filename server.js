@@ -12,7 +12,12 @@ const DEBUG_ON = true;
 
 //Default route
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/client/index.html');
+    res.sendFile(__dirname + '/client/pages/home.html');
+});
+
+//Home route
+app.get('/home', function(req, res) {
+    res.sendFile(__dirname + '/client/pages/home.html');
 });
 
 //Play route
@@ -22,7 +27,7 @@ app.get('/play', function(req, res) {
 
 //About route
 app.get('/about', function(req, res) {
-    res.sendFile(__dirname + '/client/about.html');
+    res.sendFile(__dirname + '/client/pages/about.html');
 });
 
 //Allow client to use client directory only
