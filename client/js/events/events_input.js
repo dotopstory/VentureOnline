@@ -27,21 +27,6 @@ $(window).on('load', function() {
                 socket.emit('keyPress', {inputId: 'left', state: true});
             else if(e.keyCode === 87) //W
                 socket.emit('keyPress', {inputId: 'up', state: true});
-
-            //Attack events
-            else if(e.keyCode === 37) //LEFT
-                socket.emit('keyPress', {inputId: 'mouseAngle', state: 180});
-            else if(e.keyCode === 38) //UP
-                socket.emit('keyPress', {inputId: 'mouseAngle', state: 270});
-            else if(e.keyCode === 39) //RIGHT
-                socket.emit('keyPress', {inputId: 'mouseAngle', state: 360});
-
-            else if(e.keyCode === 40) //DOWN
-                socket.emit('keyPress', {inputId: 'mouseAngle', state: 90});
-
-            //Attack events
-            if(e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
-                socket.emit('keyPress', {inputId: 'attack', state: true});
         }
     };
 
@@ -61,12 +46,6 @@ $(window).on('load', function() {
                 socket.emit('keyPress', {inputId: 'left', state: false});
             else if(e.keyCode === 87) //W
                 socket.emit('keyPress', {inputId: 'up', state: false});
-
-            //Attack events
-            if(e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
-                socket.emit('keyPress', {inputId: 'attack', state: false});
-
-
         }
 
         //Menu events
@@ -85,10 +64,12 @@ $(window).on('load', function() {
     //MOUSE EVENTS
     gameElement.on('mousedown',function(e) {
         pressingMouse1 = true;
+        socket.emit('keyPress', {inputId: 'attack', state: true});
         processMapEditor();
     });
 
     $(document).on('mouseup', function(e) {
+        socket.emit('keyPress', {inputId: 'attack', state: false});
         pressingMouse1 = false;
     });
 
@@ -100,9 +81,23 @@ $(window).on('load', function() {
         mouseMapX = parseInt((mouseX + gameCamera.xOffset) / 64);
         mouseMapY = parseInt((mouseY + gameCamera.yOffset) / 64);
 
-        processMapEditor();
+         socket.emit('keyPress', {inputId: 'mouseAngle', state: getAngle(client.player.x, client.player.y,
+                 mouseX + gameCamera.xOffset, mouseY + gameCamera.yOffset)});
+         processMapEditor();
     });
 
+
+     //Temp
+    function getAngle(p1x, p1y, p2x, p2y) {
+        let deltaY = p1y - p2y;
+        let deltaX = p2x - p1x;
+        let inRads = Math.atan2(deltaY, deltaX);
+        if (inRads < 0)
+            inRads = Math.abs(inRads);
+        else
+            inRads = 2 * Math.PI - inRads;
+        return inRads * 180 / Math.PI ;
+    }
 });
 
 

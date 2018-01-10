@@ -63,8 +63,8 @@ $(window).on('load', function() {
         //Draw game objects
         gameCamera.setPosition(client.player.x, client.player.y, canvasWidth, canvasHeight);
         renderMap(gameCanvasCtx);
-        renderPlayers(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
+        renderPlayers(gameCanvasCtx);
 
     }, 1000 / fps);
 

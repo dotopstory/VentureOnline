@@ -15,8 +15,10 @@ module.exports = function() {
             this.primaryAttackTimer++;
             if(this.primaryAttackTimer > this.primaryAttackCooldown) {
                 let targetPlayer = findNearestEntity(Player.list, this.x, this.y);
-                super.shootAtLocation(targetPlayer.x, targetPlayer.y);
-                this.primaryAttackTimer = 0;
+                if(targetPlayer != undefined) {
+                    super.shootAtLocation(targetPlayer.x, targetPlayer.y);
+                    this.primaryAttackTimer = 0;
+                }
             }
 
             this.spdX = 0;

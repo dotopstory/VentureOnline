@@ -34,9 +34,7 @@ module.exports = function() {
             this.updateSpd();
             super.update();
             if(this.pressingAttack) {
-                for(let angle = -180; angle < 180; angle += 15) {
-                    this.shootProjectile(this.mouseAngle + angle);
-                }
+                this.shootProjectile(this.mouseAngle);
             }
         }
 

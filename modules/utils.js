@@ -43,7 +43,6 @@ module.exports = function() {
         else
             inRads = 2 * Math.PI - inRads;
         return inRads * 180 / Math.PI ;
-
     };
 
     this.findNearestEntity = function(entityList, pixelX, pixelY) {
