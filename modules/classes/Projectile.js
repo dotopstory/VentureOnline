@@ -8,8 +8,8 @@ module.exports = function() {
     // PROJECTILE CLASS
     //*****************************
     this.Projectile = class extends Entity {
-        constructor(parent, angle, spriteName, map) {
-            super(Entity.nextID++, spriteName, map);
+        constructor(parent, angle, spriteName, map, x, y) {
+            super(Entity.nextID++, spriteName, map, x, y);
             this.parent = parent;
             this.spd = 40;
             this.spdX = Math.cos(angle / 180 * Math.PI) * this.spd;
@@ -24,6 +24,7 @@ module.exports = function() {
             if(this.timer++ > this.lifeTime) this.isActive = false;
             super.update();
 
+            //Check collision with players
             for(let i in Player.list) {
                 let player = Player.list[i];
                 let shooter = Player.list[this.parent.id];
@@ -31,16 +32,18 @@ module.exports = function() {
                 //Check for collision between player and projectiles
                 if(this.map.id === player.map.id && super.getDistance(player) < 32 && this.parent.id !== player.id) {
                     //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
-                    //player.username + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
+                    //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                     player.takeDamage(this.damage);
                     this.isActive = false;
                 }
             }
 
+            //Check collision with entities
             for(let i in Entity.entityList) {
                 let e = Entity.entityList[i];
                 //Check for collision between player and projectiles
-                if(this.map.id === e.map.id && super.getDistance(e) < 32 && (this.parent.id !== e.id || (e instanceof this.parent)) && !(e instanceof Projectile)) {
+                if(this.map.id === e.map.id && super.getDistance(e) < 32 && (this.parent.id !== e.id ||
+                        (this.parent instanceof Player)) && !(e instanceof Projectile) && !(this.parent instanceof Mob)) {
                     e.takeDamage(this.damage);
                     this.isActive = false;
                 }

@@ -106,11 +106,10 @@ module.exports = function() {
             Map.mapList[newMap.id] = newMap;
 
             //Save map to text file on server
-            fs.writeFile('maps/' + data.fileName + '.ven', JSON.stringify(newMap), function(err){
+            fs.writeFile('maps/' + data.fileName + '.ven', JSON.stringify(newMap), function(err) {
                 if(err) {
                     return console.log(err);
                 }
-                console.log("The file was saved!");
             });
         });
     };

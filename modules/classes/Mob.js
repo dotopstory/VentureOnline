@@ -12,6 +12,13 @@ module.exports = function() {
         }
 
         update() {
+            this.primaryAttackTimer++;
+            if(this.primaryAttackTimer > this.primaryAttackCooldown) {
+                let targetPlayer = findNearestEntity(Player.list, this.x, this.y);
+                super.shootAtLocation(targetPlayer.x, targetPlayer.y);
+                this.primaryAttackTimer = 0;
+            }
+
             this.spdX = 0;
             this.spdY = 0;
             this.moveToPosition(490 * 64, 490 * 64);

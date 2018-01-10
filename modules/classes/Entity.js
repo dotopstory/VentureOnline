@@ -46,7 +46,6 @@ module.exports = function() {
                 spriteName: e.spriteName,
                 mapID: e.map.id
             });
-            console.log(e.id);
         }
         return pack;
     };

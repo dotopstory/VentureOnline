@@ -9,6 +9,8 @@ module.exports = function() {
             this.maxHP = 1000;
             this.hp = this.maxHP;
             this.maxSpd = 20;
+            this.primaryAttackCooldown = 20 * 1;
+            this.primaryAttackTimer = 0;
         }
 
         update() {
@@ -16,9 +18,11 @@ module.exports = function() {
         }
 
         shootProjectile(angle) {
-            let p = new Projectile(this, angle, 'itemCorn', this.map);
-            p.x = this.x;
-            p.y = this.y;
+            let p = new Projectile(this, angle, 'itemCorn', this.map, this.x, this.y);
+        }
+
+        shootAtLocation(pixelX, pixelY) {
+            let p = new Projectile(this, getAngle(this.x, this.y, pixelX, pixelY), 'itemCorn', this.map, this.x, this.y);
         }
 
         setTileLocation(x, y) {
