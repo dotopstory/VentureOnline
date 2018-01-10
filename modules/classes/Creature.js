@@ -22,7 +22,7 @@ module.exports = function() {
         }
 
         shootAtLocation(pixelX, pixelY) {
-            let p = new Projectile(this, getAngle(this.x, this.y, pixelX, pixelY), 'itemCorn', this.map, this.x, this.y);
+            let p = new Projectile(this, getAngle(this.x, this.y, pixelX, pixelY), 'itemTomato', this.map, this.x, this.y);
         }
 
         setTileLocation(x, y) {
@@ -33,6 +33,18 @@ module.exports = function() {
         takeDamage(damageAmount) {
             this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
             if(this.hp <= 0) this.die();
+        }
+
+        moveToPosition(x, y, followDistance) {
+            if(this.getDistance({x, y}) < followDistance) return;
+
+            if(x < this.x) this.spdX = -this.maxSpd;
+            else if(x > this.x) this.spdX = this.maxSpd;
+            else this.spdX = 0;
+
+            if(y < this.y) this.spdY = -this.maxSpd;
+            else if(y > this.y) this.spdY = this.maxSpd;
+            else this.spdY = 0;
         }
 
         die() {

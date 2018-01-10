@@ -50,17 +50,20 @@ module.exports = function() {
         return pack;
     };
     Entity.spawnEntitiesNearPlayer = function(player) {
-        let offset = 10;
-        let startX = player.x / 64 - offset;
-        let startY = player.y / 64 - offset;
-        let endX = player.x / 64 + offset;
-        let endY = player.y / 64 + offset;
+        setInterval(function() {
+            let offset = 10;
+            let startX = player.x / 64 - offset;
+            let startY = player.y / 64 - offset;
+            let endX = player.x / 64 + offset;
+            let endY = player.y / 64 + offset;
 
-        for(let y = startY; y < endY; y++) {
-            for(let x = startX; x < endX; x++) {
-                let mob =  Math.random() < 0.05 ? new Mob('itemCorn', player.map, x * 64, y * 64) : null;
+            for(let y = startY; y < endY; y++) {
+                for(let x = startX; x < endX; x++) {
+                    let mob =  Math.random() < 0.01 ? new Mob('mobPrisonGuard', player.map, x * 64, y * 64) : null;
+                }
             }
-        }
+        }, 5000)
+
     };
 };
 

@@ -14,7 +14,7 @@ module.exports = function() {
             this.spd = 40;
             this.spdX = Math.cos(angle / 180 * Math.PI) * this.spd;
             this.spdY = Math.sin(angle / 180 * Math.PI) * this.spd;
-            this.damage = 10000;
+            this.damage = 100;
             this.timer = 0;
             this.lifeTime = 10; //Ticks
             Projectile.list[this.id] = this;
@@ -25,27 +25,31 @@ module.exports = function() {
             super.update();
 
             //Check collision with players
-            for(let i in Player.list) {
-                let player = Player.list[i];
-                let shooter = Player.list[this.parent.id];
+            if(true) {
+                for (let i in Player.list) {
+                    let player = Player.list[i];
+                    let shooter = Player.list[this.parent.id];
 
-                //Check for collision between player and projectiles
-                if(this.map.id === player.map.id && super.getDistance(player) < 32 && this.parent.id !== player.id) {
-                    //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
-                    //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
-                    player.takeDamage(this.damage);
-                    this.isActive = false;
+                    //Check for collision between player and projectiles
+                    if (this.map.id === player.map.id && super.getDistance(player) < 32 && this.parent.id !== player.id) {
+                        //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
+                        //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
+                        player.takeDamage(this.damage);
+                        this.isActive = false;
+                    }
                 }
             }
 
             //Check collision with entities
-            for(let i in Entity.entityList) {
-                let e = Entity.entityList[i];
-                //Check for collision between player and projectiles
-                if(this.map.id === e.map.id && super.getDistance(e) < 32 && (this.parent.id !== e.id ||
-                        (this.parent instanceof Player)) && !(e instanceof Projectile) && !(this.parent instanceof Mob)) {
-                    e.takeDamage(this.damage);
-                    this.isActive = false;
+            if(true) {
+                for(let i in Entity.entityList) {
+                    let e = Entity.entityList[i];
+                    //Check for collision between player and projectiles
+                    if(this.map.id === e.map.id && super.getDistance(e) < 32 && (this.parent.id !== e.id ||
+                            (this.parent instanceof Player)) && !(e instanceof Projectile) && !(this.parent instanceof Mob)) {
+                        e.takeDamage(this.damage);
+                        this.isActive = false;
+                    }
                 }
             }
         }

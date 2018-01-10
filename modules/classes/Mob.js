@@ -9,38 +9,30 @@ module.exports = function() {
     this.Mob = class extends Creature {
         constructor(spriteName, map, x, y) {
             super(Entity.nextID++, spriteName, map, x, y);
+            this.targetPlayer = findNearestEntity(Player.list, this.x, this.y);
         }
 
         update() {
+            if(this.targetPlayer == undefined) this.targetPlayer = findNearestEntity(Player.list, this.x, this.y);
+
             this.primaryAttackTimer++;
             if(this.primaryAttackTimer > this.primaryAttackCooldown) {
-                let targetPlayer = findNearestEntity(Player.list, this.x, this.y);
-                if(targetPlayer != undefined) {
-                    super.shootAtLocation(targetPlayer.x, targetPlayer.y);
+                if(this.targetPlayer != undefined) {
+                    super.shootAtLocation(this.targetPlayer.x, this.targetPlayer.y);
                     this.primaryAttackTimer = 0;
                 }
             }
 
             this.spdX = 0;
             this.spdY = 0;
-            this.moveToPosition(490 * 64, 490 * 64);
+            if(this.targetPlayer != undefined) {
+                this.moveToPosition(this.targetPlayer.x, this.targetPlayer.y, 4 * 64);
+            }
             super.update();
         }
 
         idleMove() {
             this.spdX = Math.random() < 0.5 ? this.maxSpd : -this.maxSpd;
-        }
-
-        moveToPosition(x, y) {
-            if(this.getDistance({x, y}) < 32) return;
-
-            if(x < this.x) this.spdX = -this.maxSpd;
-            else if(x > this.x) this.spdX = this.maxSpd;
-            else this.spdX = 0;
-
-            if(y < this.y) this.spdY = -this.maxSpd;
-            else if(y > this.y) this.spdY = this.maxSpd;
-            else this.spdY = 0;
         }
 
         die() {
