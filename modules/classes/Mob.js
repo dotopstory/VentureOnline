@@ -33,5 +33,9 @@ module.exports = function() {
             else if(y > this.y) this.spdY = this.maxSpd;
             else this.spdY = 0;
         }
+
+        die() {
+            this.isActive = false;
+        }
     };
 };

@@ -16,7 +16,7 @@ module.exports = function() {
         }
 
         shootProjectile(angle) {
-            let p = new Projectile(this.id, angle, 'itemCorn', this.map);
+            let p = new Projectile(this, angle, 'itemCorn', this.map);
             p.x = this.x;
             p.y = this.y;
         }

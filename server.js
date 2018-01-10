@@ -40,7 +40,7 @@ let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started.");
 
 //Create map list
-Entity.nextID = MAX_SERVER_PLAYERS;
+Entity.nextID = 0;
 Map.mapList = [
     new Map({fileName: 'limbo'}),
     new Map({fileName: 'desert'}),
