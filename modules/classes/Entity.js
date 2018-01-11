@@ -59,7 +59,7 @@ module.exports = function() {
 
             for(let y = startY; y < endY; y++) {
                 for(let x = startX; x < endX; x++) {
-                    let mob =  Math.random() < 0.01 ? new Mob('mobPrisonGuard', player.map, x * 64, y * 64) : null;
+                    let mob =  Math.random() < 0.002 ? new Mob('mobPrisonGuard', player.map, x * 64, y * 64) : null;
                 }
             }
         }, 5000)

@@ -8,7 +8,7 @@ module.exports = function() {
             //STATS
             this.maxHP = 1000;
             this.hp = this.maxHP;
-            this.maxSpd = 20;
+            this.maxSpd = 15;
             this.primaryAttackCooldown = 20 * 1;
             this.primaryAttackTimer = 0;
         }

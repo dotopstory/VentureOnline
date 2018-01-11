@@ -115,9 +115,9 @@ module.exports = function() {
 
     Player.onDisconnect = function(SOCKET_LIST, socket) {
         let player = Player.list[socket.id];
+        delete Player.list[socket.id];
         if(player === undefined) return; //If client never signed in
         sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info');
-        delete Player.list[socket.id];
     };
 
     Player.updateAll = function() {

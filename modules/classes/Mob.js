@@ -10,10 +10,22 @@ module.exports = function() {
         constructor(spriteName, map, x, y) {
             super(Entity.nextID++, spriteName, map, x, y);
             this.targetPlayer = findNearestEntity(Player.list, this.x, this.y);
+            this.lifeTime = 20 * 30;
+            this.timer = 0;
         }
 
         update() {
-            if(this.targetPlayer == undefined) this.targetPlayer = findNearestEntity(Player.list, this.x, this.y);
+            this.timer++;
+
+            if(this.timer > this.lifeTime) {
+                this.isActive = false;
+                return;
+            }
+
+            if(this.targetPlayer == undefined) {
+                this.isActive = false;
+                return;
+            }
 
             this.primaryAttackTimer++;
             if(this.primaryAttackTimer > this.primaryAttackCooldown) {
