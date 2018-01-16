@@ -64,8 +64,11 @@ $(window).on('load', function() {
     //MOUSE EVENTS
     gameElement.on('mousedown',function(e) {
         pressingMouse1 = true;
-        socket.emit('keyPress', {inputId: 'attack', state: true});
+        if(!UIManager.isUiFocused() && !UIManager.isUiOpen('Map Editor')) {
+            socket.emit('keyPress', {inputId: 'attack', state: true});
+        }
         processMapEditor();
+
     });
 
     $(document).on('mouseup', function(e) {
