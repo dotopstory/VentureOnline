@@ -72,12 +72,20 @@ io.sockets.on('connection', function(socket) {
 
         //Authenticate user
         if(true) {
+            //Start player connect events
             Player.onConnect(SOCKET_LIST, socket, data.username);
-            if(true) EntityManager.playerList[socket.id].accountType = 'default';
+
+            //Assign player account type if not default
+            if(true) EntityManager.playerList[socket.id].accountType = 'admin'; //default, mod, admin
+
+            //Send sign in result and init pack
             socket.emit('signInResponse', {success: true});
             socket.emit('initPack', {socketID: socket.id, map: EntityManager.playerList[socket.id].map});
+
+            //Notify the server of new sign in
             serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
         } else {
+            //Send failed sing in response
             socket.emit('signInResponse', {success: false});
         }
     });
@@ -92,10 +100,12 @@ io.sockets.on('connection', function(socket) {
 
 //UPDATE CLIENTS
 setInterval(function() {
+    EntityManager.updateEntityManager();
+
     //Load package data
     let pack = {
-        players: EntityManager.updateAllPlayers(),
-        entities: EntityManager.updateAllEntities()
+        players: EntityManager.playerGameState,
+        entities: EntityManager.entitiesGameState
     };
 
     //Send package data to all clients

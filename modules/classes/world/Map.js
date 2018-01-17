@@ -31,7 +31,6 @@ module.exports = function() {
                 this.height = params.height;
                 this.tiles = params.tiles === undefined ? Map.generateNewBlankMap(this.width, this.height, params.tileSeedID) : params.tiles;
             }
-
         }
 
         static generateNewBlankMap(width, height, tileSeedID) {

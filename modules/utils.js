@@ -8,9 +8,9 @@ module.exports = function() {
 
     //Count the number of not null values in an array
     this.getArrayIndexesInUse = function(array) {
-        playerCount = 0;
-        for(let i in array) if(array[i] != undefined) playerCount++;
-        return playerCount;
+        let count = 0;
+        for(let i in array) if(array[i] != undefined) count++;
+        return count;
     };
 
     //Search for an index in an array
@@ -34,9 +34,10 @@ module.exports = function() {
         }
     };
 
-    this.getAngle = function(p1x, p1y, p2x, p2y) {
-        let deltaY = p1y - p2y;
-        let deltaX = p2x - p1x;
+    //Get the angle between two points
+    this.getAngle = function(point1, point2) {
+        let deltaY = point1.y - point2.y;
+        let deltaX = point2.x - point1.x;
         let inRads = Math.atan2(deltaY, deltaX);
         if (inRads < 0)
             inRads = Math.abs(inRads);
@@ -45,13 +46,14 @@ module.exports = function() {
         return inRads * 180 / Math.PI ;
     };
 
-    this.findNearestEntity = function(entityList, pixelX, pixelY) {
+    //Find the point in a list of points
+    this.findNearestPoint = function(entityList, point) {
         let minDistance = -1;
         let closestEntity = null;
 
         for(let i in entityList) {
             let e = entityList[i];
-            let distance = distanceBetweenPoints(e.x, e.x, pixelX, pixelY);
+            let distance = distanceBetweenPoints(e.x, e.x, point.x, point.y);
             if(distance < minDistance || closestEntity == null) {
                 minDistance = distance;
                 closestEntity = e;
@@ -60,8 +62,8 @@ module.exports = function() {
         return closestEntity;
     };
 
-    this.distanceBetweenPoints = function(p1x, p1y, p2x, p2y) {
-        return Math.abs(Math.sqrt(Math.pow(p1x - p2x, 2) + Math.pow(p1y - p2y, 2)));
+    this.distanceBetweenPoints = function(point1, point2) {
+        return Math.abs(Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2)));
 
     };
 };

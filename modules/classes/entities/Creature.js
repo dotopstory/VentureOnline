@@ -1,8 +1,10 @@
-require('./EntityManager.js')();
 require('./Entity.js')();
 
 
 module.exports = function() {
+    //*****************************
+    // CREATURE CLASS
+    //*****************************
     this.Creature = class extends Entity {
         constructor(id, spriteName, map, x, y) {
             super(id, spriteName, map, x, y);
@@ -10,8 +12,8 @@ module.exports = function() {
             //STATS
             this.maxHP = 1000;
             this.hp = this.maxHP;
-            this.maxSpd = 15;
-            this.primaryAttackCooldown = 20 * 1;
+            this.maxSpd = 10;
+            this.primaryAttackCooldown = 20 * 2;
             this.primaryAttackTimer = 0;
         }
 
@@ -24,8 +26,8 @@ module.exports = function() {
             EntityManager.addEntity(p);
         }
 
-        shootAtLocation(pixelX, pixelY) {
-            this.shootProjectile(getAngle(this.x, this.y, pixelX, pixelY), 'itemTomato', this.map, this.x, this.y);
+        shootAtLocation(point) {
+            this.shootProjectile(getAngle(this.x, this.y, point.x, point.y), 'itemTomato', this.map, this.x, this.y);
         }
 
         setTileLocation(x, y) {
@@ -38,20 +40,20 @@ module.exports = function() {
             if(this.hp <= 0) this.die();
         }
 
-        moveToPosition(x, y, followDistance) {
-            if(this.getDistance({x, y}) < followDistance) return;
+        moveToPosition(point, followDistance) {
+            if(distanceBetweenPoints(this, {x: point.x, y: point.y}) < followDistance) return;
 
-            if(x < this.x) this.spdX = -this.maxSpd;
-            else if(x > this.x) this.spdX = this.maxSpd;
+            if(point.x < this.x) this.spdX = -this.maxSpd;
+            else if(point.x > this.x) this.spdX = this.maxSpd;
             else this.spdX = 0;
 
-            if(y < this.y) this.spdY = -this.maxSpd;
-            else if(y > this.y) this.spdY = this.maxSpd;
+            if(point.y < this.y) this.spdY = -this.maxSpd;
+            else if(point.y > this.y) this.spdY = this.maxSpd;
             else this.spdY = 0;
         }
 
         die() {
-
+            this.isActive = false;
         }
     }
 };

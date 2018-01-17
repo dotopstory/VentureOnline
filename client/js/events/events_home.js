@@ -2,7 +2,7 @@ $(window).on('load', function () {
     setTimeout(function() { slideDown($('#col1')); }, 10);
     setTimeout(function() { slideDown($('#col2')); }, 400);
     setTimeout(function() { slideDown($('#col3')); }, 800);
-    setTimeout(function() { slideDown($('.home-slider')); }, 1200);
+    setTimeout(function() { slideDown($('.home-slider')); }, 1000);
 });
 
 function slideDown(element) {

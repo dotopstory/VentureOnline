@@ -30,7 +30,7 @@ module.exports = function() {
                     let shooter = EntityManager.playerList[this.parent.id];
 
                     //Check for collision between player and projectiles
-                    if (this.map.id === player.map.id && super.getDistance(player) < 32 && this.parent.id !== player.id) {
+                    if (this.map.id === player.map.id && distanceBetweenPoints(this, player) < 32 && this.parent.id !== player.id) {
                         //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
                         //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                         player.takeDamage(this.damage);
@@ -44,7 +44,7 @@ module.exports = function() {
                 for(let i in EntityManager.entityList) {
                     let e = EntityManager.entityList[i];
                     //Check for collision between player and projectiles
-                    if(this.map.id === e.map.id && super.getDistance(e) < 32 && (this.parent.id !== e.id ||
+                    if(this.map.id === e.map.id && distanceBetweenPoints(this, e) < 32 && (this.parent.id !== e.id ||
                             (this.parent instanceof Player)) && !(e instanceof Projectile) && !(this.parent instanceof Mob)) {
                         e.takeDamage(this.damage);
                         this.isActive = false;

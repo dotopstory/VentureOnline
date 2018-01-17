@@ -1,7 +1,7 @@
-//*****************************
-// ENTITY CLASS
-//*****************************
 module.exports = function() {
+    //*****************************
+    // ENTITY CLASS
+    //*****************************
     this.Entity = class {
         constructor(id, spriteName, map, x, y) {
             this.id = id;
@@ -14,19 +14,17 @@ module.exports = function() {
             this.isActive = true;
             this.isInvisible = false;
             this.isInvulnerable = false;
+            this.timer = 0;
         }
 
         update() {
+            this.timer++;
             this.updatePosition();
         }
 
         updatePosition() {
             this.x += this.spdX;
             this.y += this.spdY;
-        }
-
-        getDistance(point) {
-            return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
         }
     };
 };
