@@ -14,7 +14,7 @@ document.oncontextmenu = function(event) {
 };
 
 function clientAlert(message) {
-    if(DEBUG_ON) console.log(message);
+    if(client.debugOn) console.log(message);
 }
 
 $(window).on('load', function() {

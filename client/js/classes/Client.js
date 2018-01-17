@@ -4,6 +4,7 @@ class Client {
         this.map = null;
         this.backupMap = null;
         this.player = null;
+        this.debugOn = true;
     }
 
     //Set the players map and make a backup for map editor
@@ -14,8 +15,9 @@ class Client {
 
     //Check if client has account type
     is(accountType) {
-        if (this.player === null) return false;
         if(accountType == null) return true;
+        if (this.player === null) return false;
+
         //If given an array of account types
         if (Array.isArray(accountType)) {
             for (let i in accountType)

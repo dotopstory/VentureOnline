@@ -15,7 +15,10 @@ class UIManager {
         let item = UIManager.getUiItemByName(uiItemName);
         let uiItems = UIManager.uiItems;
 
-        if(!(client.is(item.accountTypeAccess))) return;
+        if((client.is(item.accountTypeAccess)) != true) {
+            clientAlert('Denied access to ui item: ' + item.name);
+            return;
+        }
 
         //Hide all elements except toggled element
         for(let i in uiItems) {
