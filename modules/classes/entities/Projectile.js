@@ -1,6 +1,6 @@
 require('./Entity.js')();
-require('../utils.js')();
-require('./Map.js')();
+require('../../utils.js')();
+require('../world/Map.js')();
 require('./Player.js')();
 
 module.exports = function() {
@@ -17,7 +17,6 @@ module.exports = function() {
             this.damage = 100;
             this.timer = 0;
             this.lifeTime = 10; //Ticks
-            Projectile.list[this.id] = this;
         }
 
         update() {
@@ -26,9 +25,9 @@ module.exports = function() {
 
             //Check collision with players
             if(true) {
-                for (let i in Player.list) {
-                    let player = Player.list[i];
-                    let shooter = Player.list[this.parent.id];
+                for (let i in EntityManager.playerList) {
+                    let player = EntityManager.playerList[i];
+                    let shooter = EntityManager.playerList[this.parent.id];
 
                     //Check for collision between player and projectiles
                     if (this.map.id === player.map.id && super.getDistance(player) < 32 && this.parent.id !== player.id) {
@@ -42,8 +41,8 @@ module.exports = function() {
 
             //Check collision with entities
             if(true) {
-                for(let i in Entity.entityList) {
-                    let e = Entity.entityList[i];
+                for(let i in EntityManager.entityList) {
+                    let e = EntityManager.entityList[i];
                     //Check for collision between player and projectiles
                     if(this.map.id === e.map.id && super.getDistance(e) < 32 && (this.parent.id !== e.id ||
                             (this.parent instanceof Player)) && !(e instanceof Projectile) && !(this.parent instanceof Mob)) {
@@ -54,5 +53,4 @@ module.exports = function() {
             }
         }
     };
-    Projectile.list = [];
 };

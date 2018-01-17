@@ -1,6 +1,7 @@
 //Imports
-require('./modules/classes/Map.js')();
-require('./modules/classes/Projectile.js')();
+require('./modules/classes/entities/EntityManager.js')();
+require('./modules/classes/world/Map.js')();
+require('./modules/classes/entities/Projectile.js')();
 
 //Initialise express routing
 let express = require('express');
@@ -40,7 +41,6 @@ let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started.");
 
 //Create map list
-Entity.nextID = 0;
 Map.mapList = [
     new Map({fileName: 'limbo'}),
     new Map({fileName: 'desert'}),
@@ -62,7 +62,7 @@ io.sockets.on('connection', function(socket) {
     //Listen for sign in attempts
     socket.on('signIn', function(data) {
         //Deny player sign in if too many players
-        if(Player.list.length + 1 > MAX_SERVER_PLAYERS) {
+        if(EntityManager.playerList.length + 1 > MAX_SERVER_PLAYERS) {
             serverMessage('ALERT - denied player sign-in on [SLOT ' + socket.id + '].');
             return;
         }
@@ -74,7 +74,7 @@ io.sockets.on('connection', function(socket) {
         if(true) {
             Player.onConnect(SOCKET_LIST, socket, data.username);
             socket.emit('signInResponse', {success: true});
-            socket.emit('initPack', {socketID: socket.id, map: Player.list[socket.id].map});
+            socket.emit('initPack', {socketID: socket.id, map: EntityManager.playerList[socket.id].map});
             serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
         } else {
             socket.emit('signInResponse', {success: false});
@@ -93,12 +93,12 @@ io.sockets.on('connection', function(socket) {
 setInterval(function() {
     //Load package data
     let pack = {
-        players: Player.updateAll(),
-        entities: Entity.updateAll()
+        players: EntityManager.updateAllPlayers(),
+        entities: EntityManager.updateAllEntities()
     };
 
     //Send package data to all clients
-    for(let i in Player.list) {
+    for(let i in EntityManager.playerList) {
         let socket = SOCKET_LIST[i];
         if(socket == undefined) continue;
         socket.emit('update', pack);

@@ -100,8 +100,8 @@ function showAlert(message) {
 //********************
 $(window).on('load', function () {
     //Add menu items depending on privelages
-    if(client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Debug\')">Debug</button>');
-    if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="toggleUiItem(\'Map Editor\')">Map Editor</button>');
+    if(client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Debug\')">Debug</button>');
+    if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Map Editor\')">Map Editor</button>');
 
 });
 

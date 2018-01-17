@@ -1,5 +1,5 @@
 let fs = require('fs');
-require('../utils.js')();
+require('../../utils.js')();
 require('./Creature.js')();
 
 module.exports = function() {
@@ -9,7 +9,7 @@ module.exports = function() {
     this.Mob = class extends Creature {
         constructor(spriteName, map, x, y) {
             super(Entity.nextID++, spriteName, map, x, y);
-            this.targetPlayer = findNearestEntity(Player.list, this.x, this.y);
+            this.targetPlayer = findNearestEntity(EntityManager.playerList, this.x, this.y);
             this.lifeTime = 20 * 30;
             this.timer = 0;
         }

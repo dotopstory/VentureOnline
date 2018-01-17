@@ -1,4 +1,6 @@
+require('./EntityManager.js')();
 require('./Entity.js')();
+
 
 module.exports = function() {
     this.Creature = class extends Entity {
@@ -19,10 +21,11 @@ module.exports = function() {
 
         shootProjectile(angle) {
             let p = new Projectile(this, angle, 'itemCorn', this.map, this.x, this.y);
+            EntityManager.addEntity(p);
         }
 
         shootAtLocation(pixelX, pixelY) {
-            let p = new Projectile(this, getAngle(this.x, this.y, pixelX, pixelY), 'itemTomato', this.map, this.x, this.y);
+            this.shootProjectile(getAngle(this.x, this.y, pixelX, pixelY), 'itemTomato', this.map, this.x, this.y);
         }
 
         setTileLocation(x, y) {

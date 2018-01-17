@@ -1,7 +1,7 @@
 let fs = require('fs');
-require('../utils.js')();
+require('./EntityManager')();
+require('../../utils.js')();
 require('./Creature.js')();
-require('./Mob.js')();
 
 module.exports = function() {
     //*****************************
@@ -26,8 +26,6 @@ module.exports = function() {
             this.maxSpd = 25;
             this.maxHP = 2000;
             this.hp = this.maxHP;
-
-            Player.list[id] = this;
         }
 
         update() {
@@ -67,12 +65,12 @@ module.exports = function() {
         }
     };
 
-    Player.list = [];
     Player.onConnect = function(SOCKET_LIST, socket, username) {
         //Create player and add to list
         let player = new Player(SOCKET_LIST, socket.id, username, 'playerDefault', Map.getMapByName('Limbo'));
+        EntityManager.addPlayer(player);
         sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info');
-        Entity.spawnEntitiesNearPlayer(player);
+        //Entity.spawnEntitiesNearPlayer(player);
 
         //Listen for input events
         socket.on('keyPress', function(data) {
@@ -96,8 +94,8 @@ module.exports = function() {
 
             //Update map of all players on the edited map
             if(data.pushToServer) {
-                for (let i in Player.list) {
-                    if (Player.list[i].map.id === data.map.id) Player.list[i].changeMap(newMap);
+                for (let i in EntityManager.playerList) {
+                    if (EntityManager.playerList[i].map.id === data.map.id) EntityManager.playerList[i].changeMap(newMap);
                 }
             }
 
@@ -114,30 +112,10 @@ module.exports = function() {
     };
 
     Player.onDisconnect = function(SOCKET_LIST, socket) {
-        let player = Player.list[socket.id];
-        delete Player.list[socket.id];
+        let player = EntityManager.playerList[socket.id];
+        delete EntityManager.playerList[socket.id];
         if(player === undefined) return; //If client never signed in
         sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info');
-    };
-
-    Player.updateAll = function() {
-        //Get data from all connected players
-        let pack = [];
-        for(let i in Player.list) {
-            let player = Player.list[i];
-            player.update();
-            pack[player.id] = {
-                id: player.id,
-                username: player.username,
-                spriteName: player.spriteName,
-                x: player.x,
-                y: player.y,
-                hp: player.hp,
-                maxHP: player.maxHP,
-                mapID: player.map.id
-            };
-        }
-        return pack;
     };
 
     //Handle server commands from the client
@@ -152,18 +130,18 @@ module.exports = function() {
             let message = splitMessage.join(' ');
             sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
         } else if(command === '/tp' || command === '/teleport') {
-            Player.list[senderSocketID].setTileLocation(param1, param2);
+            EntityManager.playerList[senderSocketID].setTileLocation(param1, param2);
         } else if(command === '/map') {
             if(param1 === 'list') {
-                sendMessageToClients([SOCKET_LIST[Player.list[senderSocketID].id]], 'MAPS: ' + Map.getMapListString(), 'info');
+                sendMessageToClients([SOCKET_LIST[EntityManager.playerList[senderSocketID].id]], 'MAPS: ' + Map.getMapListString(), 'info');
             } else if(param1 === 'reset') {
-                let oldMap =  Player.list[senderSocketID].map;
+                let oldMap =  EntityManager.playerList[senderSocketID].map;
                 let newMap = new Map({id: oldMap.id, name: oldMap.name, width: oldMap.width, height: oldMap.height, tileSeedID: parseInt(param2)});
                 Map.mapList[oldMap.id] = newMap;
-                Player.list[senderSocketID].changeMap(newMap);
+                EntityManager.playerList[senderSocketID].changeMap(newMap);
             } else {
                 if(Map.getMapByName(param1) === false) return;
-                Player.list[senderSocketID].changeMap(Map.getMapByName(param1));
+                EntityManager.playerList[senderSocketID].changeMap(Map.getMapByName(param1));
             }
         }
     };
