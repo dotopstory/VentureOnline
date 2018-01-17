@@ -21,7 +21,8 @@
                     y: player.y,
                     hp: player.hp,
                     maxHP: player.maxHP,
-                    mapID: player.map.id
+                    mapID: player.map.id,
+                    accountType: player.accountType
                 };
             }
             return pack;

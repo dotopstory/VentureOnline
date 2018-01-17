@@ -23,8 +23,8 @@ $(window).on('load', function() {
     let gameCanvasCtx = gameElement[0].getContext('2d');
     let fps = 60, canvasWidth = 1000, canvasHeight = 750;
     let gameStateCache = {
-        players: {},
-        projectiles: {}
+        players: [],
+        projectiles: []
     };
 
     gameCamera = new GameCamera(0, 0);
@@ -44,9 +44,11 @@ $(window).on('load', function() {
 
     //Listen for player packet updates
     socket.on('update', function(data) {
+        let lastPlayer = client.player;
         gameStateCache.players = data.players;
         gameStateCache.entities = data.entities;
         client.player = gameStateCache.players[client.id];
+        if(lastPlayer == null) UIManager.onSignIn();
     });
 
     //Listen for new map changes

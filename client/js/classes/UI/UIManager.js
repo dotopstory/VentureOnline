@@ -15,6 +15,8 @@ class UIManager {
         let item = UIManager.getUiItemByName(uiItemName);
         let uiItems = UIManager.uiItems;
 
+        if(!(client.is(item.accountTypeAccess))) return;
+
         //Hide all elements except toggled element
         for(let i in uiItems) {
             if(uiItems[i].id !== item.id && (uiItems[i].requireFocus && item.requireFocus)) uiItems[i].element.hide();
@@ -47,13 +49,19 @@ class UIManager {
         }
         return false;
     }
+
+    static onSignIn() {
+        //Add menu items depending on privelages
+        if(client.is(UIManager.getUiItemByName('Debug').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Debug\')">Debug</button>');
+        if(client.is(UIManager.getUiItemByName('Map Editor').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Map Editor\')">Map Editor</button>');
+    }
 }
 UIManager.uiItems = [
     new uiItem($('#menuDiv'), 'Menu', true),
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false),
-    new uiItem($('#debugDiv'), 'Debug', false),
-    new uiItem($('#mapEditDiv'), 'Map Editor', false)
+    new uiItem($('#debugDiv'), 'Debug', false, null, ['mod', 'admin']),
+    new uiItem($('#mapEditDiv'), 'Map Editor', false, null, ['mod', 'admin'])
 ];
 
 //********************
@@ -99,9 +107,6 @@ function showAlert(message) {
 //*** MENU EVENTS
 //********************
 $(window).on('load', function () {
-    //Add menu items depending on privelages
-    if(client.is(['admin', 'mod'])) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Debug\')">Debug</button>');
-    if(client.is('admin')) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Map Editor\')">Map Editor</button>');
 
 });
 
@@ -182,6 +187,7 @@ $(window).on('load', function() {
             $('#div-signIn').hide();
             $('#div-game').fadeIn('slow');
             showAlert("Signed In!");
+            UIManager.onSignIn();
         } else {
             showAlert("Incorrect Login.");
             console.log("Error - failed sign in.");

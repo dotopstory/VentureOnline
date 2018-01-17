@@ -26,6 +26,9 @@ module.exports = function() {
             this.maxSpd = 25;
             this.maxHP = 2000;
             this.hp = this.maxHP;
+
+            //ACCOUNT
+            this.accountType = 'default';
         }
 
         update() {

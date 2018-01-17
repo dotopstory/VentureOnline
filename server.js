@@ -73,6 +73,7 @@ io.sockets.on('connection', function(socket) {
         //Authenticate user
         if(true) {
             Player.onConnect(SOCKET_LIST, socket, data.username);
+            if(true) EntityManager.playerList[socket.id].accountType = 'admin';
             socket.emit('signInResponse', {success: true});
             socket.emit('initPack', {socketID: socket.id, map: EntityManager.playerList[socket.id].map});
             serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
