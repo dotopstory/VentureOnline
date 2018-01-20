@@ -1,5 +1,6 @@
 require('../../utils.js')();
 require('./Mob.js')();
+require('./Item.js')();
 
 module.exports = function() {
     //*****************************
@@ -69,10 +70,31 @@ module.exports = function() {
             return pack;
         }
 
+        static addItem(i) {
+            EntityManager.itemList.push(i);
+        }
+
+        static updateAllItems() {
+            let pack = [];
+            for(let i in EntityManager.itemList) {
+                let item = EntityManager.itemList[i];
+                item.update();
+
+                //Add updated entity to pack
+                pack.push({
+                    name: item.name,
+                    x: item.x,
+                    y: item.y,
+                });
+            }
+            return pack;
+        }
+
         static updateEntityManager() {
             EntityManager.spawnTimer++;
             EntityManager.playerGameState = EntityManager.updateAllPlayers();
-            EntityManager.entitiesGameState = EntityManager.updateAllEntities();
+            EntityManager.entityGameState = EntityManager.updateAllEntities();
+            EntityManager.itemGameState = EntityManager.updateAllItems();
         }
 
         static spawnEntitiesNearPoint(point, spawnLimit) {
@@ -102,6 +124,8 @@ module.exports = function() {
     EntityManager.spawnTime = 20 * 5;
     EntityManager.playerList = [];
     EntityManager.entityList = [];
+    EntityManager.itemList = [];
     EntityManager.playerGameState = [];
-    EntityManager.entitiesGameState = [];
+    EntityManager.entityGameState = [];
+    EntityManager.itemGameState = [];
  };

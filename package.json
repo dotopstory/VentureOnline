@@ -5,11 +5,12 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.16.2",
+    "get-json": "^1.0.0",
     "package.json": "^2.0.1",
     "socket.io": "^2.0.4"
   },
   "engines": {
-      "node": "6.2.2"
+    "node": "6.2.2"
   },
   "devDependencies": {},
   "scripts": {

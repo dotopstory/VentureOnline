@@ -10,7 +10,14 @@ class ResourceManager {
     static getSpriteByName(searchName) {
         return ResourceManager.sprites[searchName] == undefined ? ResourceManager.sprites.tileDarkWater : ResourceManager.sprites[searchName];
     }
+
+    static getItemByName(searchName) {
+        for(let i in ResourceManager.itemList)
+            if(ResourceManager.itemList[i].name.toLowerCase() === searchName.toLowerCase()) return ResourceManager.itemList[i];
+        return null;
+    }
 }
+ResourceManager.itemList = {};
 //Images
 ResourceManager.images = {
     'spritesheet1': new Image(1600, 1600), //Load main spritesheet}

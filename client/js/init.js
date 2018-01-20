@@ -24,7 +24,8 @@ $(window).on('load', function() {
     let fps = 60, canvasWidth = 1000, canvasHeight = 750;
     let gameStateCache = {
         players: [],
-        projectiles: []
+        projectiles: [],
+        items: []
     };
 
     gameCamera = new GameCamera(0, 0);
@@ -40,13 +41,18 @@ $(window).on('load', function() {
     socket.on('initPack', function(data) {
         client.id = data.socketID;
         client.setMap(data.map);
+        ResourceManager.itemList = data.resources.itemList;
     });
 
     //Listen for player packet updates
     socket.on('update', function(data) {
         let lastPlayer = client.player;
+
+        //Cache entities
         gameStateCache.players = data.players;
         gameStateCache.entities = data.entities;
+        gameStateCache.items = data.items;
+
         client.player = gameStateCache.players[client.id];
         if(lastPlayer == null) UIManager.onSignIn();
     });
@@ -65,6 +71,7 @@ $(window).on('load', function() {
         //Draw game objects
         gameCamera.setPosition(client.player.x, client.player.y, canvasWidth, canvasHeight);
         renderMap(gameCanvasCtx);
+        renderItems(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
 
@@ -136,6 +143,23 @@ $(window).on('load', function() {
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.getSpriteByName(e.spriteName);
+            sprite.render(ctx, drawX, drawY);
+        }
+    }
+
+    //Render all items
+    function renderItems(ctx) {
+        for(let i in gameStateCache.items) {
+            let item = gameStateCache.items[i];
+            let drawX = item.x - gameCamera.xOffset;
+            let drawY = item.y - gameCamera.yOffset;
+
+            //Skip rendering of projectiles on different maps
+            if(client.player.mapID !== item.mapID) continue;
+
+            ctx.fillStyle = "rgba(0, 0, 0, 1)";
+            console.log(item);
+            let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(item.name).item_sprite);
             sprite.render(ctx, drawX, drawY);
         }
     }

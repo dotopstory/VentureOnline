@@ -1,6 +1,5 @@
 require('./Entity.js')();
 
-
 module.exports = function() {
     //*****************************
     // CREATURE CLASS
@@ -30,16 +29,6 @@ module.exports = function() {
             this.shootProjectile(getAngle(this.x, this.y, point.x, point.y), 'itemTomato', this.map, this.x, this.y);
         }
 
-        setTileLocation(x, y) {
-            this.x = parseInt(x) * 64;
-            this.y = parseInt(y) * 64;
-        }
-
-        takeDamage(damageAmount) {
-            this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
-            if(this.hp <= 0) this.die();
-        }
-
         moveToPosition(point, followDistance) {
             if(distanceBetweenPoints(this, {x: point.x, y: point.y}) < followDistance) return;
 
@@ -52,8 +41,23 @@ module.exports = function() {
             else this.spdY = 0;
         }
 
+        setTileLocation(x, y) {
+            this.x = parseInt(x) * 64;
+            this.y = parseInt(y) * 64;
+        }
+
+        takeDamage(damageAmount) {
+            this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
+            if(this.hp <= 0) this.die();
+        }
+
         die() {
+            this.dropItem();
             this.isActive = false;
+        }
+
+        dropItem() {
+            EntityManager.addItem(new Item("Wooden Bow", this.x, this.y, this.map.id));
         }
     }
 };
