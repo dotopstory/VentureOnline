@@ -33,10 +33,11 @@ module.exports = function() {
         }
 
         update() {
+            this.equipment.update();
             this.updateSpd();
-            if(this.pressingAttack) {
-                for(let angle = -20; angle < 20; angle+= 20)
-                    this.shootProjectile(this.mouseAngle + angle);
+            if(this.pressingAttack && this.equipment.attack1Timer >= this.equipment.weapon1.fire_rate) {
+                this.shootProjectile(this.equipment.weapon1.attack1, this.mouseAngle);
+                this.equipment.attack1Timer = 0;
             }
             super.update();
         }
@@ -56,6 +57,21 @@ module.exports = function() {
             if((this.pressingDown || this.pressingUp) && (this.pressingLeft || this.pressingRight)) {
                 this.spdX = parseInt(this.spdX * 0.75);
                 this.spdY = parseInt(this.spdY * 0.75);
+            }
+        }
+
+        shootProjectile(attack, angle) {
+            if(attack == undefined) {
+                console.log('Error - no weapon.');
+                return;
+            }
+
+            let angleIncrement = 15;
+            angle = angle - Math.floor(attack.number_of_projectiles / 2) * angleIncrement;
+            for(let i = 0; i < attack.number_of_projectiles; i++) {
+                let p = new Projectile(this, angle, attack.sprite, this.map, this.x, this.y, attack.multihit, attack.damage_min, attack.damage_max, attack.speed, attack.lifetime, attack.sound);
+                EntityManager.addEntity(p);
+                angle += angleIncrement;
             }
         }
 

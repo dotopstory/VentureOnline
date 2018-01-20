@@ -1,10 +1,17 @@
+require('./ResourceManager')();
+
 module.exports = function() {
     this.Equipment = class {
         constructor() {
-            this.weapon1 = null;
+            this.weapon1 = ResourceManager.getItemByName("Staff of Corn");
+            console.log(this.weapon1);
             this.ability = null;
             this.armor = null;
             this.ring = null;
+
+            //Timers
+            this.attack1Timer = 0;
+            this.abilityTimer = 0;
         }
 
         equip(item, slot) {
@@ -16,6 +23,11 @@ module.exports = function() {
             else if(slot === 'Armor') this.armor = item;
             else if(slot === 'Ring') this.ring = item;
             return true;
+        }
+
+        update() {
+            this.attack1Timer++;
+            this.abilityTimer++;
         }
     };
 };

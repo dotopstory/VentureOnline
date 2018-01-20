@@ -16,7 +16,6 @@ module.exports = function() {
                 return;
             }
             ResourceManager.itemList = data.items;
-            console.log(ResourceManager.itemList);
         });
     }
 };

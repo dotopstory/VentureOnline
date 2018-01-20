@@ -19,7 +19,7 @@ module.exports = function() {
 
                 //Update spawn timer
                 if(EntityManager.spawnTimer > EntityManager.spawnTime) {
-                    EntityManager.spawnEntitiesNearPoint(player, getRandomInt(5, 10));
+                    EntityManager.spawnEntitiesNearPoint(player, getRandomInt(2, 6));
                 }
 
                 //Add updated player to pack
@@ -37,7 +37,7 @@ module.exports = function() {
             }
             if(EntityManager.spawnTimer > EntityManager.spawnTime) {
                 EntityManager.spawnTimer = 0;
-                EntityManager.spawnTime = 20 * getRandomInt(5, 10);
+                EntityManager.spawnTime = 20 * getRandomInt(1, 5);
             }
             return pack;
         }
