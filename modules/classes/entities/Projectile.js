@@ -8,7 +8,7 @@ module.exports = function() {
     // PROJECTILE CLASS
     //*****************************
     this.Projectile = class extends Entity {
-        constructor(parent, angle, spriteName, map, x, y) {
+        constructor(parent, angle, spriteName, map, x, y, multihit) {
             super(Entity.nextID++, spriteName, map, x, y);
             this.parent = parent;
             this.spd = 40;
@@ -17,6 +17,7 @@ module.exports = function() {
             this.damage = 100;
             this.timer = 0;
             this.lifeTime = 10; //Ticks
+            this.multihit = true;
         }
 
         update() {
@@ -34,7 +35,12 @@ module.exports = function() {
                         //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
                         //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                         player.takeDamage(this.damage);
-                        this.isActive = false;
+
+                        //Destroy projectile and prevent further damage if not a multihit
+                        if(!this.multihit) {
+                            this.isActive = false;
+                            return;
+                        }
                     }
                 }
             }
@@ -47,7 +53,12 @@ module.exports = function() {
                     if(this.map.id === e.map.id && distanceBetweenPoints(this, e) < 32 && (this.parent.id !== e.id ||
                             (this.parent instanceof Player)) && !(e instanceof Projectile) && !(this.parent instanceof Mob)) {
                         e.takeDamage(this.damage);
-                        this.isActive = false;
+
+                        //Destroy projectile and prevent further damage if not a multihit
+                        if(!this.multihit) {
+                            this.isActive = false;
+                            return;
+                        }
                     }
                 }
             }

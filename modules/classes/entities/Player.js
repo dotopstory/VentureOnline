@@ -2,6 +2,7 @@ let fs = require('fs');
 require('./EntityManager')();
 require('../../utils.js')();
 require('./Creature.js')();
+require('../Equiment.js')();
 
 module.exports = function() {
     //*****************************
@@ -25,6 +26,7 @@ module.exports = function() {
             this.mouseAngle = 0;
 
             //STATS
+            this.equipment = new Equipment();
             this.maxSpd = 25;
             this.maxHP = 2000;
             this.hp = this.maxHP;

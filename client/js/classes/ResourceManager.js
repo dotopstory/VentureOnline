@@ -102,5 +102,8 @@ ResourceManager.sprites = {
     itemCorn: new Sprite(ss, 17, 0, 1),
     itemTomato: new Sprite(ss, 17, 1, 1),
     itemBlueberry: new Sprite(ss, 17, 2, 1),
-    itemPotato: new Sprite(ss, 17, 2, 1)
+    itemPotato: new Sprite(ss, 17, 2, 1),
+
+    //SPELLS
+    spellCorn: new Sprite(ss, 18, 0, 1),
 };

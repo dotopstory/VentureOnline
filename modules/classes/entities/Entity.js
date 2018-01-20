@@ -28,7 +28,7 @@ module.exports = function() {
         }
 
         dropItem() {
-            EntityManager.addItem(new Item(ResourceManager.getRandomItemName(), this.x + getRandomInt(-32, 32), this.y + getRandomInt(-32, 32), this.map.id));
+            EntityManager.addItem(new Item(ResourceManager.getRandomItem().name, this.x + getRandomInt(-32, 32), this.y + getRandomInt(-32, 32), this.map.id));
         }
 
     };

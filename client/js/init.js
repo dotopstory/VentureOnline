@@ -158,7 +158,6 @@ $(window).on('load', function() {
             if(client.player.mapID !== item.mapID) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            console.log(item);
             let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(item.name).item_sprite);
             sprite.renderSize(ctx, drawX, drawY, 48, 48);
         }
