@@ -55,9 +55,5 @@ module.exports = function() {
             this.dropItem();
             this.isActive = false;
         }
-
-        dropItem() {
-            EntityManager.addItem(new Item("Wooden Bow", this.x, this.y, this.map.id));
-        }
     }
 };

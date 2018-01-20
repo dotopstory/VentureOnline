@@ -13,7 +13,7 @@ class ResourceManager {
 
     static getItemByName(searchName) {
         for(let i in ResourceManager.itemList)
-            if(ResourceManager.itemList[i].name.toLowerCase() === searchName.toLowerCase()) return ResourceManager.itemList[i];
+            if(ResourceManager.itemList[i].name.toString().toLowerCase() === searchName.toString().toLowerCase()) return ResourceManager.itemList[i];
         return null;
     }
 }
@@ -89,12 +89,18 @@ ResourceManager.sprites = {
     entityRock: new Sprite(ss, 7, 4, 1),
 
     //ITEMS
+    //BOWS
+    bowWooden: new Sprite(ss, 13, 0, 1),
+
+    //STAVES
+    staffCorn: new Sprite(ss, 14, 0, 1),
+
+    //ARMOR
+    armorCloth: new Sprite(ss, 16, 0, 1),
+
     //CONSUMABLES
     itemCorn: new Sprite(ss, 17, 0, 1),
     itemTomato: new Sprite(ss, 17, 1, 1),
     itemBlueberry: new Sprite(ss, 17, 2, 1),
-    itemPotato: new Sprite(ss, 17, 2, 1),
-
-    //STAVES
-    staffCorn: new Sprite(ss, 14, 0, 1),
+    itemPotato: new Sprite(ss, 17, 2, 1)
 };
