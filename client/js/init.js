@@ -59,7 +59,6 @@ $(window).on('load', function() {
 
     //Listen for new map changes
     socket.on('changeMap', function(data) {
-        console.log(data);
         client.setMap(data.map);
     });
 
@@ -74,6 +73,7 @@ $(window).on('load', function() {
         renderItems(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
+        postRender(gameCanvasCtx);
 
     }, 1000 / fps);
 
@@ -132,7 +132,7 @@ $(window).on('load', function() {
 
     //Render all non player entities
     function renderEntities(ctx) {
-        //Render projectiles
+        //Render entities
         for(let i in gameStateCache.entities) {
             let e = gameStateCache.entities[i];
             let drawX = e.x - gameCamera.xOffset;
@@ -162,6 +162,50 @@ $(window).on('load', function() {
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(item.name).item_sprite);
             sprite.renderSize(ctx, drawX, drawY, 48, 48);
+        }
+    }
+
+    //Render health effects
+    function renderHealthEffects(ctx, fxList, startX, startY) {
+        startX += 15;
+        let renderCount = 0;
+        for(let i in fxList) {
+            let fx = fxList[i];
+            if(fx == undefined) continue;
+
+            //Configure styles
+            ctx.font = '24px Ubuntu';
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+            ctx.fillStyle = 'red';
+
+            //Render text
+            ctx.fillText(fx.text, startX, startY - parseInt(fx.timer * 1.5));
+            ctx.strokeText(fx.text, startX, startY - parseInt(fx.timer * 1.5));
+            renderCount++;
+        }
+    }
+
+    //Rendering that must be done last/after other rendering
+    function postRender(ctx) {
+        //Post render entities
+        for(let i in gameStateCache.entities) {
+            let e = gameStateCache.entities[i];
+            let drawX = e.x - gameCamera.xOffset;
+            let drawY = e.y - gameCamera.yOffset;
+
+            if(client.player.mapID === e.mapID) renderHealthEffects(ctx, e.healthEffects, drawX, drawY);
+        }
+
+        //Post render players
+        for(let i in gameStateCache.players) {
+            let player = gameStateCache.players[i]; //Save player
+            if(player == undefined) continue;
+            let drawX = player.x - gameCamera.xOffset;
+            let drawY = player.y - gameCamera.yOffset;
+
+            //Skip rendering of players on different map
+            if(client.player.mapID === player.mapID) renderHealthEffects(ctx, player.healthEffects, drawX, drawY);
         }
     }
 });

@@ -4,7 +4,6 @@ module.exports = function() {
     this.Equipment = class {
         constructor() {
             this.weapon1 = ResourceManager.getItemByName("Staff of Corn");
-            console.log(this.weapon1);
             this.ability = null;
             this.armor = null;
             this.ring = null;

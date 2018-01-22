@@ -79,7 +79,7 @@ module.exports = function() {
         changeMap(map) {
             this.map = map;
             this.SOCKET_LIST[this.id].emit('changeMap', {map: map});
-            console.log('Sent new map to ' + this.id + " MAP=" + this.map);
+            //console.log('Sent new map to ' + this.id + " MAP=" + this.map);
         }
 
         die() {

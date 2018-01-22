@@ -12,7 +12,7 @@ module.exports = function() {
 
             //Create new random map
             if(params.fileName != null) {
-                fs.readFile('./maps/' + params.fileName + '.ven', (err, data) => {
+                fs.readFile('./data/maps/' + params.fileName + '.ven', (err, data) => {
                     if (err) {
                         console.log(err);
                         return;

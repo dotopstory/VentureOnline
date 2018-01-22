@@ -1,0 +1,133 @@
+{
+    "items": [
+        {
+            "name": "Staff of Corn",
+            "description": "A a strange staff made entirely out of corn.",
+            "item_slot": "Weapon1",
+            "item_class": "Equipment",
+            "tier": 0,
+            "item_sprite": "staffCorn",
+            "fire_rate": 10,
+            "attack1": {
+                "sprite": "itemCorn",
+                "sound": "sound1",
+                "speed": 40,
+                "damage_min": 200,
+                "damage_max": 400,
+                "number_of_projectiles": 2,
+                "lifetime": 120,
+                "multihit": true
+            }
+        },
+        {
+            "name": "Wooden Bow",
+            "description": "A crude bow made of wood.",
+            "item_class": "Equipment",
+            "item_slot": "Weapon1",
+            "tier": 0,
+            "item_sprite": "bowWooden",
+            "fire_rate": 10,
+            "attack1": {
+                "sprite": "itemPotato",
+                "sound": "sound1",
+                "speed": 30,
+                "damage_min": 100,
+                "damage_max": 200,
+                "number_of_projectiles": 3,
+                "lifetime": 20,
+                "multihit": true
+            }
+        },
+        {
+            "name": "Arcane Corn Spell",
+            "description": "A scroll inscribed with the secrets of corn magic.",
+            "item_slot": "Ability",
+            "item_class": "Equipment",
+            "ability_type": "Spell",
+            "tier": 0,
+            "item_sprite": "spellCorn",
+            "cooldown": 60,
+            "attack1": {
+                "sprite": "itemCorn",
+                "sound": "sound1",
+                "speed": 50,
+                "damage_min": 200,
+                "damage_max": 400,
+                "number_of_projectiles": 20,
+                "lifetime": 20,
+                "multihit": false
+            }
+        },
+        {
+            "name": "Cloth Armor",
+            "description": "Some dirty rags.",
+            "item_slot": "Armor",
+            "item_class": "Equipment",
+            "tier": 0,
+            "item_sprite": "armorCloth",
+            "on_equip": [
+                {
+                    "effect": "stat_increase",
+                    "stat": "defence",
+                    "amount": "5"
+                }
+            ]
+        },
+        {
+            "name": "Corn",
+            "description": "A piece of corn.",
+            "item_class": "Consumable",
+            "tier": 0,
+            "item_sprite": "itemCorn",
+            "on_activate": [
+                {
+                    "effect": "stat_increase",
+                    "stat": "hp",
+                    "amount": "100"
+                }
+            ]
+        },
+        {
+            "name": "Tomato",
+            "description": "A ripe tomato.",
+            "item_class": "Consumable",
+            "tier": 0,
+            "item_sprite": "itemTomato",
+            "on_activate": [
+                {
+                    "effect": "stat_increase",
+                    "stat": "hp",
+                    "amount": "100"
+                }
+            ]
+        },
+        {
+            "name": "Blueberry",
+            "description": "One big blueberry.",
+            "item_class": "Consumable",
+            "tier": 0,
+            "item_sprite": "itemBlueberry",
+            "on_activate": [
+                {
+                    "effect": "stat_increase",
+                    "stat": "hp",
+                    "amount": "100"
+                }
+            ]
+        },
+        {
+            "name": "Potato",
+            "description": "A spud. Reminds me of a guy I used to know.",
+            "item_class": "Consumable",
+            "tier": 0,
+            "item_sprite": "itemPotato",
+            "on_activate": [
+                {
+                    "effect": "stat_increase",
+                    "stat": "hp",
+                    "amount": "100"
+                }
+            ]
+        }
+    ]
+}

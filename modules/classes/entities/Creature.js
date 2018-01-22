@@ -1,4 +1,5 @@
 require('./Entity.js')();
+require('./Projectile')();
 
 module.exports = function() {
     //*****************************
@@ -39,21 +40,6 @@ module.exports = function() {
             if(point.y < this.y) this.spdY = -this.maxSpd;
             else if(point.y > this.y) this.spdY = this.maxSpd;
             else this.spdY = 0;
-        }
-
-        setTileLocation(x, y) {
-            this.x = parseInt(x) * 64;
-            this.y = parseInt(y) * 64;
-        }
-
-        takeDamage(damageAmount) {
-            this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
-            if(this.hp <= 0) this.die();
-        }
-
-        die() {
-            this.dropItem();
-            this.isActive = false;
         }
     }
 };

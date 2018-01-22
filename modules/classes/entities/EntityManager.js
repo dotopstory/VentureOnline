@@ -32,7 +32,9 @@ module.exports = function() {
                     hp: player.hp,
                     maxHP: player.maxHP,
                     mapID: player.map.id,
-                    accountType: player.accountType
+                    accountType: player.accountType,
+                    healthEffects: player.healthEffects,
+                    equipment: player.equipment
                 };
             }
             if(EntityManager.spawnTimer > EntityManager.spawnTime) {
@@ -64,7 +66,8 @@ module.exports = function() {
                     x: e.x,
                     y: e.y,
                     spriteName: e.spriteName,
-                    mapID: e.map.id
+                    mapID: e.map.id,
+                    healthEffects: e.healthEffects
                 });
             }
             return pack;

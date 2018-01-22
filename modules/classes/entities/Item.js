@@ -6,7 +6,7 @@ module.exports = function() {
             this.x = x;
             this.y = y;
             this.mapID = mapID;
-            this.lifetime = 20 * 10;
+            this.lifetime = 20 * 120;
             this.timer = 0;
             this.isActive = true;
         }

@@ -1,7 +1,6 @@
 require('./Entity.js')();
 require('../../utils.js')();
 require('../world/Map.js')();
-require('./Player.js')();
 
 module.exports = function() {
     //*****************************
@@ -20,7 +19,7 @@ module.exports = function() {
             this.hitSound = hitSound;
             this.timer = 0;
             this.lifeTime = lifetime; //Ticks
-            this.multihit = true;
+            this.multihit = multihit;
             this.hitRadius = 48;
         }
 

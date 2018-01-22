@@ -3,7 +3,7 @@ require('./modules/init.js')();
 require('./modules/classes/ResourceManager.js')();
 require('./modules/classes/entities/EntityManager.js')();
 require('./modules/classes/world/Map.js')();
-require('./modules/classes/entities/Projectile.js')();
+require('./modules/classes/entities/Player.js')();
 
 //Initialise express routing
 let express = require('express');
