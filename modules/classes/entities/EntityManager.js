@@ -77,10 +77,17 @@ module.exports = function() {
         static updateAllItems() {
             let pack = [];
             for(let i in EntityManager.itemList) {
+                //Update item
                 let item = EntityManager.itemList[i];
                 item.update();
 
-                //Add updated entity to pack
+                //Delete item if inactive
+                if(!item.isActive) {
+                    delete EntityManager.itemList[i];
+                    continue;
+                }
+
+                //Add updated item to pack
                 pack.push({
                     name: item.name,
                     x: item.x,

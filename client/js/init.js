@@ -151,6 +151,8 @@ $(window).on('load', function() {
     function renderItems(ctx) {
         for(let i in gameStateCache.items) {
             let item = gameStateCache.items[i];
+
+            if(item == undefined) continue;
             let drawX = item.x - gameCamera.xOffset;
             let drawY = item.y - gameCamera.yOffset;
 
