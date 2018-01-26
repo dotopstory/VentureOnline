@@ -14,7 +14,7 @@
                 "speed": 40,
                 "damage_min": 195,
                 "damage_max": 205,
-                "number_of_projectiles": 36,
+                "number_of_projectiles": 24,
                 "lifetime": 120,
                 "multihit": false
             }

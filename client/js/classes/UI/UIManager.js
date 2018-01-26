@@ -64,7 +64,7 @@ UIManager.uiItems = [
     new uiItem($('#chatDiv'), 'Chat', true, initChat),
     new uiItem($('#alertDiv'), 'Alert', false),
     new uiItem($('#debugDiv'), 'Debug', false, null, ['mod', 'admin']),
-    new uiItem($('#mapEditDiv'), 'Map Editor', false, null, ['mod', 'admin'])
+    new uiItem($('#mapEditDiv'), 'Map Editor', false, initMapEditor, ['mod', 'admin'])
 ];
 
 //********************
@@ -208,7 +208,6 @@ $(window).on('load', function() {
 let selectedTileID;
 let previewTileCanvas;
 
-
 $(window).on('load', function(){
     let tileSelect = $('#tileSelect');
     loadTileSelection(tileSelect);
@@ -221,6 +220,10 @@ $(window).on('load', function(){
     previewTileCanvas.attr('height', previewSize);
     mapEditSelectTile(0);
 });
+
+function initMapEditor () {
+    $('#tbMapName').val(client.map.name);
+}
 
 function loadTileSelection(element) {
     let canvasSize = 64;
@@ -260,5 +263,7 @@ function cancelMapEdit() {
 }
 
 function saveMap(filePath, pushToServer) {
-    socket.emit('sendNewMapToServer', {map: client.map, fileName: client.map.name.toLowerCase(), pushToServer: pushToServer});
+    let newMap = client.map;
+    newMap.name = $('#tbMapName').val().toString();
+    socket.emit('sendNewMapToServer', {map: client.map, fileName: newMap.name.toLowerCase(), pushToServer: pushToServer});
 }

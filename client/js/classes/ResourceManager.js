@@ -35,12 +35,6 @@ ResourceManager.sprites = {
     //PLAYER
     playerDefault: new Sprite(ss, 0, 0, 1),
 
-    //
-    mobPrisonGuard: new Sprite(ss, 10, 0, 1),
-
-    //PETS
-    petDog: new Sprite(ss, 10, 2, 1),
-
     //*********************
     //**** TILES
     //*********************
@@ -54,10 +48,16 @@ ResourceManager.sprites = {
     tileLightGrass: new Sprite(ss, 2, 0, 1),
     tileLightGrassFlowers: new Sprite(ss, 2, 2, 1),
 
+    //BUILDING
+    tileStoneFloor: new Sprite(ss, 3, 0, 1),
+    tileBrickWall: new Sprite(ss, 3, 1, 1),
+    tilePlanksFloor: new Sprite(ss, 3, 2, 1),
+
     //WATER
     tileDarkWater: new Sprite(ss, 4, 0, 1),
     tileLightWater: new Sprite(ss, 4, 1, 1),
     tileLightWaterRocks: new Sprite(ss, 4, 2, 1),
+    tileBeachSand: new Sprite(ss, 4, 3, 1),
 
     //DESERT
     tileDesertSand: new Sprite(ss, 5, 0, 1),
@@ -87,6 +87,11 @@ ResourceManager.sprites = {
     entityBrownChest: new Sprite(ss, 7, 2, 1),
     entityCactus: new Sprite(ss, 7, 3, 1),
     entityRock: new Sprite(ss, 7, 4, 1),
+
+    //MOBS
+    mobPrisonGuard: new Sprite(ss, 10, 0, 1),
+    petDog: new Sprite(ss, 10, 2, 1),
+    mobCube: new Sprite(ss, 10, 4, 1),
 
     //ITEMS
     //BOWS

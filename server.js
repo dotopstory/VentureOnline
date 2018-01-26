@@ -52,7 +52,8 @@ setTimeout(function () {
 Map.mapList = [
     new Map({fileName: 'limbo'}),
     new Map({fileName: 'desert'}),
-    new Map({name: 'Test', width: 1000, height: 1000, tileSeedID: 0})
+    new Map({fileName: 'test'}),
+    new Map({name: 'NewMap', width: 500, height: 500, tileSeedID: 2})
 ];
 
 function openConnections() {

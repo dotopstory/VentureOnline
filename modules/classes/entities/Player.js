@@ -77,8 +77,9 @@ module.exports = function() {
 
         //Change a players map
         changeMap(map) {
-            this.map = map;
             this.SOCKET_LIST[this.id].emit('changeMap', {map: map});
+            if(this.map.id !== map.id) this.setTileLocation((this.map.width / 2), (this.map.height / 2));
+            this.map = map;
             //console.log('Sent new map to ' + this.id + " MAP=" + this.map);
         }
 
@@ -132,9 +133,11 @@ module.exports = function() {
             Map.mapList[newMap.id] = newMap;
 
             //Save map to text file on server
-            fs.writeFile('maps/' + data.fileName + '.ven', JSON.stringify(newMap), function(err) {
+            fs.writeFile('./data/maps/' + data.fileName + '.ven', JSON.stringify(newMap), function(err) {
                 if(err) {
                     return console.log(err);
+                } else {
+                    return console.log("Success - file was saved to: " + './data/maps/' + data.fileName + '.ven')
                 }
             });
         });

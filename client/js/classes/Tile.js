@@ -47,6 +47,10 @@ function initTiles() {
     new GrassTile(sprites.tileDesertSandPond);
     new GrassTile(sprites.tileDesertSkull);
     new GrassTile(sprites.tileDesertBones);
+    new GrassTile(sprites.tileStoneFloor);
+    new GrassTile(sprites.tileBrickWall);
+    new GrassTile(sprites.tilePlanksFloor);
+    new GrassTile(sprites.tileBeachSand);
 }
 
 //Init
