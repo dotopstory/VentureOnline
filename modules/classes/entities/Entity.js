@@ -36,7 +36,7 @@ module.exports = function() {
 
         takeDamage(damageAmount) {
             this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
-            this.addHealthEffect(damageAmount, "damage");
+            this.addHealthEffect(damageAmount, 'red');
             if(this.hp <= 0) this.die();
         }
 
@@ -51,7 +51,6 @@ module.exports = function() {
 
         addHealthEffect(text, type) {
             this.healthEffects.push({text: text, color: type, timer: 0});
-            console.log(this.healthEffects);
         }
 
         updateHealthEffects() {

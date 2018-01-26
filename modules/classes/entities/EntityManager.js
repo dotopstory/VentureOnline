@@ -129,7 +129,7 @@ module.exports = function() {
             }
         }
     };
-    EntityManager.nextID = 0;
+    EntityManager.nextID = 200;
     EntityManager.spawnTimer = 0;
     EntityManager.spawnTime = 20 * 5;
     EntityManager.playerList = [];

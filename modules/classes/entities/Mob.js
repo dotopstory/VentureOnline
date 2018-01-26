@@ -7,7 +7,7 @@ module.exports = function() {
     //*****************************
     this.Mob = class extends Creature {
         constructor(spriteName, map, x, y) {
-            super(Entity.nextID++, spriteName, map, x, y);
+            super(EntityManager.nextID++, spriteName, map, x, y);
             this.target = findNearestPoint(EntityManager.playerList, this.x, this.y);
             this.lifeTime = 20 * 60 * 10;
             this.distanceToTarget = null;

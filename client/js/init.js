@@ -176,13 +176,16 @@ $(window).on('load', function() {
             //Configure styles
             ctx.font = '24px Ubuntu';
             ctx.strokeStyle = 'black';
-            ctx.lineWidth = 1;
-            ctx.fillStyle = 'red';
+            ctx.lineWidth = 2;
+
+            //Select color
+            ctx.fillStyle = fx.color.toString();
 
             //Render text
             ctx.fillText(fx.text, startX, startY - parseInt(fx.timer * 1.5));
             ctx.strokeText(fx.text, startX, startY - parseInt(fx.timer * 1.5));
             renderCount++;
+            ctx.lineWidth = 1;
         }
     }
 

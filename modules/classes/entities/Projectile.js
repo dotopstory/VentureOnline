@@ -21,6 +21,7 @@ module.exports = function() {
             this.lifeTime = lifetime; //Ticks
             this.multihit = multihit;
             this.hitRadius = 48;
+            this.damagedTargets = [];
         }
 
         update() {
@@ -37,16 +38,12 @@ module.exports = function() {
                     let shooter = EntityManager.playerList[this.parent.id];
 
                     //Check for collision between player and projectiles
-                    if (this.map.id === player.map.id && distanceBetweenPoints(this, player) < this.hitRadius && this.parent.id !== player.id) {
+                    if (this.map.id === player.map.id && distanceBetweenPoints(this, player) < this.hitRadius && this.parent.id !== player.id
+                        && this.damagedTargets.indexOf(e.id) === -1) {
                         //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
                         //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
                         player.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
-
-                        //Destroy projectile and prevent further damage if not a multihit
-                        if(!this.multihit) {
-                            this.isActive = false;
-                            return;
-                        }
+                        this.onHit(e);
                     }
                 }
             }
@@ -56,16 +53,23 @@ module.exports = function() {
                 for(let i in EntityManager.entityList) {
                     let e = EntityManager.entityList[i];
                     //Check for collision between player and projectiles
-                    if(this.map.id === e.map.id && distanceBetweenPoints(this, e) < this.hitRadius && (this.parent.id !== e.id && !(e instanceof Projectile))) {
+                    if(this.map.id === e.map.id && distanceBetweenPoints(this, e) < this.hitRadius &&
+                        (this.parent.id !== e.id && !(e instanceof Projectile)) && (this.damagedTargets.indexOf(e.id) == -1)) {
                         e.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
-
-                        //Destroy projectile and prevent further damage if not a multihit
-                        if(!this.multihit) {
-                            this.isActive = false;
-                            return;
-                        }
+                        this.onHit(e.id);
                     }
                 }
+            }
+        }
+
+        onHit(id) {
+            this.damagedTargets.push(id);
+
+
+            //Destroy projectile and prevent further damage if not a multihit
+            if(!this.multihit) {
+                this.isActive = false;
+                return;
             }
         }
     };
