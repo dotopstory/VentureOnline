@@ -12,11 +12,11 @@
                 "sprite": "itemCorn",
                 "sound": "sound1",
                 "speed": 40,
-                "damage_min": 1,
-                "damage_max": 20,
-                "number_of_projectiles": 1,
+                "damage_min": 195,
+                "damage_max": 205,
+                "number_of_projectiles": 36,
                 "lifetime": 120,
-                "multihit": true
+                "multihit": false
             }
         },
         {

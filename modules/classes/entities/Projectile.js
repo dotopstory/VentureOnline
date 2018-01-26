@@ -54,7 +54,7 @@ module.exports = function() {
                     let e = EntityManager.entityList[i];
                     //Check for collision between player and projectiles
                     if(this.map.id === e.map.id && distanceBetweenPoints(this, e) < this.hitRadius &&
-                        (this.parent.id !== e.id && !(e instanceof Projectile)) && (this.damagedTargets.indexOf(e.id) == -1)) {
+                        (this.parent.id !== e.id && !(e instanceof Projectile)) && (this.damagedTargets.indexOf(e.id) == -1) && e.isActive) {
                         e.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
                         this.onHit(e.id);
                     }
@@ -64,7 +64,6 @@ module.exports = function() {
 
         onHit(id) {
             this.damagedTargets.push(id);
-
 
             //Destroy projectile and prevent further damage if not a multihit
             if(!this.multihit) {
