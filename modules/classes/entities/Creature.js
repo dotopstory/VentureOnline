@@ -22,12 +22,12 @@ module.exports = function() {
         }
 
         shootProjectile(angle) {
-            let p = new Projectile(this, angle, 'itemTomato', this.map, this.x, this.y, true, 100, 200, 10, null);
+            let p = new Projectile(this, angle, 'projBlueBall', this.map, this.x, this.y, false, 25, 50, 25, 90, null);
             EntityManager.addEntity(p);
         }
 
         shootAtLocation(point) {
-            this.shootProjectile(getAngle(this.x, this.y, point.x, point.y));
+            this.shootProjectile(getAngle(this, point));
         }
 
         moveToPosition(point, followDistance) {

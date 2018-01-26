@@ -38,10 +38,11 @@ module.exports = function() {
                     let shooter = EntityManager.playerList[this.parent.id];
 
                     //Check for collision between player and projectiles
-                    if (this.map.id === player.map.id && distanceBetweenPoints(this, player) < this.hitRadius && this.parent.id !== player.id
+                    if (this.map.id === player.map.id
+                        && distanceBetweenPoints(this, player) < this.hitRadius
+                        && this.parent.id !== player.id
                         && this.damagedTargets.indexOf(player.id) === -1) {
-                        //serverMessage('DAMAGE - [PLAYER: "' + (shooter === undefined ? 'Unknown' : shooter.username) + '"] dealt ' + this.damage + ' to [PLAYER "' +
-                        //player.usernaame + '" / OLD HP=' + player.hp + ' / NEW HP=' + (player.hp - this.damage) + '].');
+
                         player.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
                         this.onHit(player.id);
                     }
@@ -56,8 +57,15 @@ module.exports = function() {
                     if(e == undefined) continue;
 
                     //Check for collision between player and projectiles
-                    if(this.map.id === e.map.id && distanceBetweenPoints(this, e) < this.hitRadius &&
-                        (this.parent.id !== e.id && !(e instanceof Projectile)) && (this.damagedTargets.indexOf(e.id) == -1) && e.isActive) {
+                    if(this.map.id === e.map.id
+                        && distanceBetweenPoints(this, e) < this.hitRadius
+                        && this.parent.id !== e.id
+                        && !(e instanceof Projectile)
+                        && (this.parent instanceof Player)
+                        && (this.damagedTargets.indexOf(e.id) === -1)
+                        && e.isActive) {
+
+                        console.log(this.parent.id + " " + e.id);
                         e.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
                         this.onHit(e.id);
                     }

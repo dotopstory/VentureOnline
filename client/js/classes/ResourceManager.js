@@ -111,4 +111,7 @@ ResourceManager.sprites = {
 
     //SPELLS
     spellCorn: new Sprite(ss, 18, 0, 1),
+
+    //PROJECTILES
+    projBlueBall: new Sprite(ss, 21, 0, 1)
 };
