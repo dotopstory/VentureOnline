@@ -24,21 +24,34 @@ module.exports = function() {
                     this.width = data.width;
                     this.height = data.height;
                     this.tiles = data.tiles;
+                    this.objects = Map.generateMapObjects(this.width, this.height);
                 });
             } else {
                 this.name = params.name;
                 this.width = params.width;
                 this.height = params.height;
                 this.tiles = params.tiles === undefined ? Map.generateNewBlankMap(this.width, this.height, params.tileSeedID) : params.tiles;
+                this.objects = Map.generateMapObjects(this.width, this.height);
             }
         }
 
+        //Generate new map with same tiles
         static generateNewBlankMap(width, height, tileSeedID) {
             let tileMap = [];
             for (let i = 0; i < width * height; i++) {
                 tileMap.push(tileSeedID);
             }
             return tileMap;
+        }
+
+        //Generate map objects
+        static generateMapObjects(width, height) {
+            let objectMap = [];
+            for(let i = 0; i < width * height; i++) {
+                if(getRandomInt(0, 100) < 20) objectMap.push(ResourceManager.getRandomObject(null).id);
+                else objectMap.push(-1);
+            }
+            return objectMap;
         }
 
         static getMapByName(searchName) {

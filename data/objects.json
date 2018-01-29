@@ -1,34 +1,103 @@
 {
     "objects": [
         {
+            "id": 0,
             "name": "Wild Tree",
-            "sprite": "entTree",
+            "sprite": "objTree",
             "size": 64,
             "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
         },
         {
+            "id": 1,
             "name": "Pond",
-            "sprite": "entPond",
+            "sprite": "objPond",
             "size": 64,
             "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
         },
         {
+            "id": 2,
             "name": "Brown Chest",
-            "sprite": "entBrownChest",
+            "sprite": "objBrownChest",
             "size": 64,
             "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
         },
         {
+            "id": 3,
             "name": "Cactus",
-            "sprite": "entCactus",
+            "sprite": "objCactus",
             "size": 64,
             "regions": ["Desert"]
         },
         {
+            "id": 4,
             "name": "Big Rock",
-            "sprite": "entBigRock",
+            "sprite": "objBigRock",
             "size": 64,
             "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
         },
+        {
+            "id": 5,
+            "name": "Small Flowers",
+            "sprite": "objSmallFlowers",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "id": 6,
+            "name": "Big Flowers",
+            "sprite": "objBigFlowers",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 7,
+            "name": "Small Rocks",
+            "sprite": "objSmallRocks",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 8,
+            "name": "Round Tree Large",
+            "sprite": "objRoundTreeLarge",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 9,
+            "name": "Big Mushroom",
+            "sprite": "objMushroomLarge",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 10,
+            "name": "Willow Tree",
+            "sprite": "objWillowTreeLarge",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 11,
+            "name": "Small Bush",
+            "sprite": "objRoundBushSmall",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 12,
+            "name": "Small Wild Bush",
+            "sprite": "objWildBushSmall",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "id": 13,
+            "name": "Small Dead Tree",
+            "sprite": "objDeadTreeSmall",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        }
+
     ]
 }

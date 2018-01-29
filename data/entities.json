@@ -1,7 +1,29 @@
 {
     "entities": [
         {
-
+            "name": "Test Cube",
+            "sprite": "mobCube",
+            "size": 64,
+            "type": "test",
+            "maxHP": 2000,
+            "speed": 10,
+            "defence": 20,
+            "hitSound": "",
+            "level": 100,
+            "deathSound": "",
+            "projectiles": [
+                {
+                    "sprite": "projCube",
+                    "sound": "sound1",
+                    "speed": 30,
+                    "damage_min": 50,
+                    "damage_max": 100,
+                    "number_of_projectiles": 3,
+                    "lifetime": 40,
+                    "multihit": false
+                }
+            ]
         }
+
     ]
 }

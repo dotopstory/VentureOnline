@@ -7,12 +7,18 @@ module.exports = function() {
         }
 
         static getItemByName(searchName) {
-            for(let i in ResourceManager.itemList) {
-                if(ResourceManager.itemList[i].name.toString().toLowerCase() === searchName.toString().toLowerCase())
+            for (let i in ResourceManager.itemList) {
+                if (ResourceManager.itemList[i].name.toString().toLowerCase() === searchName.toString().toLowerCase())
                     return ResourceManager.itemList[i];
             }
+        }
+        
+        static getRandomObject(region) {
+            return ResourceManager.objectList[getRandomInt(0, ResourceManager.objectList.length)];
         }
     };
     ResourceManager.itemList = {};
     ResourceManager.tileList = {};
+    ResourceManager.objectList = {};
+    ResourceManager.entityList = {};
 };

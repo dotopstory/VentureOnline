@@ -31,6 +31,8 @@ body {
     background: white;
     border-radius: 20px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 /* CONTROL STYLES */

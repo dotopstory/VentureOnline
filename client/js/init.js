@@ -21,7 +21,7 @@ $(window).on('load', function() {
     //Game objects
     gameElement = $('#gameCanvas');
     let gameCanvasCtx = gameElement[0].getContext('2d');
-    let fps = 60, canvasWidth = 1000, canvasHeight = 750;
+    let fps = 60, canvasWidth = 1000, canvasHeight = 800;
     let gameStateCache = {
         players: [],
         projectiles: [],
@@ -43,7 +43,7 @@ $(window).on('load', function() {
         client.setMap(data.map);
         ResourceManager.itemList = data.resources.itemList;
         ResourceManager.tileList = data.resources.tileList;
-        console.log(ResourceManager.tileList);
+        ResourceManager.objectList = data.resources.objectList;
     });
 
     //Listen for player packet updates
@@ -71,7 +71,8 @@ $(window).on('load', function() {
 
         //Draw game objects
         gameCamera.setPosition(client.player.x, client.player.y, canvasWidth, canvasHeight);
-        renderMap(gameCanvasCtx);
+        renderMapTiles(gameCanvasCtx);
+        renderMapObjects(gameCanvasCtx);
         renderItems(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
@@ -80,7 +81,7 @@ $(window).on('load', function() {
     }, 1000 / fps);
 
     //Render the map
-    function renderMap(ctx) {
+    function renderMapTiles(ctx) {
         let map = client.map;
 
         let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
@@ -88,13 +89,33 @@ $(window).on('load', function() {
         let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT));
         let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 1));
 
-        //console.log('xStart: ' + xStart + ' / xEnd: ' + xEnd + ' / yStart: ' + yStart + ' / yEnd: ' + yEnd);
-
         for(let y = yStart; y < yEnd; y++) {
             for (let x = xStart; x < xEnd; x++) {
                 let drawX = x * 64 - gameCamera.xOffset;
                 let drawY = y * 64 - gameCamera.yOffset;
                 let sprite = ResourceManager.sprites[ResourceManager.tileList[map.tiles[y * map.width + x]].sprite];
+                sprite.render(ctx, drawX, drawY);
+            }
+        }
+    }
+
+    //Render the map
+    function renderMapObjects(ctx) {
+        let map = client.map;
+
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
+        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 1));
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT));
+        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 1));
+
+        for(let y = yStart; y < yEnd; y++) {
+            for (let x = xStart; x < xEnd; x++) {
+                let drawX = x * 64 - gameCamera.xOffset;
+                let drawY = y * 64 - gameCamera.yOffset;
+
+                if(map.objects[y * map.width + x] === -1) continue;
+
+                let sprite = ResourceManager.sprites[ResourceManager.objectList[map.objects[y * map.width + x]].sprite];
                 sprite.render(ctx, drawX, drawY);
             }
         }

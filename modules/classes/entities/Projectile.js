@@ -65,8 +65,7 @@ module.exports = function() {
                         && (this.damagedTargets.indexOf(e.id) === -1)
                         && this.isActive
                         && e.isActive) {
-
-                        console.log(this.parent.id + " " + e.id);
+                        
                         e.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
                         this.onHit(e.id);
                     }

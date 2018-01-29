@@ -1,15 +1,15 @@
 class Sprite {
-    constructor(spriteSheet, startX, startY, width) {
+    constructor(spriteSheet, startX, startY, size) {
         this.id = Sprite.nextID++;
         this.spritesheet = spriteSheet;
-        this.startX = startX * 64;
-        this.startY = startY * 64;
-        this.width = width * 64;
-        this.height = width * 64;
+        this.startX = startX * size;
+        this.startY = startY * size;
+        this.width = size;
+        this.height = size;
     }
 
     render(ctx, x, y) {
-        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.height, x, y, this.width, this.height);
+        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.height, x, y, 64, 64);
     }
 
     renderSize(ctx, x, y, width, height) {

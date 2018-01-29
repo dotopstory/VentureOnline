@@ -11,7 +11,7 @@ let app = express();
 let serv = require('http').Server(app);
 let tickRate = 20; //Updates per second
 const MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
-const DEBUG_ON = true, SERVER_STARTUP_TIME = 1000 * 1;
+const DEBUG_ON = true, SERVER_STARTUP_TIME = 1000 * 10;
 
 //Default route
 app.get('/', function(req, res) {
@@ -40,9 +40,9 @@ serv.listen(process.env.PORT || 2000); //Listen for requests
 //Listen for connection events
 let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
+serverMessage("INFO - Venture Online server has been started.");
 loadResources();
 
-serverMessage("INFO - Venture Online server has been started.");
 setTimeout(function () {
     openConnections();
 }, SERVER_STARTUP_TIME);
@@ -93,7 +93,8 @@ function openConnections() {
                 socket.emit('initPack', {socketID: socket.id, map: EntityManager.playerList[socket.id].map,
                     resources: {
                         itemList: ResourceManager.itemList,
-                        tileList: ResourceManager.tileList
+                        tileList: ResourceManager.tileList,
+                        objectList: ResourceManager.objectList
                     }
                 });
 
