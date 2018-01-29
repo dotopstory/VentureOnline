@@ -63,6 +63,7 @@ module.exports = function() {
                         && !(e instanceof Projectile)
                         && (this.parent instanceof Player)
                         && (this.damagedTargets.indexOf(e.id) === -1)
+                        && this.isActive
                         && e.isActive) {
 
                         console.log(this.parent.id + " " + e.id);

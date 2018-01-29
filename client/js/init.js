@@ -42,6 +42,8 @@ $(window).on('load', function() {
         client.id = data.socketID;
         client.setMap(data.map);
         ResourceManager.itemList = data.resources.itemList;
+        ResourceManager.tileList = data.resources.tileList;
+        console.log(ResourceManager.tileList);
     });
 
     //Listen for player packet updates
@@ -92,8 +94,7 @@ $(window).on('load', function() {
             for (let x = xStart; x < xEnd; x++) {
                 let drawX = x * 64 - gameCamera.xOffset;
                 let drawY = y * 64 - gameCamera.yOffset;
-
-                let sprite = Tile.tileList[map.tiles[y * map.width + x]].sprite;
+                let sprite = ResourceManager.sprites[ResourceManager.tileList[map.tiles[y * map.width + x]].sprite];
                 sprite.render(ctx, drawX, drawY);
             }
         }

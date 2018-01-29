@@ -57,6 +57,9 @@ class UIManager {
         //Add menu items depending on privelages
         if(client.is(UIManager.getUiItemByName('Debug').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Debug\')">Debug</button>');
         if(client.is(UIManager.getUiItemByName('Map Editor').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Map Editor\')">Map Editor</button>');
+
+        loadTileSelection($('#tileSelect'));
+        mapEditSelectTile(0);
     }
 }
 UIManager.uiItems = [
@@ -208,17 +211,13 @@ $(window).on('load', function() {
 let selectedTileID;
 let previewTileCanvas;
 
-$(window).on('load', function(){
-    let tileSelect = $('#tileSelect');
-    loadTileSelection(tileSelect);
-
+$(window).on('load', function() {
     //Init the tile preview canvas
     let previewSize = 128;
     previewTileCanvas = $('#editPreviewTile');
     previewTileCanvas.css({'width': previewSize, 'height': previewSize});
     previewTileCanvas.attr('width', previewSize);
     previewTileCanvas.attr('height', previewSize);
-    mapEditSelectTile(0);
 });
 
 function initMapEditor () {
@@ -227,19 +226,19 @@ function initMapEditor () {
 
 function loadTileSelection(element) {
     let canvasSize = 64;
-    for(let i in Tile.tileList) {
+    for(let i in ResourceManager.tileList) {
         //Create canvas and apply attributes
         let newCanvas = $('<canvas/>',{'class':'tileSelectCanvas'});
         let newCanvasCtx = newCanvas[0].getContext('2d');
         newCanvas.css({'width': canvasSize, 'height': canvasSize});
         newCanvas.attr('width', canvasSize);
         newCanvas.attr('height', canvasSize);
-        newCanvas.attr('tileID', Tile.tileList[i].id);
+        newCanvas.attr('tileID', ResourceManager.tileList[i].id);
         newCanvas.attr('onclick', 'mapEditSelectTile(' + i + ')');
         element.append(newCanvas);
 
         //Render sprite to canvas
-        Tile.tileList[i].sprite.render(newCanvasCtx, 0, 0);
+        ResourceManager.sprites[ResourceManager.tileList[i].sprite].render(newCanvasCtx, 0, 0);
     }
 }
 
@@ -254,7 +253,7 @@ function processMapEditor() {
 function mapEditSelectTile(id) {
     selectedTileID = id;
     let ctx = previewTileCanvas[0].getContext('2d');
-    Tile.tileList[selectedTileID].sprite.renderSize(ctx, 0, 0, 128, 128);
+    ResourceManager.sprites[ResourceManager.tileList[selectedTileID].sprite].renderSize(ctx, 0, 0, 128, 128);
 }
 
 function cancelMapEdit() {

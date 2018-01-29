@@ -1,0 +1,148 @@
+{
+    "tiles": [
+        {
+            "id": 0,
+            "name": "Light Grass",
+            "sprite": "tileLightGrass",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 1,
+            "name": "Light Grass Flowers",
+            "sprite": "tileLightGrassFlowers",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 2,
+            "name": "Dark Grass",
+            "sprite": "tileDarkGrass",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 3,
+            "name": "Dark Grass Rocks",
+            "sprite": "tileDarkGrassRocks",
+            "isSolid": true,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 4,
+            "name": "Dark Grass Flower",
+            "sprite": "tileDarkGrassFlower",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 5,
+            "name": "Dark Grass Flowers",
+            "sprite": "tileDarkGrassFlowers",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 6,
+            "name": "Dark Water",
+            "sprite": "tileDarkWater",
+            "isSolid": true,
+            "isSlowing": true,
+            "isDamaging": false
+        },
+        {
+            "id": 7,
+            "name": "Light Water",
+            "sprite": "tileLightWater",
+            "isSolid": false,
+            "isSlowing": true,
+            "isDamaging": false
+        },
+        {
+            "id": 8,
+            "name": "Light Water Rocks",
+            "sprite": "tileLightWaterRocks",
+            "isSolid": true,
+            "isSlowing": true,
+            "isDamaging": false
+        },
+        {
+            "id": 9,
+            "name": "Desert Sand",
+            "sprite": "tileDesertSand",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 10,
+            "name": "Desert Sand Cactus",
+            "sprite": "tileDesertSandCactus",
+            "isSolid": true,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 11,
+            "name": "Desert Sand Pond",
+            "sprite": "tileDesertSandPond",
+            "isSolid": false,
+            "isSlowing": true,
+            "isDamaging": false
+        },
+        {
+            "id": 12,
+            "name": "Desert Sand Skull",
+            "sprite": "tileDesertSkull",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 13,
+            "name": "Desert Sand Bones",
+            "sprite": "tileDesertBones",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 14,
+            "name": "Stone Floor",
+            "sprite": "tileStoneFloor",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 15,
+            "name": "Brick Wall",
+            "sprite": "tileBrickWall",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 16,
+            "name": "Floor Wooden Planks",
+            "sprite": "tilePlanksFloor",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        },
+        {
+            "id": 17,
+            "name": "Beach Sand",
+            "sprite": "tileBeachSand",
+            "isSolid": false,
+            "isSlowing": false,
+            "isDamaging": false
+        }
+    ]
+}

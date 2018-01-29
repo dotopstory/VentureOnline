@@ -92,7 +92,8 @@ function openConnections() {
                 socket.emit('signInResponse', {success: true});
                 socket.emit('initPack', {socketID: socket.id, map: EntityManager.playerList[socket.id].map,
                     resources: {
-                        itemList: ResourceManager.itemList
+                        itemList: ResourceManager.itemList,
+                        tileList: ResourceManager.tileList
                     }
                 });
 

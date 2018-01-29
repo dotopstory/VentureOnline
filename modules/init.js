@@ -6,6 +6,7 @@ module.exports = function() {
 
     this.loadResources = function() {
         this.loadItems();
+        this.loadTiles();
     };
 
     //Read JSON data for items from API
@@ -15,13 +16,20 @@ module.exports = function() {
             ResourceManager.itemList = require('../data/items.json').items;
         } else { //Load from API if in prod/testing
             getJSON(apiURL + 'items.json', function(err, data) {
-                if(err) {
-                    console.log('Error locating JSON data for items.');
-                    return;
-                }
                 ResourceManager.itemList = data.items;
             });
         }
+        console.log("Resource Manager: loaded " + ResourceManager.itemList.length + " items.");
+    };
 
-    }
+    this.loadTiles = function() {
+        if(process.env.PORT == undefined) {
+            ResourceManager.tileList = require('../data/tiles.json').tiles;
+        } else {
+            getJSON(apiURL + 'tiles.json', function(err, data) {
+                ResourceManager.tileList = data.tiles;
+            });
+        }
+        console.log("Resource Manager: loaded " + ResourceManager.tileList.length + " tiles.");
+    };
 };

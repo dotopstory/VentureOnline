@@ -14,4 +14,5 @@ module.exports = function() {
         }
     };
     ResourceManager.itemList = {};
+    ResourceManager.tileList = {};
 };

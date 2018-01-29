@@ -18,6 +18,7 @@ class ResourceManager {
     }
 }
 ResourceManager.itemList = {};
+ResourceManager.tileList = {};
 //Images
 ResourceManager.images = {
     'spritesheet1': new Image(1600, 1600), //Load main spritesheet}
@@ -82,11 +83,11 @@ ResourceManager.sprites = {
     farmTreeApples: new Sprite(ss, 6, 9, 1),
 
     //Objects
-    entityTree: new Sprite(ss, 7, 0, 1),
-    entityPond: new Sprite(ss, 7, 1, 1),
-    entityBrownChest: new Sprite(ss, 7, 2, 1),
-    entityCactus: new Sprite(ss, 7, 3, 1),
-    entityRock: new Sprite(ss, 7, 4, 1),
+    entTree: new Sprite(ss, 7, 0, 1),
+    entPond: new Sprite(ss, 7, 1, 1),
+    entBrownChest: new Sprite(ss, 7, 2, 1),
+    entCactus: new Sprite(ss, 7, 3, 1),
+    entBigRock: new Sprite(ss, 7, 4, 1),
 
     //MOBS
     mobPrisonGuard: new Sprite(ss, 10, 0, 1),

@@ -1,0 +1,34 @@
+{
+    "objects": [
+        {
+            "name": "Wild Tree",
+            "sprite": "entTree",
+            "size": 64,
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "name": "Pond",
+            "sprite": "entPond",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "name": "Brown Chest",
+            "sprite": "entBrownChest",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+        {
+            "name": "Cactus",
+            "sprite": "entCactus",
+            "size": 64,
+            "regions": ["Desert"]
+        },
+        {
+            "name": "Big Rock",
+            "sprite": "entBigRock",
+            "size": 64,
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+        },
+    ]
+}

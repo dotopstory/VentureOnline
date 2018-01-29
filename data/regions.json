@@ -1,0 +1,28 @@
+{
+    "regions": [
+        {
+            "name": "Desert"
+        },
+        {
+            "name": "Beach"
+        },
+        {
+            "name": "Water"
+        },
+        {
+            "name": "Grasslands"
+        },
+        {
+            "name": "Lowlands"
+        },
+        {
+            "name": "Highlands"
+        },
+        {
+            "name": "Mountains"
+        },
+        {
+            "name": "Snow"
+        }
+    ]
+}
