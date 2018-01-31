@@ -71,6 +71,12 @@ $(window).on('load', function() {
 
         //Draw game objects
         gameCamera.setPosition(client.player.x, client.player.y, canvasWidth, canvasHeight);
+
+        gameCanvasCtx.mozImageSmoothingEnabled = false;
+        gameCanvasCtx.webkitImageSmoothingEnabled = false;
+        gameCanvasCtx.msImageSmoothingEnabled = false;
+        gameCanvasCtx.imageSmoothingEnabled = false;
+
         renderMapTiles(gameCanvasCtx);
         renderMapObjects(gameCanvasCtx);
         renderItems(gameCanvasCtx);

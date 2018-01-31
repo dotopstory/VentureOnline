@@ -11,7 +11,7 @@ let app = express();
 let serv = require('http').Server(app);
 let tickRate = 20; //Updates per second
 const MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
-const DEBUG_ON = true, SERVER_STARTUP_TIME = 1000 * 10;
+const DEBUG_ON = true, SERVER_STARTUP_TIME = 1000 * (process.env.PORT ? 60 : 0);
 
 //Default route
 app.get('/', function(req, res) {

@@ -106,6 +106,7 @@ ResourceManager.sprites = {
     objRoundBushSmall: new Sprite(ss64, 7, 11, 64),
     objWildBushSmall: new Sprite(ss64, 7, 12, 64),
     objDeadTreeSmall: new Sprite(ss64, 7, 13, 64),
+    objPineTreeLarge: new Sprite(ss64, 7, 14, 64),
 
     //MOBS
     mobPrisonGuard: new Sprite(ss64, 10, 0, 64),
