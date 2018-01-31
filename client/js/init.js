@@ -109,19 +109,21 @@ $(window).on('load', function() {
     function renderMapObjects(ctx) {
         let map = client.map;
 
-        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
-        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 1));
-        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT));
-        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 1));
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH) - 1);
+        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 2));
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT) - 1);
+        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 2));
 
         for(let y = yStart; y < yEnd; y++) {
             for (let x = xStart; x < xEnd; x++) {
-                let drawX = x * 64 - gameCamera.xOffset;
-                let drawY = y * 64 - gameCamera.yOffset;
+                if(map.objects[y * map.width + x] == null) continue;
 
-                if(map.objects[y * map.width + x] === -1) continue;
+                let obj = map.objects[y * map.width + x];
+                let drawX = x * 64 - gameCamera.xOffset + obj.xOffset;
+                let drawY = y * 64 - gameCamera.yOffset + obj.yOffset;
 
-                let sprite = ResourceManager.sprites[ResourceManager.objectList[map.objects[y * map.width + x]].sprite];
+
+                let sprite = ResourceManager.sprites[ResourceManager.objectList[obj.id].sprite];
                 sprite.render(ctx, drawX, drawY);
             }
         }

@@ -47,9 +47,16 @@ module.exports = function() {
         //Generate map objects
         static generateMapObjects(width, height) {
             let objectMap = [];
+
             for(let i = 0; i < width * height; i++) {
-                if(getRandomInt(0, 100) < 20) objectMap.push(ResourceManager.getRandomObject(null).id);
-                else objectMap.push(-1);
+                if(getRandomInt(0, 100) < 50) {
+                    objectMap.push({id: ResourceManager.getRandomObject(null).id,
+                        xOffset: getRandomInt(-32, 32),
+                        yOffset: getRandomInt(-32, 32)});
+                } else {
+                    objectMap.push(null);
+                }
+
             }
             return objectMap;
         }
