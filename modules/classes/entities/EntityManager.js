@@ -132,7 +132,7 @@ module.exports = function() {
     };
     EntityManager.nextID = 200;
     EntityManager.spawnTimer = 0;
-    EntityManager.spawnTime = 20 * 999999999;
+    EntityManager.spawnTime = 20 * 5;
     EntityManager.playerList = [];
     EntityManager.entityList = [];
     EntityManager.itemList = [];

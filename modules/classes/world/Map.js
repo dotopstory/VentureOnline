@@ -24,14 +24,14 @@ module.exports = function() {
                     this.width = data.width;
                     this.height = data.height;
                     this.tiles = data.tiles;
-                    this.objects = Map.generateMapObjects(this.width, this.height);
+                    this.objects = Map.generateMapObjects(this.tiles);
                 });
             } else {
                 this.name = params.name;
                 this.width = params.width;
                 this.height = params.height;
                 this.tiles = params.tiles === undefined ? Map.generateNewBlankMap(this.width, this.height, params.tileSeedID) : params.tiles;
-                this.objects = Map.generateMapObjects(this.width, this.height);
+                this.objects = Map.generateMapObjects(this.tiles);
             }
         }
 
@@ -45,14 +45,22 @@ module.exports = function() {
         }
 
         //Generate map objects
-        static generateMapObjects(width, height) {
+        static generateMapObjects(tileList) {
             let objectMap = [];
 
-            for(let i = 0; i < width * height; i++) {
-                if(getRandomInt(0, 100) < 50) {
-                    objectMap.push({id: ResourceManager.getRandomObject(null).id,
-                        xOffset: getRandomInt(-32, 32),
-                        yOffset: getRandomInt(-32, 32)});
+            for(let i = 0; i < tileList.length; i++) {
+                if(getRandomInt(0, 100) < 50
+                    && !ResourceManager.tileList[tileList[i]].isSolid) {
+                    let newObj = ResourceManager.getRandomObject(null);
+
+                    if(!arrayContainsArrayItem(newObj.regions, ResourceManager.tileList[tileList[i]].regions)) {
+                        objectMap.push(null);
+                        continue;
+                    }
+
+                    objectMap.push({id: newObj.id,
+                        xOffset: getRandomInt(0, 0),
+                        yOffset: getRandomInt(0, 0)});
                 } else {
                     objectMap.push(null);
                 }

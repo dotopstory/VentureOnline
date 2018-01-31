@@ -1,13 +1,19 @@
 {
     "regions": [
         {
+            "name": "Building"
+        },
+        {
+            "name": "Empty"
+        },
+        {
             "name": "Desert"
         },
         {
             "name": "Beach"
         },
         {
-            "name": "Water"
+            "name": "Ocean"
         },
         {
             "name": "Grasslands"

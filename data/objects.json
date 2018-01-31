@@ -22,7 +22,7 @@
             "sprite": "objBrownChest",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow", "Building"]
         },
         {
             "id": 3,
@@ -38,7 +38,7 @@
             "sprite": "objBigRock",
             "size": 64,
             "isSolid": true,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow", "Ocean"]
         },
         {
             "id": 5,
@@ -46,7 +46,7 @@
             "sprite": "objSmallFlowers",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
         },
         {
             "id": 6,
@@ -54,7 +54,7 @@
             "sprite": "objBigFlowers",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         },
         {
             "id": 7,
@@ -70,7 +70,7 @@
             "sprite": "objRoundTreeLarge",
             "size": 64,
             "isSolid": true,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         },
         {
             "id": 9,
@@ -78,7 +78,7 @@
             "sprite": "objMushroomLarge",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         },
         {
             "id": 10,
@@ -86,7 +86,7 @@
             "sprite": "objWillowTreeLarge",
             "size": 64,
             "isSolid": true,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         },
         {
             "id": 11,
@@ -94,7 +94,7 @@
             "sprite": "objRoundBushSmall",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         },
         {
             "id": 12,
@@ -102,7 +102,7 @@
             "sprite": "objWildBushSmall",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         },
         {
             "id": 13,
@@ -118,7 +118,7 @@
             "sprite": "objPineTreeLarge",
             "size": 64,
             "isSolid": true,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
         }
     ]
 }

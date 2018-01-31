@@ -66,4 +66,13 @@ module.exports = function() {
         return Math.abs(Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2)));
 
     };
+
+    this.arrayContainsArrayItem = function(arr1, arr2) {
+        for(let i1 in arr1) {
+            for(let i2 in arr2) {
+                if(arr1[i1] === arr2[i2]) return true;
+            }
+        }
+        return false;
+    };
 };
