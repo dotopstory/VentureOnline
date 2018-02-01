@@ -78,6 +78,7 @@ $(window).on('load', function() {
         gameCanvasCtx.imageSmoothingEnabled = false;
 
         renderMapTiles(gameCanvasCtx);
+        blendMapTiles(gameCanvasCtx);
         renderMapObjects(gameCanvasCtx);
         renderItems(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
@@ -90,21 +91,82 @@ $(window).on('load', function() {
     function renderMapTiles(ctx) {
         let map = client.map;
 
-        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
-        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 1));
-        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT));
-        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 1));
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH) - 1);
+        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 2));
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT) - 1);
+        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 2));
 
         for(let y = yStart; y < yEnd; y++) {
             for (let x = xStart; x < xEnd; x++) {
-                let drawX = x * 64 - gameCamera.xOffset;
-                let drawY = y * 64 - gameCamera.yOffset;
-                let sprite = ResourceManager.sprites[ResourceManager.tileList[map.tiles[y * map.width + x]].sprite];
+                let drawX = parseInt(x * 64 - gameCamera.xOffset);
+                let drawY = parseInt(y * 64 - gameCamera.yOffset);
+                let tileID = map.tiles[y * map.width + x];
+                let sprite = ResourceManager.sprites[ResourceManager.tileList[tileID].sprite];
                 sprite.render(ctx, drawX, drawY);
+            }
+        }
+    }
 
-                //Blend tiles
-                ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-                //ctx.fillRect(drawX, drawY, 4, 64);
+    function blendMapTiles(ctx) {
+        let map = client.map;
+
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH) - 1);
+        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 2));
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT) - 1);
+        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 2));
+
+        for(let y = yStart; y < yEnd; y++) {
+            for (let x = xStart; x < xEnd; x++) {
+                let drawX = parseInt(x * 64 - gameCamera.xOffset);
+                let drawY = parseInt(y * 64 - gameCamera.yOffset);
+                let tileID = map.tiles[y * map.width + x];
+
+                let c = ctx.getImageData(drawX + 32, drawY + 32, 1, 1).data;
+                //Check left
+                if(tileID !== map.tiles[y * map.width + x - 1]) {
+                    //Blend tiles
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
+                    ctx.fillRect(drawX, drawY, 4, 64);
+
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
+                    ctx.fillRect(drawX - 4, drawY, 4, 64);
+
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.3)";
+                    ctx.fillRect(drawX - 8, drawY, 4, 64);
+                }
+
+                //Check right
+                if(tileID !== map.tiles[y * map.width + x + 1]) {
+                    //Blend tiles
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
+                    ctx.fillRect(drawX + 60, drawY, 4, 64);
+
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
+                    ctx.fillRect(drawX + 64, drawY, 4, 64);
+                }
+
+                //Check up
+                if(tileID !== map.tiles[(y - 1) * map.width + x]) {
+                    //Blend tiles
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
+                    ctx.fillRect(drawX, drawY, 64, 4);
+
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
+                    ctx.fillRect(drawX, drawY - 4, 64, 4);
+
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.3)";
+                    ctx.fillRect(drawX, drawY - 8, 64, 4);
+                }
+
+                //Check down
+                if(tileID !== map.tiles[(y + 1) * map.width + x]) {
+                    //Blend tiles
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
+                    ctx.fillRect(drawX, drawY + 60, 64, 4);
+
+                    ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
+                    ctx.fillRect(drawX, drawY + 64, 64, 4);
+                }
             }
         }
     }
