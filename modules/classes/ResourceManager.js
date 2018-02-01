@@ -17,8 +17,8 @@ module.exports = function() {
             return ResourceManager.objectList[getRandomInt(0, ResourceManager.objectList.length)];
         }
     };
-    ResourceManager.itemList = {};
-    ResourceManager.tileList = {};
-    ResourceManager.objectList = {};
-    ResourceManager.entityList = {};
+    ResourceManager.itemList = [];
+    ResourceManager.tileList = [];
+    ResourceManager.objectList = [];
+    ResourceManager.entityList = [];
 };

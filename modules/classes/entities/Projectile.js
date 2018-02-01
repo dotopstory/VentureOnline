@@ -22,6 +22,7 @@ module.exports = function() {
             this.multihit = multihit;
             this.hitRadius = 48;
             this.damagedTargets = [];
+            this.bounds = {x: 20, y: 20, width: 20, height: 20};
         }
 
         update() {

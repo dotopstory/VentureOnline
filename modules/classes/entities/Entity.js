@@ -16,6 +16,7 @@ module.exports = function() {
             this.isInvulnerable = false;
             this.timer = 0;
             this.healthEffects = [];
+            this.bounds = {x: 16, y: 16, width: 40, height: 48};
         }
 
         update() {
@@ -25,8 +26,61 @@ module.exports = function() {
         }
 
         updatePosition() {
-            this.x += this.spdX;
-            this.y += this.spdY;
+            this.moveX();
+            this.moveY();
+        }
+
+        moveX() {
+            if(this.spdX > 0) { //Moving right
+                let xOffset = parseInt((this.x + this.spdX + this.bounds.width) / 64);
+                if(!this.isCollision(xOffset, parseInt((this.y + this.bounds.y + this.bounds.height) / 64))
+                && !this.isCollision(xOffset, parseInt((this.y + this.bounds.y) / 64))) {
+                    this.x += this.spdX;
+                } else {
+                    this.x = xOffset * 64 - this.bounds.x - this.bounds.width - 1;
+                    this.onMapCollision();
+                }
+            } else if(this.spdX < 0) { //Moving left
+                let xOffset = parseInt((this.x + this.spdX + this.bounds.x) / 64);
+                if(!this.isCollision(xOffset, parseInt((this.y + this.bounds.y) / 64))
+                && !this.isCollision(xOffset, parseInt((this.y + this.bounds.y + this.bounds.height) / 64))) {
+                    this.x += this.spdX;
+                } else {
+                    this.x = xOffset *  64 + 64 - this.bounds.x
+                    this.onMapCollision();
+                }
+            }
+        }
+
+        moveY() {
+            if(this.spdY < 0) { //Moving up
+                let yOffset = parseInt((this.y + this.spdY + this.bounds.y) / 64);
+                if(!this.isCollision(parseInt((this.x + this.bounds.x) / 64), yOffset)
+                && !this.isCollision(parseInt((this.x + this.bounds.x + this.bounds.width) / 64), yOffset)) {
+                    this.y += this.spdY;
+                } else {
+                    this.y = yOffset * 64 + 64 - this.bounds.y
+                    this.onMapCollision();
+                }
+            } else if(this.spdY > 0) { //Moving down
+                let yOffset = parseInt((this.y + this.spdY + this.bounds.y + this.bounds.height) / 64);
+                if(!this.isCollision(parseInt((this.x + this.bounds.x) / 64), yOffset)
+                && !this.isCollision(parseInt((this.x + this.bounds.x + this.bounds.width) / 64), yOffset)) {
+                    this.y += this.spdY;
+                } else {
+                    this.y = yOffset * 64 - this.bounds.y - this.bounds.height - 1;
+                    this.onMapCollision();
+                }
+            }
+        }
+
+        isCollision(x, y) {
+            if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]].isSolid) return true;
+            return false;
+        }
+
+        onMapCollision() {
+            if(this instanceof Projectile) this.isActive = false;
         }
 
         setTileLocation(x, y) {

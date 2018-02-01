@@ -59,8 +59,8 @@ module.exports = function() {
                     }
 
                     objectMap.push({id: newObj.id,
-                        xOffset: getRandomInt(0, 0),
-                        yOffset: getRandomInt(0, 0)});
+                        xOffset: getRandomInt(-32, 32),
+                        yOffset: getRandomInt(-32, 32)});
                 } else {
                     objectMap.push(null);
                 }
