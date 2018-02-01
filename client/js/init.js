@@ -101,6 +101,10 @@ $(window).on('load', function() {
                 let drawY = y * 64 - gameCamera.yOffset;
                 let sprite = ResourceManager.sprites[ResourceManager.tileList[map.tiles[y * map.width + x]].sprite];
                 sprite.render(ctx, drawX, drawY);
+
+                //Blend tiles
+                ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+                //ctx.fillRect(drawX, drawY, 4, 64);
             }
         }
     }

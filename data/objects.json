@@ -119,6 +119,38 @@
             "size": 64,
             "isSolid": true,
             "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
+        },
+        {
+            "id": 15,
+            "name": "Pond Leaves",
+            "sprite": "objPondLeaves",
+            "size": 64,
+            "isSolid": false,
+            "regions": ["Ocean"]
+        },
+        {
+            "id": 16,
+            "name": "Blossom Tree Large",
+            "sprite": "objBlossomTreeLarge",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "id": 17,
+            "name": "Willow Tree Light",
+            "sprite": "objWillowTreeLargeLight",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "id": 18,
+            "name": "Small Flowers White",
+            "sprite": "objSmallFlowersWhite",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
         }
     ]
 }

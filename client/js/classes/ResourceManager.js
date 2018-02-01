@@ -49,14 +49,12 @@ ResourceManager.sprites = {
     //**** TILES
     //*********************
     //DARK GRASS
-    tileDarkGrass: new Sprite(ss64, 1, 0, 64),
-    tileDarkGrassRocks: new Sprite(ss64, 1, 1, 64),
-    tileDarkGrassFlower: new Sprite(ss64, 1, 2, 64),
-    tileDarkGrassFlowers: new Sprite(ss64, 1, 3, 64),
+    tileDarkGrass: new Sprite(ss16, 1, 0, 16),
+    tileDarkGrassLight: new Sprite(ss16, 1, 1, 16),
 
     //LIGHT GRASS
-    tileLightGrass: new Sprite(ss64, 2, 0, 64),
-    tileLightGrassFlowers: new Sprite(ss64, 2, 2, 64),
+    tileLightGrass: new Sprite(ss16, 2, 0, 16),
+    tileLightGrassFlowers: new Sprite(ss8, 2, 2, 8),
 
     //BUILDING
     tileStoneFloor: new Sprite(ss64, 3, 0, 64),
@@ -64,8 +62,8 @@ ResourceManager.sprites = {
     tilePlanksFloor: new Sprite(ss64, 3, 2, 64),
 
     //WATER
-    tileDarkWater: new Sprite(ss64, 4, 0, 64),
-    tileLightWater: new Sprite(ss64, 4, 1, 64),
+    tileDarkWater: new Sprite(ss16, 0, 1, 16),
+    tileLightWater: new Sprite(ss16, 0, 0, 16),
     tileLightWaterRocks: new Sprite(ss64, 4, 2, 64),
     tileBeachSand: new Sprite(ss64, 4, 3, 64),
 
@@ -93,11 +91,11 @@ ResourceManager.sprites = {
 
     //OBJECTS
     objTree: new Sprite(ss64, 7, 0, 64),
-    objPond: new Sprite(ss64, 7, 1, 64),
+    objPond: new Sprite(ss8, 2, 1, 8),
     objBrownChest: new Sprite(ss64, 7, 2, 64),
     objCactus: new Sprite(ss64, 7, 3, 64),
     objBigRock: new Sprite(ss64, 7, 4, 64),
-    objSmallFlowers: new Sprite(ss64, 7, 5, 64),
+    objSmallFlowers: new Sprite(ss8, 2, 2, 8),
     objBigFlowers: new Sprite(ss64, 7, 6, 64),
     objSmallRocks: new Sprite(ss64, 7, 7, 64),
     objRoundTreeLarge: new Sprite(ss64, 7, 8, 64),
@@ -107,6 +105,11 @@ ResourceManager.sprites = {
     objWildBushSmall: new Sprite(ss64, 7, 12, 64),
     objDeadTreeSmall: new Sprite(ss64, 7, 13, 64),
     objPineTreeLarge: new Sprite(ss64, 7, 14, 64),
+    objBlossomTreeLarge: new Sprite(ss64, 7, 15, 64),
+    objWillowTreeLargeLight: new Sprite(ss64, 7, 16, 64),
+
+    objPondLeaves: new Sprite(ss8, 3, 1, 8),
+    objSmallFlowersWhite: new Sprite(ss8, 3, 2, 8),
 
     //MOBS
     mobPrisonGuard: new Sprite(ss64, 10, 0, 64),

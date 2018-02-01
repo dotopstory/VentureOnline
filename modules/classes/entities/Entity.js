@@ -59,7 +59,7 @@ module.exports = function() {
                 && !this.isCollision(parseInt((this.x + this.bounds.x + this.bounds.width) / 64), yOffset)) {
                     this.y += this.spdY;
                 } else {
-                    this.y = yOffset * 64 + 64 - this.bounds.y
+                    this.y = yOffset * 64 + 64 - this.bounds.y;
                     this.onMapCollision();
                 }
             } else if(this.spdY > 0) { //Moving down
@@ -76,6 +76,10 @@ module.exports = function() {
 
         isCollision(x, y) {
             if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]].isSolid) return true;
+            if(this.map.objects[y * this.map.width + x] == null) return false;
+            // distanceBetweenPoints({
+            //         x: x * 64 + this.map.objects[y * this.map.width + x].xOffset,
+            //         y: y * 64 + this.map.objects[y * this.map.width + x].yOffset}, this) < 48
             return false;
         }
 

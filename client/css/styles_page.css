@@ -66,11 +66,13 @@ body {
     display: inline-block;
     cursor: pointer;
     margin: 2% 0 0 5vw;
+    transition: all 1s ease;
 }
 
 .navItem:hover {
     text-decoration: underline;
     transform: scale(1.2);
+    transition: all 1s ease;
 }
 
 a, a:hover, a:active, a:visited {
@@ -112,11 +114,13 @@ a, a:hover, a:active, a:visited {
     padding: 0 1vw;
     margin: 2vh 0 0 0;
     box-shadow: 3px 3px 5px 6px #ccc;
+    transition: all 1s ease;
 }
 
 .btn-play:hover {
     background-color: #1b2631;
     transform: scale(1.1);
+    transition: all 1s ease;
 }
 
 /* LOGOS */

@@ -29,17 +29,17 @@
         },
         {
             "id": 3,
-            "name": "Dark Grass Rocks",
-            "sprite": "tileDarkGrassRocks",
-            "isSolid": true,
+            "name": "Dark Grass Light",
+            "sprite": "tileDarkGrassLight",
+            "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Lowlands"]
+            "regions": ["Lowlands", "Grasslands"]
         },
         {
             "id": 4,
             "name": "Dark Grass Flower",
-            "sprite": "tileDarkGrassFlower",
+            "sprite": "tileDarkGrassLight",
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
@@ -48,7 +48,7 @@
         {
             "id": 5,
             "name": "Dark Grass Flowers",
-            "sprite": "tileDarkGrassFlowers",
+            "sprite": "tileDarkGrassLight",
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
