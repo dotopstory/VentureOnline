@@ -60,6 +60,7 @@ ResourceManager.sprites = {
     tileStoneFloor: new Sprite(ss64, 3, 0, 64),
     tileBrickWall: new Sprite(ss64, 3, 1, 64),
     tilePlanksFloor: new Sprite(ss64, 3, 2, 64),
+    tileMarbleFloor: new Sprite(ss16, 3, 0, 16),
 
     //WATER
     tileDarkWater: new Sprite(ss16, 0, 1, 16),
@@ -105,8 +106,10 @@ ResourceManager.sprites = {
     objWildBushSmall: new Sprite(ss64, 7, 12, 64),
     objDeadTreeSmall: new Sprite(ss64, 7, 13, 64),
     objPineTreeLarge: new Sprite(ss64, 7, 14, 64),
-    objBlossomTreeLarge: new Sprite(ss64, 7, 15, 64),
+    objBlossomTreeLargePink: new Sprite(ss64, 7, 15, 64),
     objWillowTreeLargeLight: new Sprite(ss64, 7, 16, 64),
+    objBlossomTreeLargeGreen: new Sprite(ss64, 7, 17, 64),
+    objBlossomTreeLargeBlue: new Sprite(ss64, 7, 18, 64),
 
     objPondLeaves: new Sprite(ss8, 3, 1, 8),
     objSmallFlowersWhite: new Sprite(ss8, 3, 2, 8),

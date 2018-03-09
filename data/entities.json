@@ -13,13 +13,13 @@
             "deathSound": "",
             "projectiles": [
                 {
-                    "sprite": "projCube",
+                    "sprite": "projBlueBall",
                     "sound": "sound1",
                     "speed": 30,
                     "damage_min": 50,
                     "damage_max": 100,
                     "number_of_projectiles": 3,
-                    "lifetime": 40,
+                    "lifetime": 0,
                     "multihit": false
                 }
             ]

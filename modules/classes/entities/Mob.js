@@ -6,11 +6,18 @@ module.exports = function() {
     // MOB CLASS
     //*****************************
     this.Mob = class extends Creature {
-        constructor(spriteName, map, x, y) {
+        constructor(spriteName, map, x, y, name, maxHP, speed, defence, attackProj) {
             super(EntityManager.nextID++, spriteName, map, x, y);
             this.target = findNearestPoint(EntityManager.playerList, this.x, this.y);
-            this.lifeTime = 20 * 60 * 10;
             this.distanceToTarget = null;
+            this.lifeTime = 20 * 60 * 10;
+            this.name = name;
+            this.maxHP = maxHP;
+            this.hp = maxHP;
+            this.speed = speed;
+            this.defence = defence;
+            this.attackProj = attackProj;
+            console.log(attackProj);
         }
 
         update() {

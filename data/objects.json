@@ -131,7 +131,7 @@
         {
             "id": 16,
             "name": "Blossom Tree Large",
-            "sprite": "objBlossomTreeLarge",
+            "sprite": "objBlossomTreeLargePink",
             "size": 64,
             "isSolid": true,
             "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
@@ -148,6 +148,22 @@
             "id": 18,
             "name": "Small Flowers White",
             "sprite": "objSmallFlowersWhite",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "id": 19,
+            "name": "Blossom Tree Large Blue",
+            "sprite": "objBlossomTreeLargeBlue",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "id": 20,
+            "name": "Blossom Tree Large Green",
+            "sprite": "objBlossomTreeLargeGreen",
             "size": 64,
             "isSolid": true,
             "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]

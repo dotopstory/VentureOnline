@@ -7,7 +7,7 @@ module.exports = function() {
     // PROJECTILE CLASS
     //*****************************
     this.Projectile = class extends Entity {
-        constructor(parent, angle, spriteName, map, x, y, multihit, damageMin, damageMax, speed, lifetime, hitSound) {
+        constructor(parent, angle, spriteName, map, x, y, multihit, damageMin, damageMax, speed, lifetime) {
             super(Entity.nextID++, spriteName, map, x, y);
             this.parent = parent;
             this.spd = speed;
@@ -16,7 +16,6 @@ module.exports = function() {
             this.spdY = Math.sin(angle / 180 * Math.PI) * this.spd;
             this.damageMin = damageMin;
             this.damageMax = damageMax;
-            this.hitSound = hitSound;
             this.timer = 0;
             this.lifeTime = lifetime; //Ticks
             this.multihit = multihit;

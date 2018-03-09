@@ -22,8 +22,15 @@ module.exports = function() {
         }
 
         shootProjectile(angle) {
-            let p = new Projectile(this, angle, 'projBlueBall', this.map, this.x, this.y, false, 25, 50, 25, 90, null);
-            EntityManager.addEntity(p);
+            let angleIncrement = 15;
+            angle = angle - Math.floor(this.attackProj.number_of_projectiles / 2) * angleIncrement;
+            for(let i = 0; i < this.attackProj.number_of_projectiles; i++) {
+                let p = new Projectile(this, angle, this.attackProj.sprite, this.map, this.x, this.y, this.attackProj.multihit,
+                    this.attackProj.damage_min, this.attackProj.damage_max, this.attackProj.speed, this.attackProj.lifeTime);
+                EntityManager.addEntity(p);
+                angle += angleIncrement;
+            }
+
         }
 
         shootAtLocation(point) {

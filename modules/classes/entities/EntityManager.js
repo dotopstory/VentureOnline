@@ -119,7 +119,10 @@ module.exports = function() {
                     if(getRandomInt(0, 100) < 5) {
                         let spawnX = x + 64 * 2;
                         let spawnY = y + 64 * 2;
-                        let e = new Mob('mobCube', point.map, spawnX, spawnY);
+
+                        let newEntity = ResourceManager.getRandomEntity(null);
+
+                        let e = new Mob(newEntity.sprite, point.map, spawnX, spawnY, newEntity.name, newEntity.maxHP, newEntity.speed, newEntity.defence, newEntity.projectiles[0]);
                         if(distanceBetweenPoints(point, e) < 64 * 7) continue;
 
                         e.target = point;

@@ -16,6 +16,10 @@ module.exports = function() {
         static getRandomObject(region) {
             return ResourceManager.objectList[getRandomInt(0, ResourceManager.objectList.length)];
         }
+
+        static getRandomEntity(region) {
+            return ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)];
+        }
     };
     ResourceManager.itemList = [];
     ResourceManager.tileList = [];

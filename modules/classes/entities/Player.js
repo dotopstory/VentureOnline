@@ -69,7 +69,7 @@ module.exports = function() {
             let angleIncrement = 15;
             angle = angle - Math.floor(attack.number_of_projectiles / 2) * angleIncrement;
             for(let i = 0; i < attack.number_of_projectiles; i++) {
-                let p = new Projectile(this, angle, attack.sprite, this.map, this.x, this.y, attack.multihit, attack.damage_min, attack.damage_max, attack.speed, attack.lifetime, attack.sound);
+                let p = new Projectile(this, angle, attack.sprite, this.map, this.x, this.y, attack.multihit, attack.damage_min, attack.damage_max, attack.speed, attack.lifetime);
                 EntityManager.addEntity(p);
                 angle += angleIncrement;
             }
