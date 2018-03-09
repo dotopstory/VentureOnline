@@ -7,7 +7,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Lowlands"]
+            "regions": ["Lowlands"],
+            "blendIndex": 1
         },
         {
             "id": 1,
@@ -16,7 +17,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Highlands"]
+            "regions": ["Highlands"],
+            "blendIndex": 1
         },
         {
             "id": 2,
@@ -25,7 +27,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Lowlands", "Grasslands"]
+            "regions": ["Lowlands", "Grasslands"],
+            "blendIndex": 1
         },
         {
             "id": 3,
@@ -34,7 +37,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Lowlands", "Grasslands"]
+            "regions": ["Lowlands", "Grasslands"],
+            "blendIndex": 1
         },
         {
             "id": 4,
@@ -43,7 +47,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Lowlands"]
+            "regions": ["Lowlands"],
+            "blendIndex": 0
         },
         {
             "id": 5,
@@ -52,7 +57,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Lowlands"]
+            "regions": ["Lowlands"],
+            "blendIndex": 0
         },
         {
             "id": 6,
@@ -61,7 +67,8 @@
             "isSolid": true,
             "isSlowing": true,
             "isDamaging": false,
-            "regions": ["Empty"]
+            "regions": ["Empty"],
+            "blendIndex": 1
         },
         {
             "id": 7,
@@ -70,7 +77,8 @@
             "isSolid": false,
             "isSlowing": true,
             "isDamaging": false,
-            "regions": ["Ocean"]
+            "regions": ["Ocean"],
+            "blendIndex": 1
         },
         {
             "id": 8,
@@ -79,7 +87,8 @@
             "isSolid": true,
             "isSlowing": true,
             "isDamaging": false,
-            "regions": ["Ocean"]
+            "regions": ["Ocean"],
+            "blendIndex": 0
         },
         {
             "id": 9,
@@ -88,7 +97,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Desert"]
+            "regions": ["Desert"],
+            "blendIndex": 1
         },
         {
             "id": 10,
@@ -97,7 +107,8 @@
             "isSolid": true,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Desert"]
+            "regions": ["Desert"],
+            "blendIndex": 0
         },
         {
             "id": 11,
@@ -106,7 +117,8 @@
             "isSolid": false,
             "isSlowing": true,
             "isDamaging": false,
-            "regions": ["Desert"]
+            "regions": ["Desert"],
+            "blendIndex": 0
         },
         {
             "id": 12,
@@ -115,7 +127,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Desert"]
+            "regions": ["Desert"],
+            "blendIndex": 0
         },
         {
             "id": 13,
@@ -124,7 +137,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Desert"]
+            "regions": ["Desert"],
+            "blendIndex": 0
         },
         {
             "id": 14,
@@ -133,7 +147,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Building"]
+            "regions": ["Building"],
+            "blendIndex": 1
         },
         {
             "id": 15,
@@ -142,7 +157,8 @@
             "isSolid": true,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Building"]
+            "regions": ["Building"],
+            "blendIndex": 1
         },
         {
             "id": 16,
@@ -151,7 +167,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Building"]
+            "regions": ["Building"],
+            "blendIndex": 0
         },
         {
             "id": 17,
@@ -160,7 +177,8 @@
             "isSolid": false,
             "isSlowing": false,
             "isDamaging": false,
-            "regions": ["Beach"]
+            "regions": ["Beach"],
+            "blendIndex": 1
         }
     ]
 }

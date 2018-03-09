@@ -110,10 +110,10 @@ $(window).on('load', function() {
     function blendMapTiles(ctx) {
         let map = client.map;
 
-        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH) - 1);
-        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH + 2));
-        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT) - 1);
-        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT + 2));
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH) + 1);
+        let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH));
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT) + 1);
+        let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT));
 
         for(let y = yStart; y < yEnd; y++) {
             for (let x = xStart; x < xEnd; x++) {
@@ -121,7 +121,11 @@ $(window).on('load', function() {
                 let drawY = parseInt(y * 64 - gameCamera.yOffset);
                 let tileID = map.tiles[y * map.width + x];
 
+                //Skip on tile blending if blend index is less than 1
+                if(ResourceManager.tileList[tileID].blendIndex < 1) continue;
+
                 let c = ctx.getImageData(drawX + 32, drawY + 32, 1, 1).data;
+
                 //Check left
                 if(tileID !== map.tiles[y * map.width + x - 1]) {
                     //Blend tiles
@@ -133,6 +137,8 @@ $(window).on('load', function() {
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.3)";
                     ctx.fillRect(drawX - 8, drawY, 4, 64);
+
+                    ctx.fillRect(drawX - 12, drawY, 4, 32);
                 }
 
                 //Check right
@@ -143,6 +149,8 @@ $(window).on('load', function() {
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
                     ctx.fillRect(drawX + 64, drawY, 4, 64);
+
+                    ctx.fillRect(drawX + 64, drawY + 32, 4, 32);
                 }
 
                 //Check up
@@ -156,6 +164,8 @@ $(window).on('load', function() {
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.3)";
                     ctx.fillRect(drawX, drawY - 8, 64, 4);
+
+                    ctx.fillRect(drawX + 32, drawY - 8, 32, 4);
                 }
 
                 //Check down
@@ -166,6 +176,8 @@ $(window).on('load', function() {
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
                     ctx.fillRect(drawX, drawY + 64, 64, 4);
+
+                    ctx.fillRect(drawX, drawY + 64, 32, 4);
                 }
             }
         }

@@ -40,7 +40,7 @@ serv.listen(process.env.PORT || 2000); //Listen for requests
 //Listen for connection events
 let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
-serverMessage("INFO - Venture Online server has been started.");
+serverMessage("INFO - Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
 loadResources();
 
 setTimeout(function () {
