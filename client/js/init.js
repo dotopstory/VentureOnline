@@ -21,7 +21,7 @@ $(window).on('load', function() {
     //Game objects
     gameElement = $('#gameCanvas');
     let gameCanvasCtx = gameElement[0].getContext('2d');
-    let fps = 60, canvasWidth = 1000, canvasHeight = 800;
+    let fps = 60, canvasWidth = 1280, canvasHeight = 832;
     let gameStateCache = {
         players: [],
         projectiles: [],
@@ -33,6 +33,7 @@ $(window).on('load', function() {
     uiManager = new UIManager();
 
     //Canvas init
+    $('#canvasContainer').css({'width': canvasWidth, 'height': canvasHeight});
     gameElement.css({'width': canvasWidth, 'height': canvasHeight});
     gameElement.attr('width', canvasWidth);
     gameElement.attr('height', canvasHeight);

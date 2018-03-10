@@ -17,7 +17,6 @@ module.exports = function() {
             this.speed = speed;
             this.defence = defence;
             this.attackProj = attackProj;
-            console.log(attackProj);
         }
 
         update() {

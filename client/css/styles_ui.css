@@ -1,28 +1,27 @@
 /* CHAT STYLES */
 #chatDiv {
-    position: absolute;
-    top: 0;
-    left: 10vw;
-    width: 40vw;
+    font-family: 'Noto Sans', sans-serif !important;
+    width: 30vw;
     text-align: left;
     color: white;
-    border: 2px solid rgba(0, 0, 0, 0.9);
-    background: rgba(38, 38, 38, 0.8);
-    padding: 2vh 1vw;
+    background: transparent;
     border-radius: 20px;
+    left: 0.1vw;
+    bottom: 0.5vw;
 }
 
 #chat-input {
     background: transparent;
     border: 1px solid #1b2631;
     border-radius: 0;
-    padding: 1vh 1vw;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 1vmax;
+    padding: 0.2vh 0.2vw;
+    font-size: 0.9vmax;
     color: white;
 }
+
 #chat-input:focus {
     background: rgba(255, 255, 255, 0.2);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #chatDiv input::-webkit-input-placeholder {
@@ -31,27 +30,11 @@
 
 #chat-text {
     background-color: transparent;
-    padding: 1vh 1vw;
-    font-size: 1.2vmax;
-    overflow-y: scroll;
+    font-size: 0.9vmax;
     height: 15vh;
-}
-
-#chatSendButton {
-    width: 95%;
-    border: 5px solid #1b2631;
-    border-width: 2px 5px 5px 2px;
-    background-color: #2C3E50;
-    font-size: 1.5vmax;
-    color: white;
-    cursor: pointer;
-    border-radius: 20px;
-    padding: 2%;
-    font-family: 'Bungee', cursive;
-}
-
-#chatSendButton:hover {
-    background-color: #1b2631;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .chat-message {
@@ -70,22 +53,6 @@
 .message-info {
     font-weight: bold;
     color: #0066cc;
-}
-
-/* ALERT STYLES */
-#alertDiv {
-    margin-top: 6vh;
-    font-size: 2vmax;
-    font-weight: bold;
-    width: 25vw;
-    vertical-align: center;
-    background-color: white;
-    position: fixed;
-    top: 0;
-    right: 0;
-    background: rgba(38, 38, 38, 0.9);
-    color: white;
-    padding: 1vh 1vw;
 }
 
 /* MENU STYLES */
@@ -128,21 +95,6 @@
 .menuButton:hover {
     background-color: #1b2631;
     transform: scale(1.1);
-}
-
-/* DEBUG STYLES */
-#debugDiv {
-    font-size: 1.5vmax;
-    color: white;
-    border: 2px solid rgba(0, 0, 0, 0.8);
-    background: rgba(38, 38, 38, 0.9);
-    width: 30vw;
-    position: absolute;
-    left: 1vw;
-    top: 7vh;
-    padding: 2vh 1vw;
-    text-align: left;
-    z-index: 999;
 }
 
 /* MAP EDITOR STYLES */

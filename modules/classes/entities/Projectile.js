@@ -25,7 +25,7 @@ module.exports = function() {
         }
 
         update() {
-            if(this.timer++ > this.lifeTime) this.isActive = false;
+            if(this.timer++ >= this.lifeTime) this.isActive = false;
             super.update();
             this.checkCollision();
         }

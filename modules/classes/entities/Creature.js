@@ -26,7 +26,7 @@ module.exports = function() {
             angle = angle - Math.floor(this.attackProj.number_of_projectiles / 2) * angleIncrement;
             for(let i = 0; i < this.attackProj.number_of_projectiles; i++) {
                 let p = new Projectile(this, angle, this.attackProj.sprite, this.map, this.x, this.y, this.attackProj.multihit,
-                    this.attackProj.damage_min, this.attackProj.damage_max, this.attackProj.speed, this.attackProj.lifeTime);
+                    this.attackProj.damage_min, this.attackProj.damage_max, this.attackProj.speed, this.attackProj.lifetime);
                 EntityManager.addEntity(p);
                 angle += angleIncrement;
             }

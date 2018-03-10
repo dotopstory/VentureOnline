@@ -24,6 +24,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Bungee|Ubuntu:700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 
         <!-- Animate.css -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
@@ -61,26 +62,23 @@
                 <!-- Game canvas row -->
                 <div class="row canvas-row">
                     <div class="col-md-12">
-                        <canvas id="gameCanvas">Error - canvas not supported on your browser.</canvas><br>
+                        <div id="canvasContainer">
+                            <canvas id="gameCanvas">Error - canvas not supported on your browser.</canvas>
 
-                        <!-- Chat row -->
-                        <div id="chatDiv" class="hidden">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="chat-text">
-                                        <div class="chat-message">Welcome to Venture Chat.</div>
-                                    </div>
-
-                                    <form id="chat-form" novalidate>
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <input id="chat-input" type="text" class="form-control" placeholder="Type message here.." required autocomplete="off">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="button" id="chatSendButton" value="Send" onclick="sendMessageToServer()">
-                                            </div>
+                            <!-- Chat row -->
+                            <div id="chatDiv" class="onGameCanvas">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="chat-text">
                                         </div>
-                                    </form>
+                                        <form id="chat-form" novalidate>
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <input id="chat-input" type="text" class="form-control hidden" placeholder="Type message here.." required autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -95,15 +93,7 @@
             </div>
         </div>
 
-        <!-- Debug -->
-        <div id="debugDiv" class="hidden">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="menuTitle">Debug</span><br>
-                    <div id="debugContent"></div>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Map Editor -->
         <div id="mapEditDiv" class="hidden">
@@ -143,17 +133,6 @@
             </div>
         </div>
 
-        <!-- Alerts -->
-        <div id="alertDiv" class="hidden">
-            <div class="row">
-                <div class="col-md-3">
-                    <img id="alertIcon" src="/client/res/img/turnipguy.png" width="64" height="64">
-                </div>
-
-                <div id="alertMessage" class="col-md-9">
-                </div>
-            </div>
-        </div>
     </body>
     <script src="/client/js/managers/utils.js"></script>
     <script src="/client/js/classes/Client.js"></script>

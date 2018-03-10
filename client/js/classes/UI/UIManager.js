@@ -27,7 +27,7 @@ class UIManager {
 
         //Close ui item if it exists
         if(item != null) {
-            item.element.toggle('slide');
+            item.element.toggle();
             if(item.toggleFunction != null) item.toggleFunction();
         } else console.log('UI Manager Error - could not find UI item with name: ' + uiItemName);
     }
@@ -55,7 +55,6 @@ class UIManager {
 
     static onSignIn() {
         //Add menu items depending on privelages
-        if(client.is(UIManager.getUiItemByName('Debug').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Debug\')">Debug</button>');
         if(client.is(UIManager.getUiItemByName('Map Editor').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Map Editor\')">Map Editor</button>');
 
         loadTileSelection($('#tileSelect'));
@@ -64,50 +63,9 @@ class UIManager {
 }
 UIManager.uiItems = [
     new uiItem($('#menuDiv'), 'Menu', true),
-    new uiItem($('#chatDiv'), 'Chat', true, initChat),
-    new uiItem($('#alertDiv'), 'Alert', false),
-    new uiItem($('#debugDiv'), 'Debug', false, null, ['mod', 'admin']),
+    new uiItem($('#chat-input'), 'Chat', true, initChat),
     new uiItem($('#mapEditDiv'), 'Map Editor', false, initMapEditor, ['mod', 'admin'])
 ];
-
-//********************
-//*** DEBUG EVENTS
-//********************
-$(window).on('load', function() {
-    let debug = $('#debugDiv');
-    let output = $('#debugContent');
-
-
-    setInterval(function() {
-        if(client.id == null) return;
-        output.html('');
-        output.append('Client ID: ' + client.id);
-        output.append('<br>Client Username: ' + client.player.username);
-        output.append('<br>Client Position: (' + parseInt(client.player.x / TILE_WIDTH) + ', ' + parseInt(client.player.y / TILE_HEIGHT) + ')');
-        output.append('<br>Map Name: ' + client.map.name);
-        output.append('<br>Map Dimensions: ' + client.map.width + ' x ' + client.map.height);
-        output.append('<br>Mouse Position: (' + mouseX + ', ' + mouseY + ')');
-        output.append('<br>Mouse Map Position: (' + mouseMapX + ', ' + mouseMapY + ')');
-    }, 1000);
-});
-
-//********************
-//*** ALERT EVENTS
-//********************
-function showAlert(message) {
-    let alertDiv = $('#alertDiv');
-
-    //Fill alert contents
-    alertDiv.css({'margin-top': $('#navbar').height() + 'px'})
-    $('#alertMessage').html(message);
-    $('#alertIcon').attr('src', ResourceManager.images['turnipGuy'].src);
-
-    //Show alert and set timer for hiding alert
-    UIManager.toggleUiItem('Alert');
-    setTimeout(function() {
-        UIManager.toggleUiItem('Alert');
-    }, 2000);
-}
 
 //********************
 //*** MENU EVENTS
@@ -196,10 +154,8 @@ $(window).on('load', function() {
         if(data.success) {
             $('#div-signIn').hide();
             $('#div-game').fadeIn('slow');
-            showAlert("Signed In!");
             UIManager.onSignIn();
         } else {
-            showAlert("Incorrect Login.");
             console.log("Error - failed sign in.");
         }
     });

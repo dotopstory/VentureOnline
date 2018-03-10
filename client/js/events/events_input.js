@@ -52,10 +52,7 @@ $(window).on('load', function() {
         if(e.keyCode === 27) UIManager.toggleUiItem('Menu');
 
         //Chat events
-        if(e.keyCode === 17) UIManager.toggleUiItem('Chat');
-
-        //Debug events
-        if(e.keyCode === 9) UIManager.toggleUiItem('Debug');
+        if(e.keyCode === 13) UIManager.toggleUiItem('Chat');
 
         //World Edit events
         if(e.keyCode === 192) UIManager.toggleUiItem('Map Editor');

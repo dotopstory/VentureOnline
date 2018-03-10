@@ -22,6 +22,19 @@ body {
 }
 
 /* CANVAS STYLES */
+#canvasContainer {
+    position: relative;
+    width: 1024px;
+    height: 832px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.onGameCanvas {
+    padding: 5px;
+    position: absolute;
+}
+
 .canvas-row {
     text-align: center;
     padding: 1vh 0 0 0;
