@@ -81,6 +81,21 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Menu -->
+                            <div id="menuDiv" class="onGameCanvas hidden">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="menuTitle">Menu</span><br>
+
+                                        <!-- Menu buttons -->
+                                        <button class="btn menuButton">Help</button>
+                                        <button class="btn menuButton">Settings</button>
+                                        <button class="btn menuButton">Bug Report</button>
+                                        <button class="btn menuButton" onclick="signOut()">Sign Out</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,8 +107,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <!-- Map Editor -->
         <div id="mapEditDiv" class="hidden">
@@ -114,21 +127,6 @@
                     <input id="tbMapName" class="form-control" type="text">
                     <button class="btn venButton venButtonGreen" onclick="saveMap('', true)">Save</button>
                     <button class="btn venButton venButtonOrange" onclick="cancelMapEdit()">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Menu -->
-        <div id="menuDiv" class="hidden">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="menuTitle">Menu</span><br>
-
-                    <!-- Menu buttons -->
-                    <button class="btn menuButton">Help</button>
-                    <button class="btn menuButton">Settings</button>
-                    <button class="btn menuButton">Bug Report</button>
-                    <button class="btn menuButton" onclick="signOut()">Sign Out</button>
                 </div>
             </div>
         </div>

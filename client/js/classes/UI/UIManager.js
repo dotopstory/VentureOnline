@@ -94,11 +94,21 @@ function initChat() {
     chatInput.val('');
 
     if(UIManager.isUiOpen('Chat')) $('#chat-text').fadeIn('fast');
+    if(!UIManager.isUiOpen('Chat')) {
+        clearTimeout(chatTextTimeout);
+        chatTextTimeout = setTimeout(function() {
+            if(!UIManager.isUiOpen('Chat')) $('#chat-text').fadeOut('slow');
+        }, chatHideDelay);
+    }
+
 }
 
 //Show the chat text and then fade it out
 function showChatText() {
     $('#chat-text').fadeIn('fast');
+    chatText.scrollTop = chatText.scrollHeight;
+
+    clearTimeout(chatTextTimeout);
     chatTextTimeout = setTimeout(function() {
         if(!UIManager.isUiOpen('Chat')) $('#chat-text').fadeOut('slow');
     }, chatHideDelay);
@@ -112,10 +122,8 @@ $(window).on('load', function() {
         if(data.messageMap != null) message += '[' + data.messageMap + '] ';
         if(data.username != null) message += '<b>' + data.username+ '</b>: ';
         message += escapeHtml(data.message) + '</span><br>';
-
-        //Push message into html
         chatText.innerHTML += message;
-        chatText.scrollTop = chatText.scrollHeight;
+
         showChatText();
     });
 

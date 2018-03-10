@@ -7,7 +7,7 @@
     background: transparent;
     border-radius: 20px;
     left: 0.1vw;
-    bottom: 0.5vw;
+    bottom: 0.1vw;
 }
 
 #chat-input {
@@ -31,7 +31,7 @@
 #chat-text {
     background-color: transparent;
     font-size: 0.9vmax;
-    height: 15vh;
+    max-height: 15vh;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -64,15 +64,14 @@
 }
 
 #menuDiv {
-    font-size: 3vmax;
+    font-size: 2vmax;
     border-radius: 20px;
     color: white;
     border: 2px solid rgba(0, 0, 0, 0.8);
     background: rgba(38, 38, 38, 0.9);
-    width: 20vw;
-    position: absolute;
-    left: calc((100vw - 20vw) / 2);
-    top: 10vh;
+    width: 15vw;
+    left: calc(50% - 7.5vw);
+    top: 15vh;
     padding: 2vh 1vw;
     text-align: center;
 }
@@ -82,7 +81,7 @@
     border: 0px solid #1b2631;
     border-width: 2px 5px 5px 2px;
     background-color: #2C3E50;
-    font-size: 1.5vmax;
+    font-size: 1vmax;
     color: white;
     cursor: pointer;
     border-radius: 20px;
