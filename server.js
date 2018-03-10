@@ -53,6 +53,8 @@ Map.mapList = [
     new Map({fileName: 'limbo'}),
     new Map({fileName: 'desert'}),
     new Map({fileName: 'test'}),
+    new Map({fileName: 'arctic'}),
+    new Map({fileName: 'randomisland'}),
     new Map({name: 'NewMap', width: 500, height: 500, tileSeedID: 2})
 ];
 

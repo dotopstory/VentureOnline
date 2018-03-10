@@ -75,6 +75,10 @@ ResourceManager.sprites = {
     tileDesertSkull: new Sprite(ss64, 5, 3, 64),
     tileDesertBones: new Sprite(ss64, 5, 4, 64),
 
+    //SNOW
+    tileSnow: new Sprite(ss16, 2, 1, 16),
+    tileIce: new Sprite(ss8, 0, 0, 8),
+
     //*********************
     //**** ENTITIES
     //*********************
@@ -110,6 +114,9 @@ ResourceManager.sprites = {
     objWillowTreeLargeLight: new Sprite(ss64, 7, 16, 64),
     objBlossomTreeLargeGreen: new Sprite(ss64, 7, 17, 64),
     objBlossomTreeLargeBlue: new Sprite(ss64, 7, 18, 64),
+    objRoundTreeSnow: new Sprite(ss64, 7, 19, 64),
+    objSnowman: new Sprite(ss64, 7, 20, 64),
+    objDeadTreeLargeSnow: new Sprite(ss64, 7, 21, 64),
 
     objPondLeaves: new Sprite(ss8, 3, 1, 8),
     objSmallFlowersWhite: new Sprite(ss8, 3, 2, 8),

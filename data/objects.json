@@ -14,7 +14,7 @@
             "sprite": "objPond",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert", "Snow"]
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Desert"]
         },
         {
             "id": 2,
@@ -54,7 +54,7 @@
             "sprite": "objBigFlowers",
             "size": 64,
             "isSolid": false,
-            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
         },
         {
             "id": 7,
@@ -70,7 +70,7 @@
             "sprite": "objRoundTreeLarge",
             "size": 64,
             "isSolid": true,
-            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
+            "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
         },
         {
             "id": 9,
@@ -94,7 +94,7 @@
             "sprite": "objRoundBushSmall",
             "size": 64,
             "isSolid": false,
-            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains", "Snow"]
+            "regions": ["Beach", "Grasslands", "Lowlands", "Highlands", "Mountains"]
         },
         {
             "id": 12,
@@ -167,6 +167,30 @@
             "size": 64,
             "isSolid": true,
             "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
+        },
+        {
+            "id": 21,
+            "name": "Round Tree Snow",
+            "sprite": "objRoundTreeSnow",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Snow"]
+        },
+        {
+            "id": 22,
+            "name": "Snowman",
+            "sprite": "objSnowman",
+            "size": 64,
+            "isSolid": true,
+            "regions": ["Building", "Snow"]
+        },
+        {
+            "id": 23,
+            "name": "Dead Tree Large Snow",
+            "sprite": "objDeadTreeLargeSnow",
+            "size": 128,
+            "isSolid": true,
+            "regions": ["Snow"]
         }
     ]
 }

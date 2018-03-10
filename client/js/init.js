@@ -203,7 +203,7 @@ $(window).on('load', function() {
 
 
                 let sprite = ResourceManager.sprites[ResourceManager.objectList[obj.id].sprite];
-                sprite.render(ctx, drawX, drawY);
+                sprite.renderSize(ctx, drawX, drawY, ResourceManager.objectList[obj.id].size, ResourceManager.objectList[obj.id].size);
             }
         }
     }

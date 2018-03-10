@@ -42,23 +42,23 @@
         },
         {
             "id": 4,
-            "name": "Dark Grass Flower",
-            "sprite": "tileDarkGrassLight",
+            "name": "Snow",
+            "sprite": "tileSnow",
             "isSolid": false,
-            "speedEffect": 0,
-            "damagePerTick": 0,
-            "regions": ["Lowlands"],
-            "blendIndex": 0
+            "speedEffect": -10,
+            "damagePerTick": 1,
+            "regions": ["Snow"],
+            "blendIndex": 1
         },
         {
             "id": 5,
-            "name": "Dark Grass Flowers",
-            "sprite": "tileDarkGrassLight",
+            "name": "Ice",
+            "sprite": "tileIce",
             "isSolid": false,
-            "speedEffect": 0,
+            "speedEffect": 10,
             "damagePerTick": 0,
-            "regions": ["Lowlands"],
-            "blendIndex": 0
+            "regions": ["Snow"],
+            "blendIndex": 1
         },
         {
             "id": 6,

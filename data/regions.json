@@ -1,34 +1,44 @@
 {
     "regions": [
         {
-            "name": "Building"
+            "name": "Building",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Empty"
+            "name": "Empty",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Desert"
+            "name": "Desert",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Beach"
+            "name": "Beach",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Ocean"
+            "name": "Ocean",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Grasslands"
+            "name": "Grasslands",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Lowlands"
+            "name": "Lowlands",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Highlands"
+            "name": "Highlands",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Mountains"
+            "name": "Mountains",
+            "objectSpawnRate": 20
         },
         {
-            "name": "Snow"
+            "name": "Snow",
+            "objectSpawnRate": 20
         }
     ]
 }
