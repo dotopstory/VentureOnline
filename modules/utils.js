@@ -63,8 +63,8 @@ module.exports = function() {
     };
 
     this.distanceBetweenPoints = function(point1, point2) {
+        if(point1 == null || point2 == null) return 0;
         return Math.abs(Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2)));
-
     };
 
     this.arrayContainsArrayItem = function(arr1, arr2) {

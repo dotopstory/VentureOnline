@@ -85,13 +85,23 @@ function signOut() {
 let chatText = document.getElementById('chat-text');
 let chatInput = $('#chat-input');
 let chatForm = document.getElementById('chat-form');
-let minMessageLength = 1, maxMessageLength = 100;
+let minMessageLength = 1, maxMessageLength = 100, chatHideDelay = 10000, chatTextTimeout;
 
 chatInput.attr('maxlength', maxMessageLength);
 
 function initChat() {
     chatInput.focus();
     chatInput.val('');
+
+    if(UIManager.isUiOpen('Chat')) $('#chat-text').fadeIn('fast');
+}
+
+//Show the chat text and then fade it out
+function showChatText() {
+    $('#chat-text').fadeIn('fast');
+    chatTextTimeout = setTimeout(function() {
+        if(!UIManager.isUiOpen('Chat')) $('#chat-text').fadeOut('slow');
+    }, chatHideDelay);
 }
 
 //Listen for chat events
@@ -106,6 +116,7 @@ $(window).on('load', function() {
         //Push message into html
         chatText.innerHTML += message;
         chatText.scrollTop = chatText.scrollHeight;
+        showChatText();
     });
 
     //Chat form submitted event

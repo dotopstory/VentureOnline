@@ -53,6 +53,10 @@ $(window).on('load', function() {
 
         //Chat events
         if(e.keyCode === 13) UIManager.toggleUiItem('Chat');
+        if(e.keyCode === 191 && !UIManager.isUiOpen('Chat')) {
+            UIManager.toggleUiItem('Chat');
+            $('#chat-input').val('/');
+        }
 
         //World Edit events
         if(e.keyCode === 192) UIManager.toggleUiItem('Map Editor');
