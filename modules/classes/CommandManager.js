@@ -16,7 +16,8 @@ module.exports = function() {
     };
     Command.commandList = [
         new Command('/help', 0, showHelpCommand, 'Show the help dialog', ''),
-        new Command('/ann', 1, serverAnnounceCommand, 'Announce a message to the server', '[message]')
+        new Command('/ann', 1, serverAnnounceCommand, 'Announce a message to the server', '[message]'),
+        new Command('/tp', 1, playerTeleportCommand, 'Teleport to a tile location', '[x] [y]')
 
     ];
 
@@ -43,7 +44,10 @@ module.exports = function() {
             helpMessage = Command.commandList[i].arg1 + " " + Command.commandList[i].argsExample + " = " + Command.commandList[i].description + ".";
             sendMessageToClients(command.socketList, helpMessage, "announcement", "SERVER");
         }
+    }
 
+    function playerTeleportCommand(command) {
+        command.playerList[command.senderSocketId].setTileLocation(command.args[1], command.args[2]);
     }
 };
 
