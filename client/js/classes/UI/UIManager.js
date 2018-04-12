@@ -132,6 +132,11 @@ $(window).on('load', function() {
         e.preventDefault(); //Prevent page refresh on form submit
         sendMessageToServer();
     };
+
+    //Hide chat when unfocused
+    $('#chat-input').on('blur', function() {
+        $('#chat-input').hide();
+    });
 });
 
 function sendMessageToServer() {

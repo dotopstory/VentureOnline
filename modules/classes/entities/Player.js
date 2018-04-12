@@ -3,6 +3,7 @@ require('./EntityManager')();
 require('../../utils.js')();
 require('./Creature.js')();
 require('../Equiment.js')();
+require('../CommandManager.js')();
 
 module.exports = function() {
     //*****************************
@@ -113,7 +114,7 @@ module.exports = function() {
 
         //Listen for new messages from clients
         socket.on('sendMessageToServer', function(data) {
-            if (data[0] === '/') processServerCommand(SOCKET_LIST, data, socket.id); //Process a server command
+            if (data[0] === '/') processServerCommand({'socketList': SOCKET_LIST, 'playerList': EntityManager.playerList, 'args': data.split(' '), 'senderSocketId': socket.id});
             else sendMessageToClients(SOCKET_LIST, data, 'default', player.username, player.map.name);
         });
 
@@ -148,34 +149,6 @@ module.exports = function() {
         delete EntityManager.playerList[socket.id];
         if(player === undefined) return; //If client never signed in
         sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info');
-    };
-
-    //Handle server commands from the client
-    this.processServerCommand = function(SOCKET_LIST, commandLine, senderSocketID) {
-        let splitMessage = commandLine.split(' ');
-        let command = splitMessage[0];
-        let param1 = splitMessage[1];
-        let param2 = splitMessage[2];
-
-        if(command === '/announce' || command === '/ann') {
-            delete splitMessage[0];
-            let message = splitMessage.join(' ');
-            sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
-        } else if(command === '/tp' || command === '/teleport') {
-            EntityManager.playerList[senderSocketID].setTileLocation(param1, param2);
-        } else if(command === '/map') {
-            if(param1 === 'list') {
-                sendMessageToClients([SOCKET_LIST[EntityManager.playerList[senderSocketID].id]], 'MAPS: ' + Map.getMapListString(), 'info');
-            } else if(param1 === 'reset') {
-                let oldMap =  EntityManager.playerList[senderSocketID].map;
-                let newMap = new Map({id: oldMap.id, name: oldMap.name, width: oldMap.width, height: oldMap.height, tileSeedID: parseInt(param2)});
-                Map.mapList[oldMap.id] = newMap;
-                EntityManager.playerList[senderSocketID].changeMap(newMap);
-            } else {
-                if(Map.getMapByName(param1) === false) return;
-                EntityManager.playerList[senderSocketID].changeMap(Map.getMapByName(param1));
-            }
-        }
     };
 };
 

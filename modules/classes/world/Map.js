@@ -7,7 +7,7 @@ require('../../utils.js')();
 module.exports = function() {
     this.Map = class {
         constructor(params) {
-            if(params.id === undefined) this.id = Map.nextID++;
+            if(params.name != undefined) this.id = Map.nextID++;
             else this.id = params.id;
 
             //Create new random map

@@ -85,7 +85,6 @@ $(window).on('load', function() {
         renderEntities(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
         postRender(gameCanvasCtx);
-
     }, 1000 / fps);
 
     //Render the map

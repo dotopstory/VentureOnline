@@ -1,0 +1,26 @@
+#shortStatsDiv {
+    top: 0;
+    left: 0;
+    text-align: left;
+}
+
+#playerHPBar, #playerEnergyBar {
+    width: 10vw;
+    height: 1.5vw;
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.7);
+    padding: 1px 5px;
+    margin-bottom: 5px;
+}
+
+#playerHPBar {
+    background: linear-gradient(rgba(86, 171, 47, 0.7), rgba(168, 224, 99, 0.7));
+}
+
+#playerEnergyBar {
+    background: linear-gradient(rgba(252, 74, 26, 0.7), rgba(247, 183, 51, 0.7));
+}
+
+#playerName {
+    font-size: 0.8vmax;
+}

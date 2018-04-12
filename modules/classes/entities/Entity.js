@@ -75,7 +75,13 @@ module.exports = function() {
         }
 
         isCollision(x, y) {
+            //If current tile is null
+            if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]] == null) return true;
+
+            //If current tile is solid
             if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]].isSolid) return true;
+
+            //???
             if(this.map.objects[y * this.map.width + x] == null) return false;
             // distanceBetweenPoints({
             //         x: x * 64 + this.map.objects[y * this.map.width + x].xOffset,
