@@ -5,7 +5,7 @@
             "sprite": "mobCube",
             "size": 64,
             "type": "test",
-            "maxHP": 2000,
+            "maxHP": 500,
             "speed": 10,
             "defence": 20,
             "hitSound": "",
@@ -19,7 +19,7 @@
                     "damage_min": 50,
                     "damage_max": 100,
                     "number_of_projectiles": 3,
-                    "lifetime": 0,
+                    "lifetime": 20,
                     "multihit": false
                 }
             ]

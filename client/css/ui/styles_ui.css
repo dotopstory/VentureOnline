@@ -1,6 +1,6 @@
 /* CHAT STYLES */
 #chatDiv {
-    font-family: 'Noto Sans', sans-serif !important;
+    font-family: 'Arial Narrow', sans-serif !important;
     width: 30vw;
     text-align: left;
     color: white;
@@ -15,7 +15,7 @@
     border: 1px solid #1b2631;
     border-radius: 0;
     padding: 0.2vh 0.2vw;
-    font-size: 0.9vmax;
+    font-size: 1vmax;
     color: white;
 }
 
@@ -30,8 +30,8 @@
 
 #chat-text {
     background-color: transparent;
-    font-size: 0.9vmax;
-    max-height: 15vh;
+    font-size: 1vmax;
+    max-height: 30vh;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -52,7 +52,7 @@
 
 .message-info {
     font-weight: bold;
-    color: #0066cc;
+    color: #0099cc;
 }
 
 /* MENU STYLES */

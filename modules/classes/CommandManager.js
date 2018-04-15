@@ -17,14 +17,15 @@ module.exports = function() {
     Command.commandList = [
         new Command('/help', 0, showHelpCommand, 'Show the help dialog', ''),
         new Command('/ann', 1, serverAnnounceCommand, 'Announce a message to the server', '[message]'),
-        new Command('/tp', 1, playerTeleportCommand, 'Teleport to a tile location', '[x] [y]')
-
+        new Command('/tp', 1, playerTeleportCommand, 'Teleport to a tile location', '[x] [y]'),
+        new Command('/maplist', 0, mapListCommand, 'Display a list of all maps', ''),
+        new Command('/map', 1, switchMapCommand, 'Switch to a different map', '[map name]')
     ];
 
     //Handle server commands from the client
     this.processServerCommand = function(command) {
+        serverMessage(command.playerList[command.senderSocketId].username + " submitted a command: " + command.args);
         for(let i = 0; i < Command.commandList.length; i++) {
-            serverMessage(command.playerList[command.senderSocketId].username + " submitted a command: " + command.args);
             if(Command.commandList[i].arg1 === command.args[0]) {
                 Command.commandList[i].execute(command);
                 return;
@@ -38,17 +39,28 @@ module.exports = function() {
     }
 
     function showHelpCommand(command) {
-        sendMessageToClients(command.socketList, "Server Commands Help", "announcement", "SERVER");
+        sendMessageToClients(command.socketList, "Server Commands Help", "info");
         let helpMessage = "";
         for(let i = 0; i < Command.commandList.length; i++) {
             helpMessage = Command.commandList[i].arg1 + " " + Command.commandList[i].argsExample + " = " + Command.commandList[i].description + ".";
-            sendMessageToClients(command.socketList, helpMessage, "announcement", "SERVER");
+            sendMessageToClients(command.socketList, helpMessage, "info");
         }
     }
 
     function playerTeleportCommand(command) {
         command.playerList[command.senderSocketId].setTileLocation(command.args[1], command.args[2]);
     }
+
+    function mapListCommand(command) {
+        sendMessageToClients([command.socketList[command.senderSocketId]], 'MAPS: ' + Map.getMapListString(), 'info');
+    }
+
+    function switchMapCommand(command) {
+        if(Map.getMapByName(command.args[1]) === false) return;
+        sendMessageToClients([command.socketList[command.senderSocketId]], 'Switching to map: ' + command.args[1] + '...', 'info');
+        command.playerList[command.senderSocketId].changeMap(Map.getMapByName(command.args[1]));
+    }
+
 };
 
 // let splitMessage = commandLine.split(' ');

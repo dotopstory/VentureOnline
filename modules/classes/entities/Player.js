@@ -101,6 +101,8 @@ module.exports = function() {
         let player = new Player(SOCKET_LIST, socket.id, username, 'playerDefault', Map.getMapByName('Limbo'));
         EntityManager.addPlayer(player);
         sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info');
+        sendMessageToClients([socket], 'Welcome to Venture. Type /help for help.', 'info');
+
 
         //Listen for input events
         socket.on('keyPress', function(data) {
