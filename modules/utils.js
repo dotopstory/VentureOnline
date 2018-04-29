@@ -34,6 +34,12 @@ module.exports = function() {
         }
     };
 
+    this.getPlayerByUsername = function(playerList, username) {
+        for(let i in playerList) {
+            if(playerList[i].username === username) return playerList[i];
+        }
+    }
+
     //Get the angle between two points
     this.getAngle = function(point1, point2) {
         let deltaY = point1.y - point2.y;
