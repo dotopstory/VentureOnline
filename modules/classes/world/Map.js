@@ -7,6 +7,7 @@ require('../../utils.js')();
 module.exports = function() {
     this.Map = class {
         constructor(params) {
+            if(params === undefined) return;
             if(params.name != undefined) this.id = Map.nextID++;
             else this.id = params.id;
 

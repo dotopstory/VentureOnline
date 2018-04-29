@@ -1,5 +1,4 @@
 //Imports
-require('./modules/init.js')();
 require('./modules/classes/ResourceManager.js')();
 require('./modules/classes/entities/EntityManager.js')();
 require('./modules/classes/world/Map.js')();
@@ -41,7 +40,7 @@ serv.listen(process.env.PORT || 2000); //Listen for requests
 let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
-loadResources();
+ResourceManager.init();
 Map.mapList = [];
 
 setTimeout(function () {
@@ -50,8 +49,7 @@ setTimeout(function () {
         new Map({fileName: 'desert'}),
         new Map({fileName: 'test'}),
         new Map({fileName: 'arctic'}),
-        new Map({fileName: 'randomisland'}),
-        new Map({name: 'NewMap', width: 500, height: 500, tileSeedID: 2})
+        new Map({fileName: 'randomisland'})
     ];
 
     openConnections();
