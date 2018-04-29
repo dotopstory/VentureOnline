@@ -39,7 +39,7 @@ serv.listen(process.env.PORT || 2000); //Listen for requests
 //Listen for connection events
 let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
-serverMessage("INFO - Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
+serverMessage("INFO", "Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
 ResourceManager.init();
 Map.mapList = [];
 
@@ -59,20 +59,20 @@ function openConnections() {
     io.sockets.on('connection', function(socket) {
         //Deny client connection if too many clients connected
         if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
-            serverMessage('ALERT - denied client connection. Active connections: ' + SOCKET_LIST.length);
+            serverMessage("WARN", "denied client connection. Active connections: " + SOCKET_LIST.length);
             return;
         }
 
         //Add socket to list
         socket.id = getNextAvailableArrayIndex(SOCKET_LIST, MAX_SERVER_CONNECTIONS);
         SOCKET_LIST[socket.id] = socket;
-        serverMessage("INFO - [CLIENT " + socket.id + "] connected to the server. ");
+        serverMessage("INFO", "[CLIENT " + socket.id + "] connected to the server. ");
 
         //Listen for sign in attempts
         socket.on('signIn', function(data) {
             //Deny player sign in if too many players
             if(EntityManager.playerList.length + 1 > MAX_SERVER_PLAYERS) {
-                serverMessage('ALERT - denied player sign-in on [SLOT ' + socket.id + '].');
+                serverMessage("ALERT", " denied player sign-in on [SLOT " + socket.id + "].");
                 return;
             }
 
@@ -98,7 +98,7 @@ function openConnections() {
                 });
 
                 //Notify the server of new sign in
-                serverMessage("INFO - [CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
+                serverMessage("INFO", "[CLIENT: " + socket.id + "] signed in as [PLAYER: '" + data.username + "'].");
             } else {
                 //Send failed sing in response
                 socket.emit('signInResponse', {success: false});
@@ -107,7 +107,7 @@ function openConnections() {
 
         //Remove client if disconnected (client sends disconnect automatically)
         socket.on('disconnect', function() {
-            serverMessage("INFO - [CLIENT: " + socket.id + "] disconnected from the server.");
+            serverMessage("INFO", "[CLIENT: " + socket.id + "] disconnected from the server.");
             Player.onDisconnect(SOCKET_LIST, socket);
             delete SOCKET_LIST[socket.id];
         });

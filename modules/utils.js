@@ -22,8 +22,8 @@ module.exports = function() {
     };
 
     //Custom server alert messages
-    this.serverMessage = function(message) {
-        console.log(message);
+    this.serverMessage = function(messageType, messageContent) {
+        console.log('[' + messageType + '] - ' + messageContent);
     };
 
     //Send a message to a list of clients

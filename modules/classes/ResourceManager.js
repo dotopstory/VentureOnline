@@ -8,6 +8,7 @@ module.exports = function() {
             ResourceManager.tileList = ResourceManager.load('tiles');
             ResourceManager.objectList = ResourceManager.load('objects');
             ResourceManager.entityList = ResourceManager.load('entities');
+            ResourceManager.regionList = ResourceManager.load('regions');
         }
 
         static load(fileName) {
@@ -21,7 +22,7 @@ module.exports = function() {
                     returnData = data[fileName];
                 });
             }
-            console.log("Resource Manager: loaded " + returnData.length + " " + fileName + ".");
+            serverMessage("INIT", "Resource Manager: loaded " + returnData.length + " " + fileName + ".");
             return returnData;
         }
 
@@ -49,4 +50,5 @@ module.exports = function() {
     ResourceManager.tileList = [];
     ResourceManager.objectList = [];
     ResourceManager.entityList = [];
+    ResourceManager.regionList = [];
 };
