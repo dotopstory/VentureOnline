@@ -85,7 +85,7 @@ module.exports = function() {
         }
 
         die() {
-            serverMessage('DEATH - [PLAYER: "' + this.username + '"] died.');
+            serverMessage("DEATH", "[PLAYER: " + this.username + "] died.");
             this.respawn();
         }
 

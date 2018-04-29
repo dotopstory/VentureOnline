@@ -24,7 +24,7 @@ module.exports = function() {
 
     //Handle server commands from the client
     this.processServerCommand = function(command) {
-        serverMessage(command.playerList[command.senderSocketId].username + " submitted a command: " + command.args);
+        serverMessage("INFO", command.playerList[command.senderSocketId].username + " submitted a command: " + command.args);
         for(let i = 0; i < Command.commandList.length; i++) {
             if(Command.commandList[i].arg1 === command.args[0]) {
                 Command.commandList[i].execute(command);

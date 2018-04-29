@@ -84,6 +84,8 @@ $(window).on('load', function() {
         renderItems(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
+        renderInventory();
+        renderGroundItems();
         postRender(gameCanvasCtx);
     }, 1000 / fps);
 
@@ -218,7 +220,7 @@ $(window).on('load', function() {
             let drawY = player.y - gameCamera.yOffset;
 
             //Skip rendering of players on different map
-            if(client.player.mapID !== player.mapID) continue;
+            if(client.player.mapId !== player.mapId) continue;
 
             //Render player sprite
             let sprite = ResourceManager.getSpriteByName(player.spriteName);
@@ -247,7 +249,7 @@ $(window).on('load', function() {
             let drawY = e.y - gameCamera.yOffset;
 
             //Skip rendering of projectiles on different maps
-            if(client.player.mapID !== e.mapID) continue;
+            if(client.player.mapId !== e.mapId) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.getSpriteByName(e.spriteName);
@@ -265,7 +267,7 @@ $(window).on('load', function() {
             let drawY = item.y - gameCamera.yOffset;
 
             //Skip rendering of projectiles on different maps
-            if(client.player.mapID !== item.mapID) continue;
+            if(client.player.mapId !== item.mapId) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(item.name).item_sprite);
@@ -305,18 +307,56 @@ $(window).on('load', function() {
             let drawX = e.x - gameCamera.xOffset;
             let drawY = e.y - gameCamera.yOffset;
 
-            if(client.player.mapID === e.mapID) renderHealthEffects(ctx, e.healthEffects, drawX, drawY);
+            if(client.player.mapId === e.mapId) renderHealthEffects(ctx, e.healthEffects, drawX, drawY);
         }
 
         //Post render players
         for(let i in gameStateCache.players) {
             let player = gameStateCache.players[i]; //Save player
             if(player == undefined) continue;
-            let drawX = player.x - gameCamera.xOffset;
-            let drawY = player.y - gameCamera.yOffset;
 
             //Skip rendering of players on different map
-            if(client.player.mapID === player.mapID) renderHealthEffects(ctx, player.healthEffects, drawX, drawY);
+            if(client.player.mapId != player.mapId) continue;
+
+            let drawX = player.x - gameCamera.xOffset;
+            let drawY = player.y - gameCamera.yOffset;
+            renderHealthEffects(ctx, player.healthEffects, drawX, drawY);
+        }
+    }
+
+    function renderInventory() {
+
+    }
+
+    function renderGroundItems() {
+        let itemList = [];
+        for(let i in gameStateCache.items) {
+            let item = gameStateCache.items[i];
+            if(item === null) continue;
+            if(item.mapId !== client.player.mapId || distanceBetweenPoints(item, client.player) > 64) continue;
+            itemList.push(item);
+        }
+        renderItemDisplay(itemList, $('#invGroundItemsDisplay'));
+    }
+
+    function renderItemDisplay(itemList, display) {
+        display.html('');
+        let canvasSize = 48;
+
+        for(let i in itemList) {
+            let newCanvas = $('<canvas/>',{'class':'invItemCanvas'});
+            let newCanvasCtx = newCanvas[0].getContext('2d');
+            newCanvas.css({'width': canvasSize, 'height': canvasSize});
+            newCanvas.attr('width', canvasSize);
+            newCanvas.attr('height', canvasSize);
+            newCanvas.attr('itemName', itemList[i].name);
+            newCanvas.attr('itemId', itemList[i].id);
+            //newCanvas.attr('onclick', 'mapEditSelectTile(' + i + ')');
+            display.append(newCanvas);
+
+            //Render sprite to canvas
+            let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(itemList[i].name).item_sprite);
+            sprite.renderSize(newCanvasCtx, 8, 8, 32, 32);
         }
     }
 });

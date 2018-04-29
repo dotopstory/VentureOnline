@@ -31,7 +31,7 @@ module.exports = function() {
                     y: player.y,
                     hp: player.hp,
                     maxHP: player.maxHP,
-                    mapID: player.map.id,
+                    mapId: player.map.id,
                     accountType: player.accountType,
                     healthEffects: player.healthEffects,
                     equipment: player.equipment
@@ -66,7 +66,7 @@ module.exports = function() {
                     x: e.x,
                     y: e.y,
                     spriteName: e.spriteName,
-                    mapID: e.map.id,
+                    mapId: e.map.id,
                     healthEffects: e.healthEffects
                 });
             }
@@ -95,6 +95,7 @@ module.exports = function() {
                     name: item.name,
                     x: item.x,
                     y: item.y,
+                    mapId: item.mapId
                 });
             }
             return pack;
