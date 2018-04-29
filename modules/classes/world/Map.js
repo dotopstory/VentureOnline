@@ -10,7 +10,7 @@ module.exports = function() {
             if(params.name != undefined) this.id = Map.nextID++;
             else this.id = params.id;
 
-            //Create new random map
+            //Load map from file
             if(params.fileName != null) {
                 fs.readFile('./data/maps/' + params.fileName + '.ven', (err, data) => {
                     if (err) {
@@ -24,14 +24,14 @@ module.exports = function() {
                     this.width = data.width;
                     this.height = data.height;
                     this.tiles = data.tiles;
-                    this.objects = Map.generateMapObjects(this.tiles);
+                    this.objects = data.objects;
                 });
             } else {
                 this.name = params.name;
                 this.width = params.width;
                 this.height = params.height;
                 this.tiles = params.tiles === undefined ? Map.generateNewBlankMap(this.width, this.height, params.tileSeedID) : params.tiles;
-                this.objects = Map.generateMapObjects(this.tiles);
+                this.objects = params.objects === undefined ? Map.generateMapObjects(this.tiles) : params.objects;
             }
         }
 

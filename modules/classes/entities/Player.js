@@ -123,7 +123,7 @@ module.exports = function() {
         //Listen for map changes
         socket.on('sendNewMapToServer', function(data) {
             let newMap = new Map({id: data.map.id, name: data.map.name, width: data.map.width, height: data.map.height,
-                tiles: data.map.tiles, isPVP: false});
+                tiles: data.map.tiles, objects:data.map.objects, isPVP: false});
 
             //Update map of all players on the edited map
             if(data.pushToServer) {

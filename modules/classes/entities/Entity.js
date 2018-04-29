@@ -46,7 +46,7 @@ module.exports = function() {
                 && !this.isCollision(xOffset, parseInt((this.y + this.bounds.y + this.bounds.height) / 64))) {
                     this.x += this.spdX;
                 } else {
-                    this.x = xOffset *  64 + 64 - this.bounds.x
+                    this.x = xOffset *  64 + 64 - this.bounds.x;
                     this.onMapCollision();
                 }
             }

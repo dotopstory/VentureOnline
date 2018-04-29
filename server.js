@@ -42,21 +42,20 @@ let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
 serverMessage("INFO - Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
 loadResources();
+Map.mapList = [];
 
 setTimeout(function () {
+    Map.mapList = [
+        new Map({fileName: 'limbo'}),
+        new Map({fileName: 'desert'}),
+        new Map({fileName: 'test'}),
+        new Map({fileName: 'arctic'}),
+        new Map({fileName: 'randomisland'}),
+        new Map({name: 'NewMap', width: 500, height: 500, tileSeedID: 2})
+    ];
+
     openConnections();
 }, SERVER_STARTUP_TIME);
-
-
-//Create map list
-Map.mapList = [
-    new Map({fileName: 'limbo'}),
-    new Map({fileName: 'desert'}),
-    new Map({fileName: 'test'}),
-    new Map({fileName: 'arctic'}),
-    new Map({fileName: 'randomisland'}),
-    new Map({name: 'NewMap', width: 500, height: 500, tileSeedID: 2})
-];
 
 function openConnections() {
     io.sockets.on('connection', function(socket) {
