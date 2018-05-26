@@ -1,0 +1,53 @@
+<!-- NAVBAR HTML-->
+
+<div id="navbar">
+    <div class="row nav">
+        <div class="col-md-6 col-logo">
+            <a href="/play"><span class="logo">Venture</span></a>
+        </div>
+
+        <div class="col-md-6 col-links">
+            <span class="navItem"><a href="/home">Home</a></span>
+            <span class="navItem"><a href="/play">Play</a></span>
+            <span class="navItem"><a href="/info">Info</a></span>
+        </div>
+    </div>
+</div>
+
+
+<!-- NAVBAR HTML-->
+<style>
+    #navbar .nav {
+        font-family: 'Bungee', cursive;
+        width: 100vw;
+        margin: 0;
+        padding: 0 4vw;
+        z-index: 999;
+        color: #F2F2F2;
+        background: #1F3B68;
+    }
+
+    .col-logo {
+        font-size: 3vmax;
+    }
+
+    .col-links {
+        text-align: right;
+    }
+
+    .navItem {
+        font-size: 2vmax;
+        display: inline-block;
+        cursor: pointer;
+        margin: 2% 0 0 5vw;
+    }
+
+    .navItem:hover {
+        text-decoration: underline;
+    }
+
+    #navbar a, #navbar a:hover, #navbar a:active, #navbar a:visited {
+        all: unset;
+        cursor: pointer;
+    }
+</style>

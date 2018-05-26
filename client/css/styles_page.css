@@ -1,7 +1,5 @@
 body {
-    background-color: #CF4647;
-    background: linear-gradient(#1CB5E0, #000046);
-    background-repeat: no-repeat;
+    background-color: #1F3B68;
     background-size: cover;
     font-family: 'Ubuntu', sans-serif;
     overflow-x: hidden;
@@ -51,44 +49,6 @@ body {
     width: 100%;
     background: transparent;
     margin: 0.5vh 0;
-}
-
-/* NAVBAR STYLES */
-.nav {
-    font-family: 'Bungee', cursive;
-    width: 100vw;
-    color: white;
-    background: transparent;
-    margin: 0;
-    padding: 0 4vw;
-    z-index: 999;
-}
-
-.col-logo {
-    font-size: 3vmax;
-}
-
-.col-links {
-    text-align: right;
-}
-
-.navItem {
-    font-size: 2vmax;
-    display: inline-block;
-    cursor: pointer;
-    margin: 2% 0 0 5vw;
-    transition: all 1s ease;
-}
-
-.navItem:hover {
-    text-decoration: underline;
-    transform: scale(1.2);
-    transition: all 1s ease;
-}
-
-a, a:hover, a:active, a:visited {
-    all: unset;
-    cursor: pointer;
 }
 
 /* SIGN IN STYLES */

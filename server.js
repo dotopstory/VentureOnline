@@ -28,8 +28,8 @@ app.get('/play', function(req, res) {
 });
 
 //About route
-app.get('/about', function(req, res) {
-    res.sendFile(__dirname + '/client/pages/about.html');
+app.get('/info', function(req, res) {
+    res.sendFile(__dirname + '/client/pages/info.html');
 });
 
 //Allow client to use client directory only
