@@ -8,6 +8,10 @@ let gameCamera = null;
 let resourceManager = null;
 let uiManager = null;
 
+$(window).on("load", function() {
+    initGame();
+});
+
 //Prevent right click popup menu
 document.oncontextmenu = function(event) {
     event.preventDefault();
@@ -17,7 +21,7 @@ function clientAlert(message) {
     if(client.debugOn) console.log(message);
 }
 
-$(window).on('load', function() {
+function initGame() {
     //Game objects
     gameElement = $('#gameCanvas');
     let gameCanvasCtx = gameElement[0].getContext('2d');
@@ -359,4 +363,4 @@ $(window).on('load', function() {
             sprite.renderSize(newCanvasCtx, 8, 8, 32, 32);
         }
     }
-});
+}

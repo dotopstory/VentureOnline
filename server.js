@@ -3,42 +3,28 @@ require('./modules/classes/ResourceManager.js')();
 require('./modules/classes/entities/EntityManager.js')();
 require('./modules/classes/world/Map.js')();
 require('./modules/classes/entities/Player.js')();
+require('./modules/classes/entities/Player.js')();
+let initRoutes = require("./modules/routes.js");
 
 //Initialise express routing
 let express = require('express');
 let app = express();
 let serv = require('http').Server(app);
+let io = require('socket.io')(serv, {});
 let tickRate = 20; //Updates per second
 const MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
 const DEBUG_ON = true, SERVER_STARTUP_TIME = 1000 * (process.env.PORT ? 60 : 0);
 
-//Default route
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/client/pages/home.html');
-});
+initRoutes(app, __dirname);
 
-//Home route
-app.get('/home', function(req, res) {
-    res.sendFile(__dirname + '/client/pages/home.html');
-});
-
-//Play route
-app.get('/play', function(req, res) {
-    res.sendFile(__dirname + '/client/index.html');
-});
-
-//About route
-app.get('/info', function(req, res) {
-    res.sendFile(__dirname + '/client/pages/info.html');
-});
-
-//Allow client to use client directory only
+//Allow client access to public dir
 app.use('/client', express.static(__dirname + '/client'));
-serv.listen(process.env.PORT || 2000); //Listen for requests
+serv.listen(process.env.PORT || 2000);
 
 //Listen for connection events
-let io = require('socket.io')(serv, {});
 let SOCKET_LIST = [];
+app.socketList = SOCKET_LIST;
+app.playerList = EntityManager.playerList;
 serverMessage("INFO", "Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
 ResourceManager.init();
 Map.mapList = [];
