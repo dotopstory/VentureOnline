@@ -23,11 +23,13 @@ serv.listen(process.env.PORT || 2000);
 
 //Listen for connection events
 let SOCKET_LIST = [];
-app.socketList = SOCKET_LIST;
-app.playerList = EntityManager.playerList;
 serverMessage("INFO", "Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
 ResourceManager.init();
 Map.mapList = [];
+
+app.socketList = SOCKET_LIST;
+app.playerList = EntityManager.playerList;
+
 
 setTimeout(function () {
     Map.mapList = [
@@ -37,7 +39,6 @@ setTimeout(function () {
         new Map({fileName: 'arctic'}),
         new Map({fileName: 'randomisland'})
     ];
-
     openConnections();
 }, SERVER_STARTUP_TIME);
 

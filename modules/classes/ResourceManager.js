@@ -1,29 +1,40 @@
-let getJSON = require('get-json');
-require('../utils.js')();
+let getJSON = require("get-json");
+require("../utils.js")();
 
 module.exports = function() {
     this.ResourceManager = class {
         static init() {
-            ResourceManager.itemList = ResourceManager.load('items');
-            ResourceManager.tileList = ResourceManager.load('tiles');
-            ResourceManager.objectList = ResourceManager.load('objects');
-            ResourceManager.entityList = ResourceManager.load('entities');
-            ResourceManager.regionList = ResourceManager.load('regions');
+            ResourceManager.load("tileList", "tiles");
+            ResourceManager.load("itemList", "items");
+            ResourceManager.load("objectList", "objects");
+            ResourceManager.load("entityList", "entities");
+            ResourceManager.load("regionList", "regions");
         }
 
-        static load(fileName) {
+        /**
+         * Load static content from a local directory or an API
+         * @param target
+         * @param fileName
+         */
+        static load(target, fileName) {
+            let fileUrl =  process.env.PORT == undefined ?
+                "../../data/" + fileName + ".json" :
+                ResourceManager.apiUrl + fileName + ".json";
+
             let returnData = null;
-            //Load from local file if in dev environment
-            if(process.env.PORT == undefined || true) {
-                returnData = require('../../data/' + fileName + '.json')[fileName];
-            //Load from API if in prod/testing
+            if(process.env.PORT == undefined) {
+                ResourceManager[target] = JSON.parse(JSON.stringify(require(fileUrl)))[fileName];
+                serverMessage("INIT", "Resource Manager: loaded " + ResourceManager[target].length + " " + fileName + " from " + fileUrl);
             } else {
-                getJSON(ResourceManager.apiURL + fileName + '.json', function(err, data) {
-                    returnData = data[fileName];
+                getJSON(fileUrl, (err, data) => {
+                    if(err) {
+                        serverMessage("[ERROR] Resource Manager: failed to load: " + fileName + ". Reason: " + err);
+                        return;
+                    }
+                    ResourceManager[target] = JSON.parse(JSON.stringify(data))[fileName];
+                    serverMessage("INIT", "Resource Manager: loaded " + ResourceManager[target].length + " " + fileName + " from " + fileUrl);
                 });
             }
-            serverMessage("INIT", "Resource Manager: loaded " + returnData.length + " " + fileName + ".");
-            return returnData;
         }
 
         static getRandomItem() {
@@ -46,7 +57,7 @@ module.exports = function() {
             return ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)];
         }
     };
-    ResourceManager.apiURL = 'http://api.keast.site/venture/';
+    ResourceManager.apiUrl = "http://static.somesoft.site/venture/";
     ResourceManager.itemList = [];
     ResourceManager.tileList = [];
     ResourceManager.objectList = [];

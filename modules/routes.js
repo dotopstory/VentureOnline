@@ -1,3 +1,5 @@
+require(__dirname + "/classes/world/Map.js")();
+
 module.exports = function(app, root) {
     //PAGE ROUTES
     //Default route
@@ -21,8 +23,13 @@ module.exports = function(app, root) {
     });
 
     //API ROUTES
-    app.get('/api/getCurrentPlayerCount', function(req, res) {
+    app.get('/api/getPlayerCount', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.send({playerCount: app.playerList.length});
+    });
+
+    app.get('/api/getMaps', function(req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send({maps: Map.getMapListString()});
     });
 };
