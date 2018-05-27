@@ -9,3 +9,34 @@ body {
 .staticData-row {
     padding: 5vh 0 0 0;
 }
+
+.nav-tabs li {
+    font-size: 1.3vmax;
+    font-weight: bold;
+}
+
+.itemPill {
+    border-radius: 10px;
+    padding: 0.5vmax 0.5vmax;
+    box-shadow: 5px 5px 5px #aaa;
+    margin: 15px 0;
+    min-height: 10vmax;
+    background: white;
+}
+
+.itemPillTitle, .itemPillText {
+    display: block;
+}
+
+.itemPillTitle {
+    line-height: 1vmax;
+    font-weight: bold;
+    font-size: 1.3vmax;
+}
+
+.itemPillText {
+    line-height: 0.85vmax;
+    font-size: 0.8vmax;
+    font-weight: lighter;
+}
+

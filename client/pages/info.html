@@ -30,6 +30,7 @@
         <script src="/client/res/plugins/socketio.js"></script>
 
         <!-- Custom Styles -->
+        <link rel="stylesheet" type="text/css" href="/client/css/globalStyles.css">
         <link rel="stylesheet" type="text/css" href="/client/css/styles_info.css">
 
         <!-- Fonts -->
@@ -48,15 +49,22 @@
         <div include-html-component="/client/pages/components/navbar.html"></div>
 
         <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="pageTitle">Information</h1>
+                </div>
+            </div>
+
             <div class="row staticData-row">
                 <div class="col-md-12">
                     <!-- Adviser tabs -->
-                    <ul class="nav nav-tabs adviserTabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#1" aria-controls="1" role="tab" data-toggle="tab" onclick="return false;">Creatures</a></li>
-                        <li role="presentation"><a href="#2" aria-controls="2" role="tab" data-toggle="tab" onclick="return false;">Weapons</a></li>
-                        <li role="presentation"><a href="#3" aria-controls="3" role="tab" data-toggle="tab" onclick="return false;">Armor</a></li>
-                        <li role="presentation"><a href="#4" aria-controls="4" role="tab" data-toggle="tab" onclick="return false;">Abilities</a></li>
-                        <li role="presentation"><a href="#5" aria-controls="5" role="tab" data-toggle="tab" onclick="return false;">Maps</a></li>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#creatureTab" aria-controls="1" role="tab" data-toggle="tab" onclick="return false;">Creatures</a></li>
+                        <li role="presentation"><a href="#weaponTab" aria-controls="2" role="tab" data-toggle="tab" onclick="return false;">Weapons</a></li>
+                        <li role="presentation"><a href="#armorTab" aria-controls="3" role="tab" data-toggle="tab" onclick="return false;">Armor</a></li>
+                        <li role="presentation"><a href="#abilityTab" aria-controls="4" role="tab" data-toggle="tab" onclick="return false;">Abilities</a></li>
+                        <li role="presentation"><a href="#miscTab" aria-controls="5" role="tab" data-toggle="tab" onclick="return false;">Misc Items</a></li>
+                        <li role="presentation"><a href="#mapTab" aria-controls="6" role="tab" data-toggle="tab" onclick="return false;">Maps</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,30 +72,17 @@
             <div class="col-md-12">
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="1">
-                        Creatures
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="2">
-                        Weapons
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="3">
-                        Armor
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="4">
-                        Abilities
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="5">
-                        Maps
-                    </div>
+                    <div role="tabpanel" class="tab-pane active animated fadeIn" id="creatureTab"></div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="weaponTab"></div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="armorTab"></div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="abilityTab"></div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="miscTab"></div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="mapTab"></div>
                 </div>
             </div>
         </div>
 
     </body>
-    <script src="/client/js/events/events_home.js"></script>
+    <script src="/client/js/events/events_info.js"></script>
     <script src="/client/js/managers/htmlComponentLoader.js"></script>
 </html>
