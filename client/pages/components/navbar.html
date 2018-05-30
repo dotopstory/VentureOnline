@@ -2,14 +2,14 @@
 
 <div id="navbar">
     <div class="row nav">
-        <div class="col-md-6 col-logo">
-            <a href="/home"><span class="logo">Venture</span></a>
+        <div class="col-md-6">
+            <a href="/home"><span class="navItem navLogo">Venture</span></a>
         </div>
 
-        <div class="col-md-6 col-links">
-            <span class="navItem"><a href="/home">Home</a></span>
-            <span class="navItem"><a href="/play">Play</a></span>
-            <span class="navItem"><a href="/info">Info</a></span>
+        <div class="col-md-6 col-links alignRight">
+            <a href="/home"><span class="navItem">Home</span></a>
+            <a href="/play"><span class="navItem">Play</span></a>
+            <a href="/info"><span class="navItem">Info</span></a>
         </div>
     </div>
 </div>
@@ -18,32 +18,30 @@
 <!-- NAVBAR HTML-->
 <style>
     #navbar .nav {
-        font-family: 'Bungee', cursive;
+        font-family: "Roboto", cursive;
         width: 100vw;
         margin: 0;
-        padding: 0 4vw;
+        padding: 0 10vw;
         z-index: 999;
-        color: #F2F2F2;
-        background: #1F3B68;
+        color: #D3D2CD;
+        background: #212121;
+        background: url("/client/res/img/dark_wall.png");
     }
 
-    .col-logo {
-        font-size: 3vmax;
-    }
-
-    .col-links {
-        text-align: right;
+    .navLogo {
+        font-weight: bold;
     }
 
     .navItem {
-        font-size: 2vmax;
+        font-size: 1.2vmax;
         display: inline-block;
         cursor: pointer;
-        margin: 2% 0 0 5vw;
+        padding: 0.75vh 2vw;
     }
 
     .navItem:hover {
-        text-decoration: underline;
+        background: #CD412B;
+        color: white;
     }
 
     #navbar a, #navbar a:hover, #navbar a:active, #navbar a:visited {

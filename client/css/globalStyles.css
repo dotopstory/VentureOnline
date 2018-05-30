@@ -1,7 +1,7 @@
 body {
-    background-color: #1F3B68;
-    background-size: cover;
-    font-family: 'Ubuntu', sans-serif;
+    /*background-color: #212121;*/
+    background: #F2F2F2;
+    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
     height: 100vh;
 
@@ -28,3 +28,22 @@ hr {
     text-align: right;
 }
 
+.alignCenter {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+input {
+    font: inherit;
+}
+
+.fa {
+    cursor: pointer;
+}

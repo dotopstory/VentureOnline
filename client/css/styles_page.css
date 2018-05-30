@@ -38,10 +38,11 @@
 
 /* SIGN IN STYLES */
 #div-signIn {
-    margin: 0;
-    margin-top: 20vh;
+    margin: 20vh 0 0 0;
     width: 100vw;
     background-color: white;
+    box-shadow: 5px 5px 5px #aaa;
+    border-radius: 10px;
     color: #2C3E50;
     padding: 5vh 0;
     text-align: center;
@@ -49,7 +50,7 @@
 }
 
 #signInUsernameTextbox {
-    font-size: 3vmax;
+    font-size: 2vmax;
     border: 4px solid #1b2631;
     font-weight: bold;
     color: #2C3E50;
@@ -57,16 +58,14 @@
 }
 
 .btn-play {
-    background: transparent;
-    border: 5px solid #1b2631;
+    border: solid #1b2631;
     border-width: 5px 10px 10px 5px;
     background-color: #2C3E50;
     color: white;
-    font-size: 4vmax;
+    font-size: 2.5vmax;
     cursor: pointer;
     border-radius: 20px;
     font-weight: bold;
-    font-family: 'Bungee', cursive;
     padding: 0 1vw;
     margin: 2vh 0 0 0;
     box-shadow: 3px 3px 5px 6px #ccc;
@@ -77,27 +76,6 @@
     background-color: #1b2631;
     transform: scale(1.1);
     transition: all 1s ease;
-}
-
-/* DISPLAYS */
-.hidden {
-    display: none;
-}
-
-input:focus, button:focus {
-    outline: none;
-}
-
-input {
-    font: inherit;
-}
-
-.fa {
-    cursor: pointer;
-}
-
-.align-right {
-    text-align: right;
 }
 
 /* BUTTONS */
