@@ -13,19 +13,19 @@ module.exports = function() {
 
         /**
          * Load static content from a local directory or an API
-         * @param target
-         * @param fileName
          */
         static load(target, fileName) {
-            let fileUrl =  process.env.PORT == undefined ?
+            let isDevMode = process.env.PORT == undefined;
+            let fileUrl = isDevMode ?
                 "../../data/" + fileName + ".json" :
                 ResourceManager.apiUrl + fileName + ".json";
 
             let returnData = null;
-            if(process.env.PORT == undefined) {
+            if(isDevMode) {
                 ResourceManager[target] = JSON.parse(JSON.stringify(require(fileUrl)))[fileName];
                 serverMessage("INIT", "Resource Manager: loaded " + ResourceManager[target].length + " " + fileName + " from " + fileUrl);
             } else {
+                console.log(fileUrl);
                 getJSON(fileUrl, (err, data) => {
                     if(err) {
                         serverMessage("[ERROR] Resource Manager: failed to load: " + fileName + ". Reason: " + err);
@@ -48,7 +48,7 @@ module.exports = function() {
                 }
             }
         }
-        
+
         static getRandomObject(region) {
             return ResourceManager.objectList[getRandomInt(0, ResourceManager.objectList.length)];
         }
@@ -57,7 +57,7 @@ module.exports = function() {
             return ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)];
         }
     };
-    ResourceManager.apiUrl = "http://static.somesoft.site/venture/";
+    ResourceManager.apiUrl = "http://static.somesoft.io/venture/";
     ResourceManager.itemList = [];
     ResourceManager.tileList = [];
     ResourceManager.objectList = [];

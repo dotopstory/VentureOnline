@@ -1,36 +1,43 @@
-//Imports
 require('./modules/classes/ResourceManager.js')();
 require('./modules/classes/entities/EntityManager.js')();
 require('./modules/classes/world/Map.js')();
 require('./modules/classes/entities/Player.js')();
-require('./modules/classes/entities/Player.js')();
-let initRoutes = require("./modules/routes.js");
 
 //Initialise express routing
 let express = require('express');
-let app = express();
-let serv = require('http').Server(app);
-let io = require('socket.io')(serv, {});
-let tickRate = 20; //Updates per second
-const MAX_SERVER_CONNECTIONS = 10, MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS; //Max clients connected, max players in game
-const DEBUG_ON = true, SERVER_STARTUP_TIME = 1000 * (process.env.PORT ? 60 : 0);
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const url = require('url');
+const fs = require('fs');
+const path = require('path');
+server.portNum = process.env.PORT || 2000;
+server.name = "Procreate 1.0 beta";
+app.use(express.static(__dirname+'/client'));
+app.get('*', function(req,res){
+  res.sendFile(__dirname, 'index.html');
+});
 
-initRoutes(app, __dirname);
+server.listen(server.portNum);
 
-//Allow client access to public dir
-app.use('/client', express.static(__dirname + '/client'));
-serv.listen(process.env.PORT || 2000);
+const tickRate = 20; //Updates per second
+//Max clients connected (login screen)
+const MAX_SERVER_CONNECTIONS = 10;
+//Max players in game
+const MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS;
+const DEBUG_ON = server.portNum === 2000;
+const SERVER_STARTUP_TIME = 1000 * (process.env.PORT ? 60 : 0);
 
 //Listen for connection events
 let SOCKET_LIST = [];
-serverMessage("INFO", "Venture Online server has been started. Listening on port: " + (process.env.PORT || 2000) + ".");
+
+//Load resources
 ResourceManager.init();
 Map.mapList = [];
-
 app.socketList = SOCKET_LIST;
 app.playerList = EntityManager.playerList;
 
-
+//Load maps
 setTimeout(function () {
     Map.mapList = [
         new Map({fileName: 'limbo'}),
@@ -43,6 +50,7 @@ setTimeout(function () {
 }, SERVER_STARTUP_TIME);
 
 function openConnections() {
+    serverMessage("INFO", server.name + " server started listening on port " + server.portNum);
     io.sockets.on('connection', function(socket) {
         //Deny client connection if too many clients connected
         if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
@@ -72,7 +80,7 @@ function openConnections() {
                 Player.onConnect(SOCKET_LIST, socket, data.username);
 
                 //Assign player account type if not default
-                if(true) EntityManager.playerList[socket.id].accountType = 'admin'; //default, mod, admin
+                if(true) EntityManager.playerList[socket.id].accountType = 'admin';
 
                 //Send sign in result and init pack
                 socket.emit('signInResponse', {success: true});
@@ -101,8 +109,7 @@ function openConnections() {
     });
 }
 
-
-//UPDATE CLIENTS
+//Client update loop
 setInterval(function() {
     EntityManager.updateEntityManager();
 
@@ -119,7 +126,4 @@ setInterval(function() {
         if(socket == undefined) continue;
         socket.emit('update', pack);
     }
-
 }, 1000 / tickRate);
-
-

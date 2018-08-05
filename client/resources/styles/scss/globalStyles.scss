@@ -1,0 +1,48 @@
+//COLORS
+$colPageBg: #202025;
+$colFontPrimary: #C2B59E;
+
+//FONTS
+$fontClean: 'Raleway', sans-serif;
+
+//SIZES
+$sizeTitleBig: 6vw;
+$sizeMediumFont: 1vw;
+$sizeLinkSmall: 1.2vw;
+
+//TRANSITIONS
+$transEase: all ease 1s;
+
+//STYLES
+body {
+    padding-top: 25vh;
+    text-align: center;
+    background-color: $colPageBg;
+    color: $colFontPrimary;
+    font-family: $fontClean;
+}
+
+.titleBig {
+    font-size: $sizeTitleBig;
+}
+
+.links a {
+    color: $colFontPrimary;
+    padding: 0 25px;
+    font-size: $sizeLinkSmall;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: $transEase;
+}
+
+.links a:hover {
+    color: lighten($colFontPrimary, 20%);
+}
+
+.bio {
+    margin-top: 15vh;
+    font-size: $sizeMediumFont;
+    color: $colFontPrimary;
+}

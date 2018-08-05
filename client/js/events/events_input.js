@@ -3,7 +3,6 @@ let mouseX = 0, mouseY = 0;
 let mouseMapX = 0, mouseMapY = 0;
 let lastMouseMapX = 0, lastMouseMapY = 0;
 let pressingMouse1 = false;
-
 $(window).on('load', function() {
     //KEY DOWN EVENTS
     document.onkeydown = function(e) {

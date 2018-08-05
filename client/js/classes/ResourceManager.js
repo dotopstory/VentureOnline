@@ -28,10 +28,11 @@ ResourceManager.images = {
     'spritesheet_8x8': new Image(800, 800),     //Load 8x8 spritesheet
     'turnipGuy': new Image(64, 64)
 };
-ResourceManager.images['spritesheet_64x64'].src = '/client/res/img/spritesheet_64x64.png';
-ResourceManager.images['spritesheet_16x16'].src = '/client/res/img/spritesheet_16x16.png';
-ResourceManager.images['spritesheet_8x8'].src = '/client/res/img/spritesheet_8x8.png';
-ResourceManager.images['turnipGuy'].src = '/client/res/img/turnipguy.png';
+let root = "../../../res/";
+ResourceManager.images['spritesheet_64x64'].src = root + 'img/spritesheet_64x64.png';
+ResourceManager.images['spritesheet_16x16'].src = root + 'img/spritesheet_16x16.png';
+ResourceManager.images['spritesheet_8x8'].src = root + 'img/spritesheet_8x8.png';
+ResourceManager.images['turnipGuy'].src = root + 'img/turnipguy.png';
 
 //Sprites
 let ss64 = ResourceManager.images['spritesheet_64x64'];
