@@ -28,7 +28,7 @@ ResourceManager.images = {
     'spritesheet_8x8': new Image(800, 800),     //Load 8x8 spritesheet
     'turnipGuy': new Image(64, 64)
 };
-let root = "../../../res/";
+let root = "../../../resources/";
 ResourceManager.images['spritesheet_64x64'].src = root + 'img/spritesheet_64x64.png';
 ResourceManager.images['spritesheet_16x16'].src = root + 'img/spritesheet_16x16.png';
 ResourceManager.images['spritesheet_8x8'].src = root + 'img/spritesheet_8x8.png';

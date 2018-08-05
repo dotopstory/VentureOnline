@@ -3,7 +3,7 @@ node_modules/
 *.ink
 [SERVER RUN].lnk
 [SERVER RUN].lnk
-
+dev/
 .ebextensions/
 .idea/
 version_archive/

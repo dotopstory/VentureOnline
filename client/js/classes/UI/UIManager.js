@@ -155,9 +155,6 @@ $(window).on('load', function() {
     //********************
     //*** SIGN IN EVENTS
     //********************
-    //Init
-    $('#div-signIn').fadeIn('slow');
-
     //Sign in on eneter press while in username textbox
     $('#signInUsernameTextbox').on('keypress', function(e) {
         if(e.keyCode === 13) sendSignInRequest();

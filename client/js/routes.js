@@ -1,4 +1,3 @@
-console.log('');
 page.base('/');
 page('/', function() { route(["navbar", "play"]); });
 page('play', function() { route(["play"]); });
