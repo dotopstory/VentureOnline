@@ -1,6 +1,6 @@
 body {
     /*background-color: #212121;*/
-    background: #F2F2F2;
+    background-image: url("/resources/img/dark_wall.png");
     font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
     height: 100vh;
