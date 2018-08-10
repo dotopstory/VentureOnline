@@ -220,27 +220,33 @@ function initGame() {
         for(let i in gameStateCache.players) {
             let player = gameStateCache.players[i]; //Save player
             if(player == undefined) continue;
-            let drawX = player.x - gameCamera.xOffset;
-            let drawY = player.y - gameCamera.yOffset;
-
             //Skip rendering of players on different map
             if(client.player.mapId !== player.mapId) continue;
 
             //Render player sprite
+            //Render HP bar
+            let hpBarHeightPx = 6;
+            let hpBarWidthPx = 60;
+            let hpBarLineWidth = 1;
             let sprite = ResourceManager.getSpriteByName(player.spriteName);
+            let drawX = player.x - gameCamera.xOffset;
+            let drawY = player.y - gameCamera.yOffset;
+            let drawYOffset = sprite.height + hpBarHeightPx;
             sprite.render(ctx, drawX, drawY);
 
-            //Render HP bar
-            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-            ctx.fillRect(drawX + sprite.width / 2 - 50, drawY - sprite.width, 100, 20);
-            ctx.fillStyle = "rgba(0, 204, 0, 0.7)";
-            ctx.fillRect(drawX + sprite.width / 2 - 50, drawY - sprite.width, (player.hp / player.maxHP) * 100, 20);
-            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-            ctx.strokeRect(drawX + sprite.width / 2 - 50, drawY - sprite.width, 100, 20);
+            
 
-            //Render player name
+            //Draw hp bar black background
+            ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+            ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2 - hpBarLineWidth, drawY + drawYOffset - hpBarLineWidth, hpBarWidthPx + hpBarLineWidth * 2, hpBarHeightPx + hpBarLineWidth *2);
+
+            //Draw current hp bar
+            ctx.fillStyle = getHpBarColor(player.hp, player.maxHP);
+            ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, (player.hp / player.maxHP) * hpBarWidthPx, hpBarHeightPx);
+
+            //Draw hp bar black outline
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            ctx.fillText(player.username, drawX + sprite.width / 2 - 50 + 2, drawY - sprite.width + 16);
+            ctx.strokeRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, hpBarWidthPx, hpBarHeightPx);
         }
     }
 
