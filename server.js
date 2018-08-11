@@ -79,9 +79,6 @@ function openConnections() {
                 //Start player connect events
                 Player.onConnect(SOCKET_LIST, socket, data.username);
 
-                //Assign player account type if not default
-                if(true) EntityManager.playerList[socket.id].accountType = 'admin';
-
                 //Send sign in result and init pack
                 socket.emit('signInResponse', {success: true});
                 socket.emit('initPack', {socketID: socket.id, map: EntityManager.playerList[socket.id].map,

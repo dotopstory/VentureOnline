@@ -32,7 +32,6 @@ module.exports = function() {
                     hp: player.hp,
                     maxHP: player.maxHP,
                     mapId: player.map.id,
-                    accountType: player.accountType,
                     healthEffects: player.healthEffects,
                     equipment: player.equipment
                 };

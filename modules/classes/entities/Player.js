@@ -14,9 +14,8 @@ module.exports = function() {
             //META
             super(id, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64);
             //ACCOUNT
-            this.accountType = 'default';
             this.SOCKET_LIST = SOCKET_LIST;
-            this.username = username;
+            this.name = username;
 
             //MOVEMENT
             this.pressingRight = false;
@@ -25,12 +24,10 @@ module.exports = function() {
             this.pressingDown = false;
             this.pressingAttack = false;
             this.mouseAngle = 0;
+            this.maxSpd = 25;
 
             //STATS
             this.equipment = new Equipment();
-            this.maxSpd = 25;
-            this.maxHP = 2000;
-            this.hp = this.maxHP;
         }
 
         update() {

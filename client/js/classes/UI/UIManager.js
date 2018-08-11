@@ -15,11 +15,6 @@ class UIManager {
         let item = UIManager.getUiItemByName(uiItemName);
         let uiItems = UIManager.uiItems;
 
-        if((client.is(item.accountTypeAccess)) != true) {
-            clientAlert('Denied access to ui item: ' + item.name);
-            return;
-        }
-
         //Hide all elements except toggled element
         for(let i in uiItems) {
             if(uiItems[i].id !== item.id && (uiItems[i].requireFocus && item.requireFocus)) uiItems[i].getElement().hide();
@@ -54,9 +49,6 @@ class UIManager {
     }
 
     static onSignIn() {
-        //Add menu items depending on privelages
-        if(client.is(UIManager.getUiItemByName('Map Editor').accountTypeAccess)) $('#menuDiv').append('<button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem(\'Map Editor\')">Map Editor</button>');
-
         loadTileSelection($('#tileSelect'));
         mapEditSelectTile(0);
     }
@@ -64,7 +56,7 @@ class UIManager {
 UIManager.uiItems = [
     new uiItem("#menuDiv", 'Menu', true),
     new uiItem("#chat-input", 'Chat', true, initChat),
-    new uiItem("#mapEditDiv", 'Map Editor', false, initMapEditor, ['mod', 'admin'])
+    new uiItem("#mapEditDiv", 'Map Editor', false, initMapEditor)
 ];
 
 //********************
@@ -220,7 +212,7 @@ function loadTileSelection(element) {
 }
 
 function processMapEditor() {
-    if(!pressingMouse1 || (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY) || !client.is('admin') || client.id == null ||
+    if(!pressingMouse1 || (mouseMapX == lastMouseMapX && mouseMapY == lastMouseMapY) ||  client.id == null ||
         !UIManager.isUiOpen('Map Editor')) return;
     client.map.tiles[mouseMapY * client.map.width + mouseMapX] = selectedTileID;
     lastMouseMapX = mouseMapX;

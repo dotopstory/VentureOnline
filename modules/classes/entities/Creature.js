@@ -10,9 +10,6 @@ module.exports = function() {
             super(id, spriteName, map, x, y);
 
             //STATS
-            this.maxHP = 1000;
-            this.hp = this.maxHP;
-            this.maxSpd = 10;
             this.primaryAttackCooldown = 20 * 2;
             this.primaryAttackTimer = 0;
         }

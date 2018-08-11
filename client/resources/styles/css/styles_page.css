@@ -38,6 +38,7 @@
 
 /* SIGN IN STYLES */
 #div-signIn {
+    font-family: 'Bungee', cursive;
     margin: 15vh 0 0 0;
     width: 100vw;
     border-radius: 10px;
@@ -48,11 +49,11 @@
 }
 
 .label {
-    font-weight: bold;
-    font-size: 1.5vmax;
+    font-size: 1.2vmax;
 }
 
 #signInUsernameTextbox, #signInPasswordTextbox {
+    font-family: 'Roboto', sans-serif;
     font-size: 2vmax;
     background: url("/resources/img/dark_wall.png");
     border: 2px solid white;
@@ -81,7 +82,6 @@
     cursor: pointer;
     border-radius: 20px;
     padding: 2%;
-    font-family: 'Bungee', cursive;
     margin: 2px 0;
 }
 

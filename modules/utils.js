@@ -23,8 +23,15 @@ module.exports = function() {
 
     //Custom server alert messages
     this.serverMessage = function(messageType, messageContent) {
-        console.log('[' + messageType + '] - ' + messageContent);
+        let date = new Date();
+        console.log("[" + this.getTimeStamp() + " " + messageType + "] - " + messageContent);
     };
+
+    //Return current date/time in format h:m:s dd-mm-yyyy
+    this.getTimeStamp = function() {
+        let d = new Date();
+        return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + " " + d.getDay() + "-" + d.getMonth() + "-" + d.getFullYear();
+    }
 
     //Send a message to a list of clients
     this.sendMessageToClients = function(socketList, messageContent, messageStyle, messageFrom, senderMap) {
@@ -34,6 +41,7 @@ module.exports = function() {
         }
     };
 
+    //Search a playerlist and return the ID of the player that matches the given username
     this.getPlayerByUsername = function(playerList, username) {
         for(let i in playerList) {
             if(playerList[i].username === username) return playerList[i];

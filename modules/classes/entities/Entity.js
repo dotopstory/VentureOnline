@@ -5,10 +5,14 @@ module.exports = function() {
     this.Entity = class {
         constructor(id, spriteName, map, x, y) {
             this.id = id;
+            this.name = "Unknown Entity";
             this.x = x;
             this.y = y;
+            this.maxHP = 1000;
+            this.hp = this.maxHP;
             this.spdX = 0;
             this.spdY = 0;
+            this.maxSpd = 10;
             this.spriteName = spriteName;
             this.map = map;
             this.isActive = true;
