@@ -22,12 +22,12 @@ class UIManager {
 
         //Hide all elements except toggled element
         for(let i in uiItems) {
-            if(uiItems[i].id !== item.id && (uiItems[i].requireFocus && item.requireFocus)) uiItems[i].element.hide();
+            if(uiItems[i].id !== item.id && (uiItems[i].requireFocus && item.requireFocus)) uiItems[i].getElement().hide();
         }
 
         //Close ui item if it exists
         if(item != null) {
-            item.element.toggle();
+            item.getElement().toggle();
             if(item.toggleFunction != null) item.toggleFunction();
         } else console.log('UI Manager Error - could not find UI item with name: ' + uiItemName);
     }
@@ -41,14 +41,14 @@ class UIManager {
 
     static isUiOpen(searchName) {
         for(let i in UIManager.uiItems)
-            if(UIManager.uiItems[i].name.toLowerCase() === searchName.toLowerCase() && UIManager.uiItems[i].element.is(":visible")) return true;
+            if(UIManager.uiItems[i].name.toLowerCase() === searchName.toLowerCase() && UIManager.uiItems[i].getElement().is(":visible")) return true;
         return false;
     }
 
     static isUiFocused() {
         for(let i in UIManager.uiItems) {
             let item = UIManager.uiItems[i];
-            if(item.element.is(":visible") && item.requireFocus) return true;
+            if(item.getElement().is(":visible") && item.requireFocus) return true;
         }
         return false;
     }
@@ -62,9 +62,9 @@ class UIManager {
     }
 }
 UIManager.uiItems = [
-    new uiItem($('#menuDiv'), 'Menu', true),
-    new uiItem($('#chat-input'), 'Chat', true, initChat),
-    new uiItem($('#mapEditDiv'), 'Map Editor', false, initMapEditor, ['mod', 'admin'])
+    new uiItem("#menuDiv", 'Menu', true),
+    new uiItem("#chat-input", 'Chat', true, initChat),
+    new uiItem("#mapEditDiv", 'Map Editor', false, initMapEditor, ['mod', 'admin'])
 ];
 
 //********************

@@ -10,3 +10,5 @@ version_archive/
 *.zip
 *.lnk
 *.bat
+.vscode/launch.json
+*.ven

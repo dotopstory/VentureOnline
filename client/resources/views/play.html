@@ -20,7 +20,6 @@
             <div class="col-md-12">
                 <div id="canvasContainer">
                     <canvas id="gameCanvas">Error - canvas not supported on your browser.</canvas>
-
                     <!-- Chat row -->
                     <div id="chatDiv" class="onGameCanvas">
                         <div class="row">
@@ -39,7 +38,7 @@
                     </div>
 
                     <!-- Menu -->
-                    <div id="menuDiv" class="onGameCanvas hidden">
+                    <div id="menuDiv" class="onGameCanvas hidden animated bounceIn">
                         <div class="row">
                             <div class="col-md-12">
                                 <span class="menuTitle">Menu</span><br>
@@ -79,29 +78,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Map Editor -->
-<div id="mapEditDiv" class="hidden">
-    <div class="row">
-        <div class="col-md-12">
-            <span class="menuTitle">Map Editor</span><br>
-            <div id="mapEditTiles"></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div id="tileSelect" class="col-md-8">
-        </div>
-        <div class="col-md-2">
-            <canvas id="editPreviewTile" width="128" height="128"></canvas>
-        </div>
-        <div class="col-md-2">
-            <input id="tbMapName" class="form-control" type="text">
-            <button class="btn venButton venButtonGreen" onclick="saveMap('', true)">Save</button>
-            <button class="btn venButton venButtonOrange" onclick="cancelMapEdit()">Cancel</button>
         </div>
     </div>
 </div>

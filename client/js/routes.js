@@ -1,5 +1,5 @@
 page.base('/');
-page('/', function() { route(["navbar", "play"]); });
+page('/', function() { route(["navbar", "play", "ui/mapEditor"]); });
 page('play', function() { route(["play"]); });
 page('info', function() { route(["info"]); });
 page('*', function() { route(["play"]); });

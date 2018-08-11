@@ -2,7 +2,7 @@
     right: 0;
     bottom: 0;
     text-align: left;
-    width: 15vw;
+    width: 10vw;
     border-radius: 5px;
     margin: 1vh;
     padding: 1vh;
@@ -11,14 +11,14 @@
 }
 
 .invTitle {
-    font-size: 1.5vmax;
+    font-size: 1vmax;
     color: rgba(230, 230, 230, 0.9);
 }
 
 .invArea {
     background-color: rgba(30, 30, 30, 0.6);
-    max-height: 15vh;
-    height: 15vh;
+    max-height: 11vh;
+    height: 11vh;
     border-radius: 5px;
     overflow-y: scroll;
 }
