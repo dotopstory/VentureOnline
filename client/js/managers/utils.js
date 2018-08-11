@@ -26,4 +26,5 @@ function getHpBarColor(currentHp, maxHp) {
     if(hpPercent < 25) return "rgb(230, 0, 0, 0.8)";
     if(hpPercent < 50) return "rgb(230, 92, 0, 0.8)";
     if(hpPercent <= 100) return "rgba(0, 204, 0, 0.8)";
+    return "rgba(255, 255, 255, 255, 1)";
 }

@@ -35,6 +35,7 @@ module.exports = function() {
         }
 
         moveToPosition(point, followDistance) {
+            followDistance *= 64;
             if(distanceBetweenPoints(this, {x: point.x, y: point.y}) < followDistance) return;
 
             if(point.x < this.x) this.spdX = -this.maxSpd;

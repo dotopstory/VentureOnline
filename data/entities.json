@@ -2,7 +2,7 @@
     "entities": [
         {
             "name": "Test Cube",
-            "sprite": "mobCube",
+            "spriteName": "mobCube",
             "size": 64,
             "type": "test",
             "maxHP": 500,
@@ -11,6 +11,7 @@
             "hitSound": "",
             "level": 100,
             "deathSound": "",
+            "chaseDistance": 6,
             "projectiles": [
                 {
                     "sprite": "projBlueBall",
@@ -23,7 +24,31 @@
                     "multihit": false
                 }
             ]
+        },
+        {
+            "name": "Test Cube 2",
+            "spriteName": "mobCube",
+            "size": 64,
+            "type": "test",
+            "maxHP": 300,
+            "speed": 15,
+            "defence": 0,
+            "hitSound": "",
+            "level": 100,
+            "deathSound": "",
+            "chaseDistance": 1,
+            "projectiles": [
+                {
+                    "sprite": "projBlueBall",
+                    "sound": "sound1",
+                    "speed": 10,
+                    "damage_min": 10,
+                    "damage_max": 50,
+                    "number_of_projectiles": 24,
+                    "lifetime": 30,
+                    "multihit": false
+                }
+            ]
         }
-
     ]
 }

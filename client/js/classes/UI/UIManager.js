@@ -62,9 +62,6 @@ UIManager.uiItems = [
 //********************
 //*** MENU EVENTS
 //********************
-$(window).on('load', function () {
-});
-
 function signOut() {
     client = null;
     location.href = '/play';

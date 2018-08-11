@@ -22,11 +22,12 @@ module.exports = function() {
             this.hitRadius = 48;
             this.damagedTargets = [];
             this.bounds = {x: 20, y: 20, width: 20, height: 20};
+            this.type = "static";
         }
 
         update() {
-            if(this.timer++ >= this.lifeTime) this.isActive = false;
             super.update();
+            if(this.timer++ >= this.lifeTime) this.isActive = false;
             this.checkCollision();
         }
 
@@ -43,7 +44,7 @@ module.exports = function() {
                         && this.parent.id !== player.id
                         && this.damagedTargets.indexOf(player.id) === -1) {
 
-                        player.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
+                        player.addHealth(-getRandomInt(this.damageMin, this.damageMax + 1));
                         this.onHit(player.id);
                     }
                 }
@@ -66,7 +67,7 @@ module.exports = function() {
                         && this.isActive
                         && e.isActive) {
                         
-                        e.takeDamage(getRandomInt(this.damageMin, this.damageMax + 1));
+                        e.addHealth(-getRandomInt(this.damageMin, this.damageMax + 1));
                         this.onHit(e.id);
                     }
                 }

@@ -33,7 +33,7 @@ module.exports = function() {
     Command.commandList = [
         new Command('/help', 0, showHelpCommand, 'Show the help dialog', ''),
         new Command('/ann', 1, serverAnnounceCommand, 'Announce a message to the server', '[message]', true),
-        new Command('/tp', 1, playerTeleportCommand, 'Teleport to a tile location', '[x] [y]'),
+        new Command('/tp', 2, playerTeleportCommand, 'Teleport to a tile location', '[x] [y]'),
         new Command('/maplist', 0, mapListCommand, 'Display a list of all maps', ''),
         new Command('/map', 1, switchMapCommand, 'Switch to a different map', '[map name]'),
         new Command('/msg', 2, privateMsgPlayerCommand, 'Privately message a single player', '[username] [message]', true)
@@ -89,28 +89,3 @@ module.exports = function() {
         }
     }
 };
-
-// let splitMessage = commandLine.split(' ');
-// let command = splitMessage[0];
-// let param1 = splitMessage[1];
-// let param2 = splitMessage[2];
-//
-// if(command === '/announce' || command === '/ann') {
-//     delete splitMessage[0];
-//     let message = splitMessage.join(' ');
-//     sendMessageToClients(SOCKET_LIST, message, 'announcement', 'SERVER');
-// } else if(command === '/tp' || command === '/teleport') {
-//     EntityManager.playerList[senderSocketID].setTileLocation(param1, param2);
-// } else if(command === '/map') {
-//     if(param1 === 'list') {
-//         sendMessageToClients([SOCKET_LIST[EntityManager.playerList[senderSocketID].id]], 'MAPS: ' + Map.getMapListString(), 'info');
-//     } else if(param1 === 'reset') {
-//         let oldMap =  EntityManager.playerList[senderSocketID].map;
-//         let newMap = new Map({id: oldMap.id, name: oldMap.name, width: oldMap.width, height: oldMap.height, tileSeedID: parseInt(param2)});
-//         Map.mapList[oldMap.id] = newMap;
-//         EntityManager.playerList[senderSocketID].changeMap(newMap);
-//     } else {
-//         if(Map.getMapByName(param1) === false) return;
-//         EntityManager.playerList[senderSocketID].changeMap(Map.getMapByName(param1));
-//     }
-// }

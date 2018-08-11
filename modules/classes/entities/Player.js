@@ -31,13 +31,13 @@ module.exports = function() {
         }
 
         update() {
+            super.update();
             this.equipment.update();
             this.updateSpd();
             if(this.pressingAttack && this.equipment.attack1Timer >= this.equipment.weapon1.fire_rate) {
                 this.shootProjectile(this.equipment.weapon1.attack1, this.mouseAngle);
                 this.equipment.attack1Timer = 0;
             }
-            super.update();
         }
 
         updateSpd() {

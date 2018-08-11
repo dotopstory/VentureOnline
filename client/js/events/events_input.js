@@ -18,13 +18,13 @@ $(window).on('load', function() {
 
         if(!UIManager.isUiFocused()) {
             //Move events
-            if(e.keyCode === 68) //D
+            if(e.keyCode === 68) // KEY = D
                 socket.emit('keyPress', {inputId: 'right', state: true});
-            else if(e.keyCode === 83) //S
+            else if(e.keyCode === 83) // KEY = S
                 socket.emit('keyPress', {inputId: 'down', state: true});
-            else if(e.keyCode === 65) //A
+            else if(e.keyCode === 65) // KEY = A
                 socket.emit('keyPress', {inputId: 'left', state: true});
-            else if(e.keyCode === 87) //W
+            else if(e.keyCode === 87) // KEY = W
                 socket.emit('keyPress', {inputId: 'up', state: true});
         }
     };
@@ -37,28 +37,28 @@ $(window).on('load', function() {
 
         if(!UIManager.isUiFocused()) {
             //Move events
-            if(e.keyCode === 68) //D
+            if(e.keyCode === 68) // KEY = D
                 socket.emit('keyPress', {inputId: 'right', state: false});
-            else if(e.keyCode === 83) //S
+            else if(e.keyCode === 83) // KEY = S
                 socket.emit('keyPress', {inputId: 'down', state: false});
-            else if(e.keyCode === 65) //A
+            else if(e.keyCode === 65) // KEY = A
                 socket.emit('keyPress', {inputId: 'left', state: false});
-            else if(e.keyCode === 87) //W
+            else if(e.keyCode === 87) // KEY = W
                 socket.emit('keyPress', {inputId: 'up', state: false});
         }
 
         //Menu events
-        if(e.keyCode === 27) UIManager.toggleUiItem('Menu');
+        if(e.keyCode === 27) UIManager.toggleUiItem('Menu'); // KEY = ESC
 
         //Chat events
-        if(e.keyCode === 13) UIManager.toggleUiItem('Chat');
-        if(e.keyCode === 191 && !UIManager.isUiOpen('Chat')) {
+        if(e.keyCode === 13) UIManager.toggleUiItem('Chat'); //  KEY = ENTER
+        if(e.keyCode === 191 && !UIManager.isUiOpen('Chat')) { //  KEY = /
             UIManager.toggleUiItem('Chat');
             $('#chat-input').val('/');
         }
 
         //World Edit events
-        if(e.keyCode === 192) UIManager.toggleUiItem('Map Editor');
+        if(e.keyCode === 192) UIManager.toggleUiItem('Map Editor'); //  KEY = ~
     };
 
     //MOUSE EVENTS

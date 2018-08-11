@@ -10,6 +10,7 @@ module.exports = function() {
             this.y = y;
             this.maxHP = 1000;
             this.hp = this.maxHP;
+            this.regen = 75; //X health per second
             this.spdX = 0;
             this.spdY = 0;
             this.maxSpd = 10;
@@ -21,12 +22,20 @@ module.exports = function() {
             this.timer = 0;
             this.healthEffects = [];
             this.bounds = {x: 16, y: 16, width: 40, height: 48};
+            this.timers = {regen: new Date().getTime()};
+            this.t = new Date();
+            this.nowTime = this.t.getTime();
+            this.type = "default";
         }
 
         update() {
             this.timer++;
+            this.nowTime = new Date().getTime();
             this.updatePosition();
             this.updateHealthEffects();
+            if(!(this instanceof Projectile)) {
+                this.updateHealth();
+            }
         }
 
         updatePosition() {
@@ -93,6 +102,7 @@ module.exports = function() {
             return false;
         }
 
+        //Behaviour when a projectile collides with a solid map tile
         onMapCollision() {
             if(this instanceof Projectile) this.isActive = false;
         }
@@ -102,10 +112,27 @@ module.exports = function() {
             this.y = parseInt(y) * 64;
         }
 
-        takeDamage(damageAmount) {
-            this.hp = (this.hp - damageAmount) <= 0 ? 0 : this.hp - damageAmount;
-            this.addHealthEffect(damageAmount, 'red');
-            if(this.hp <= 0) this.die();
+        updateHealth() {
+            let frequency = this instanceof Player ? 200 : 1000; //ms
+            let updateAmount = frequency / 1000 * this.regen;
+            if(this.nowTime - this.timers.regen > frequency) {
+                this.timers.regen = this.nowTime;
+                this.addHealth(updateAmount, false);
+            }
+        }
+
+        addHealth(amount, showEffect) {
+            amount = parseInt(amount);
+            let newHp = this.hp + amount;
+            if(newHp <= 0) {
+                this.hp = 0;
+                this.die();
+            } else if(newHp >= this.maxHP) {
+                this.hp = this.maxHP;
+            } else {
+                this.hp = newHp; 
+            }
+            if(showEffect || showEffect == null) this.addHealthEffect(Math.abs(amount), amount >= 0 ? "green" : "red");           
         }
 
         die() {

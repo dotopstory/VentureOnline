@@ -33,12 +33,13 @@ module.exports = function() {
                     maxHP: player.maxHP,
                     mapId: player.map.id,
                     healthEffects: player.healthEffects,
-                    equipment: player.equipment
+                    equipment: player.equipment,
+                    type: player.type
                 };
             }
             if(EntityManager.spawnTimer > EntityManager.spawnTime) {
                 EntityManager.spawnTimer = 0;
-                EntityManager.spawnTime = 20 * getRandomInt(5, 20);
+                EntityManager.spawnTime = 10 * getRandomInt(3, 6);
             }
             return pack;
         }
@@ -64,9 +65,12 @@ module.exports = function() {
                     id: e.id,
                     x: e.x,
                     y: e.y,
+                    maxHP: e.maxHP,
+                    hp: e.hp,
                     spriteName: e.spriteName,
                     mapId: e.map.id,
-                    healthEffects: e.healthEffects
+                    healthEffects: e.healthEffects,
+                    type: e.type
                 });
             }
             return pack;
@@ -122,7 +126,7 @@ module.exports = function() {
 
                         let newEntity = ResourceManager.getRandomEntity(null);
 
-                        let e = new Mob(newEntity.sprite, point.map, spawnX, spawnY, newEntity.name, newEntity.maxHP, newEntity.speed, newEntity.defence, newEntity.projectiles[0]);
+                        let e = new Mob(newEntity, point.map, spawnX, spawnY);
                         if(distanceBetweenPoints(point, e) < 64 * 7) continue;
 
                         e.target = point;

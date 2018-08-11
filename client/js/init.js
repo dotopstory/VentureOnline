@@ -213,10 +213,9 @@ function initGame() {
         }
     }
 
-    //Render players
+    //Render each player
     function renderPlayers(ctx) {
         ctx.font = "16px Arial";
-        //Render players
         for(let i in gameStateCache.players) {
             let player = gameStateCache.players[i]; //Save player
             if(player == undefined) continue;
@@ -224,30 +223,35 @@ function initGame() {
             if(client.player.mapId !== player.mapId) continue;
 
             //Render player sprite
-            //Render HP bar
-            let hpBarHeightPx = 6;
-            let hpBarWidthPx = 60;
-            let hpBarLineWidth = 1;
-            let sprite = ResourceManager.getSpriteByName(player.spriteName);
             let drawX = player.x - gameCamera.xOffset;
             let drawY = player.y - gameCamera.yOffset;
-            let drawYOffset = sprite.height + hpBarHeightPx;
+            let sprite = ResourceManager.getSpriteByName(player.spriteName);
             sprite.render(ctx, drawX, drawY);
-
-            
-
-            //Draw hp bar black background
-            ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-            ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2 - hpBarLineWidth, drawY + drawYOffset - hpBarLineWidth, hpBarWidthPx + hpBarLineWidth * 2, hpBarHeightPx + hpBarLineWidth *2);
-
-            //Draw current hp bar
-            ctx.fillStyle = getHpBarColor(player.hp, player.maxHP);
-            ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, (player.hp / player.maxHP) * hpBarWidthPx, hpBarHeightPx);
-
-            //Draw hp bar black outline
-            ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            ctx.strokeRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, hpBarWidthPx, hpBarHeightPx);
+            renderHpBar(ctx, player, sprite, 60, 6);
         }
+    }
+
+    function renderHpBar(ctx, entity, sprite, hpBarWidth, hpBarHeight) {
+        if(entity == null || entity.type == "static") return;
+        //Render HP bar
+        let hpBarHeightPx = hpBarHeight;
+        let hpBarWidthPx = hpBarWidth;
+        let hpBarLineWidth = 1;
+        let drawX = entity.x - gameCamera.xOffset;
+        let drawY = entity.y - gameCamera.yOffset;
+        let drawYOffset = sprite.height + hpBarHeightPx;
+        
+        //Draw hp bar black background
+        ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+        ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2 - hpBarLineWidth, drawY + drawYOffset - hpBarLineWidth, hpBarWidthPx + hpBarLineWidth * 2, hpBarHeightPx + hpBarLineWidth *2);
+
+        //Draw current hp bar
+        ctx.fillStyle = getHpBarColor(entity.hp, entity.maxHP);
+        ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, (entity.hp / entity.maxHP) * hpBarWidthPx, hpBarHeightPx);
+
+        //Draw hp bar black outline
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.strokeRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, hpBarWidthPx, hpBarHeightPx);
     }
 
     //Render all non player entities
@@ -264,6 +268,7 @@ function initGame() {
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.getSpriteByName(e.spriteName);
             sprite.render(ctx, drawX, drawY);
+            renderHpBar(ctx, e, sprite, 50, 4);
         }
     }
 
