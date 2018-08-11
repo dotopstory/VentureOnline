@@ -44,7 +44,7 @@ module.exports = function() {
     //Search a playerlist and return the ID of the player that matches the given username
     this.getPlayerByUsername = function(playerList, username) {
         for(let i in playerList) {
-            if(playerList[i].username === username) return playerList[i];
+            if(playerList[i].name === username) return playerList[i];
         }
     };
 

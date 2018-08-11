@@ -41,7 +41,7 @@ module.exports = function() {
 
     //Handle server commands from the client
     this.processServerCommand = function(command) {
-        serverMessage("INFO", command.playerList[command.senderSocketId].username + " submitted a command: " + command.args);
+        serverMessage("INFO", command.playerList[command.senderSocketId].name + " submitted a command: " + command.args);
         for(let i = 0; i < Command.commandList.length; i++) {
             if(Command.commandList[i].arg1 === command.args[0]) {
                 Command.commandList[i].execute(command);
@@ -80,8 +80,13 @@ module.exports = function() {
 
     function privateMsgPlayerCommand(command) {
         let senderPlayer = command.playerList[command.senderSocketId];
-        sendMessageToClients([command.socketList[getPlayerByUsername(command.playerList, command.args[1]).id]], command.args[2], "info", "From: " + senderPlayer.username, senderPlayer.map.name);
-        sendMessageToClients([command.socketList[command.senderSocketId]], command.args[2], "info", "To: " + senderPlayer.username, senderPlayer.map.name);
+        let sendToPlayer = getPlayerByUsername(command.playerList, command.args[1]);
+        if(sendToPlayer != null) {
+            sendMessageToClients([command.socketList[sendToPlayer.id]], command.args[2], "info", "From: " + senderPlayer.name, senderPlayer.map.name);
+            sendMessageToClients([command.socketList[command.senderSocketId]], command.args[2], "info", "To: " + sendToPlayer.name, sendToPlayer.map.name);
+        } else {
+            sendMessageToClients([command.socketList[command.senderSocketId]], "Cannot find player: " + command.args[1], "", "Server");
+        }
     }
 };
 

@@ -82,7 +82,7 @@ module.exports = function() {
         }
 
         die() {
-            serverMessage("DEATH", "[PLAYER: " + this.username + "] died.");
+            serverMessage("DEATH", "[PLAYER: " + this.name + "] died.");
             this.respawn();
         }
 
@@ -97,7 +97,7 @@ module.exports = function() {
         //Create player and add to list
         let player = new Player(SOCKET_LIST, socket.id, username, 'playerDefault', Map.getMapByName('Limbo'));
         EntityManager.addPlayer(player);
-        sendMessageToClients(SOCKET_LIST, player.username + ' has joined the server.', 'info');
+        sendMessageToClients(SOCKET_LIST, player.name + ' has joined the server.', 'info');
         sendMessageToClients([socket], 'Welcome to Venture. Type /help for help.', 'info');
 
 
@@ -114,7 +114,7 @@ module.exports = function() {
         //Listen for new messages from clients
         socket.on('sendMessageToServer', function(data) {
             if (data[0] === '/') processServerCommand({'socketList': SOCKET_LIST, 'playerList': EntityManager.playerList, 'args': data.split(' '), 'senderSocketId': socket.id});
-            else sendMessageToClients(SOCKET_LIST, data, 'default', player.username, player.map.name);
+            else sendMessageToClients(SOCKET_LIST, data, 'default', player.name, player.map.name);
         });
 
         //Listen for map changes
@@ -147,7 +147,7 @@ module.exports = function() {
         let player = EntityManager.playerList[socket.id];
         delete EntityManager.playerList[socket.id];
         if(player === undefined) return; //If client never signed in
-        sendMessageToClients(SOCKET_LIST, player.username + ' has left the server.', 'info');
+        sendMessageToClients(SOCKET_LIST, player.name + ' has left the server.', 'info');
     };
 };
 

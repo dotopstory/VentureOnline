@@ -37,14 +37,6 @@
     overflow-y: hidden;
 }
 
-.chat-message {
-
-}
-
-.message-default {
-
-}
-
 .message-announcement {
     font-weight: bold;
     color: #ff3300;
@@ -52,7 +44,7 @@
 
 .message-info {
     font-weight: bold;
-    color: #0099cc;
+    color: white;
 }
 
 /* MENU STYLES */

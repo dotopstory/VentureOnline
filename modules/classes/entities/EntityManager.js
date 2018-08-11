@@ -25,7 +25,7 @@ module.exports = function() {
                 //Add updated player to pack
                 pack[player.id] = {
                     id: player.id,
-                    username: player.username,
+                    username: player.name,
                     spriteName: player.spriteName,
                     x: player.x,
                     y: player.y,
