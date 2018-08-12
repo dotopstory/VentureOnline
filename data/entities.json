@@ -9,8 +9,6 @@
             "speed": 10,
             "defence": 20,
             "hitSound": "",
-            "level": 100,
-            "deathSound": "",
             "chaseDistance": 6,
             "projectiles": [
                 {
@@ -34,8 +32,6 @@
             "speed": 15,
             "defence": 0,
             "hitSound": "",
-            "level": 100,
-            "deathSound": "",
             "chaseDistance": 1,
             "projectiles": [
                 {

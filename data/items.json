@@ -16,7 +16,7 @@
                 "damage_max": 205,
                 "number_of_projectiles": 3,
                 "lifetime": 60,
-                "multihit": false
+                "multihit": true
             }
         },
         {

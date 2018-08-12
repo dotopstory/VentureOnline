@@ -2,11 +2,13 @@ require('./modules/classes/ResourceManager.js')();
 require('./modules/classes/entities/EntityManager.js')();
 require('./modules/classes/world/Map.js')();
 require('./modules/classes/entities/Player.js')();
+require('./modules/enums/ServerState.js')();
 
 //Initialise express routing
 let express = require('express');
 const app = express();
 const server = require('http').Server(app);
+server.state = ServerState.Offline;
 const io = require('socket.io')(server);
 const url = require('url');
 const fs = require('fs');
@@ -38,7 +40,10 @@ app.socketList = SOCKET_LIST;
 app.playerList = EntityManager.playerList;
 
 //Load maps
+server.state = ServerState.Loading;
+openConnections();
 setTimeout(function () {
+    server.state = ServerState.Ready;
     Map.mapList = [
         new Map({fileName: 'limbo'}),
         new Map({fileName: 'desert'}),
@@ -46,11 +51,10 @@ setTimeout(function () {
         new Map({fileName: 'arctic'}),
         new Map({fileName: 'randomisland'})
     ];
-    openConnections();
 }, SERVER_STARTUP_TIME);
 
 function openConnections() {
-    serverMessage("INFO", server.name + " server started listening on port " + server.portNum);
+    serverMessage("INFO", server.name + " server started listening on port " + server.portNum + ".");
     io.sockets.on('connection', function(socket) {
         //Deny client connection if too many clients connected
         if(SOCKET_LIST.length + 1 > MAX_SERVER_CONNECTIONS) {
@@ -65,8 +69,8 @@ function openConnections() {
 
         //Listen for sign in attempts
         socket.on('signIn', function(data) {
-            //Deny player sign in if too many players
-            if(EntityManager.playerList.length + 1 > MAX_SERVER_PLAYERS) {
+            //Deny player sign in if too many players or server not ready.
+            if(EntityManager.playerList.length + 1 > MAX_SERVER_PLAYERS || server.state != ServerState.Ready) {
                 serverMessage("ALERT", " denied player sign-in on [SLOT " + socket.id + "].");
                 return;
             }

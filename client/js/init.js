@@ -26,6 +26,7 @@ function initGame() {
     gameElement = $('#gameCanvas');
     let gameCanvasCtx = gameElement[0].getContext('2d');
     let fps = 60, canvasWidth = 1280, canvasHeight = 832;
+    let blendWidth = null, blendHeight = null;
     let gameStateCache = {
         players: [],
         projectiles: [],
@@ -126,64 +127,74 @@ function initGame() {
                 let drawX = parseInt(x * 64 - gameCamera.xOffset);
                 let drawY = parseInt(y * 64 - gameCamera.yOffset);
                 let tileID = map.tiles[y * map.width + x];
-
+                
                 //Skip on tile blending if blend index is less than 1
                 if(ResourceManager.tileList[tileID].blendIndex < 1) continue;
 
+                let isDownDiff = tileID !== map.tiles[(y + 1) * map.width + x];
+                let isUpDiff = tileID !== map.tiles[(y - 1) * map.width + x];
+                let isLeftDiff = tileID !== map.tiles[y * map.width + x - 1];
+                let isRightDiff = tileID !== map.tiles[y * map.width + x + 1];
                 let c = ctx.getImageData(drawX + 32, drawY + 32, 1, 1).data;
 
+                //Blend options
+                if(blendWidth == null || blendHeight  == null) {
+                    let blendVariance = 8;
+                    blendWidth = 64 + getRandomInt(-blendVariance, blendVariance);
+                    blendHeight = 64 + getRandomInt(-blendVariance, blendVariance);
+                    blendDepth = 6;
+                }
+
                 //Check left
-                if(tileID !== map.tiles[y * map.width + x - 1]) {
+                if(isLeftDiff) {
                     //Blend tiles
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
-                    ctx.fillRect(drawX, drawY, 4, 64);
+                    ctx.fillRect(drawX, drawY, blendDepth, blendHeight);
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
-                    ctx.fillRect(drawX - 4, drawY, 4, 64);
+                    ctx.fillRect(drawX - blendDepth, drawY, blendDepth, blendHeight);
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.3)";
-                    ctx.fillRect(drawX - 8, drawY, 4, 64);
-
-                    ctx.fillRect(drawX - 12, drawY, 4, 32);
+                    ctx.fillRect(drawX - blendDepth * 2, drawY, blendDepth, blendHeight);
                 }
 
                 //Check right
-                if(tileID !== map.tiles[y * map.width + x + 1]) {
+                if(isRightDiff) {
                     //Blend tiles
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
-                    ctx.fillRect(drawX + 60, drawY, 4, 64);
+                    ctx.fillRect(drawX + 60, drawY, blendDepth, blendHeight);
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
-                    ctx.fillRect(drawX + 64, drawY, 4, 64);
+                    ctx.fillRect(drawX + 64, drawY, blendDepth, blendHeight);
 
-                    ctx.fillRect(drawX + 64, drawY + 32, 4, 32);
+                    ctx.fillRect(drawX + 64, drawY + 32, blendDepth, blendHeight / 2);
                 }
 
                 //Check up
-                if(tileID !== map.tiles[(y - 1) * map.width + x]) {
+                if(isUpDiff) {
                     //Blend tiles
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
-                    ctx.fillRect(drawX, drawY, 64, 4);
+                    ctx.fillRect(drawX, drawY, blendWidth, blendDepth);
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
-                    ctx.fillRect(drawX, drawY - 4, 64, 4);
+                    ctx.fillRect(drawX, drawY - blendDepth, blendWidth, blendDepth);
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.3)";
-                    ctx.fillRect(drawX, drawY - 8, 64, 4);
+                    ctx.fillRect(drawX, drawY - blendDepth * 2, blendWidth, blendDepth);
 
-                    ctx.fillRect(drawX + 32, drawY - 8, 32, 4);
+                    ctx.fillRect(drawX + 32, drawY - blendDepth * 3, blendWidth / 2, blendDepth);
                 }
 
                 //Check down
-                if(tileID !== map.tiles[(y + 1) * map.width + x]) {
+                if(isDownDiff) {
                     //Blend tiles
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.6)";
-                    ctx.fillRect(drawX, drawY + 60, 64, 4);
+                    ctx.fillRect(drawX, drawY + 60, blendWidth, blendDepth);
 
                     ctx.fillStyle = "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 0.4)";
-                    ctx.fillRect(drawX, drawY + 64, 64, 4);
+                    ctx.fillRect(drawX, drawY + 64, blendWidth, blendDepth);
 
-                    ctx.fillRect(drawX, drawY + 64, 32, 4);
+                    ctx.fillRect(drawX, drawY + 68, blendWidth / 2, blendDepth);
                 }
             }
         }
