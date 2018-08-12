@@ -15,10 +15,10 @@
 
 .navItem {
     font-size: 1.2vmax;
-    display: inline-block;
     cursor: pointer;
-    padding: 0.75vh 2vw;
     transition: ease 0.5s all;
+    padding: 0.75vh 2vw;
+    display: inline-block;
 }
 
 .navItem:hover {
@@ -29,4 +29,13 @@
 #navbar a, #navbar a:hover, #navbar a:active, #navbar a:visited {
     all: unset;
     cursor: pointer;
+}
+
+.navLabel {
+    padding: 1.5vh 2vw;
+    display: inline-block;
+}
+
+#navPlayerCount {
+    color: #CD412B;
 }

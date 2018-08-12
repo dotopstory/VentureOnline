@@ -8,7 +8,7 @@ module.exports = function() {
     //*****************************
     this.EntityManager = class {
         static addPlayer(p) {
-            EntityManager.playerList[p.id] = p;
+            EntityManager.playerList[getNextAvailableArrayIndex(EntityManager.playerList, 200)] = p;
         }
 
         static updateAllPlayers() {
@@ -125,7 +125,6 @@ module.exports = function() {
                         let spawnY = y + 64 * 2;
 
                         let newEntity = ResourceManager.getRandomEntity(null);
-
                         let e = new Mob(newEntity, point.map, spawnX, spawnY);
                         if(distanceBetweenPoints(point, e) < 64 * 7) continue;
 
@@ -137,7 +136,7 @@ module.exports = function() {
             }
         }
     };
-    EntityManager.nextID = 200;
+    EntityManager.nextID = 0;
     EntityManager.spawnTimer = 0;
     EntityManager.spawnTime = 1;
     EntityManager.playerList = [];

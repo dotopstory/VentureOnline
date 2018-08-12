@@ -8,7 +8,7 @@ module.exports = function() {
     //*****************************
     this.Projectile = class extends Entity {
         constructor(parent, angle, spriteName, map, x, y, multihit, damageMin, damageMax, speed, lifetime) {
-            super(Entity.nextID++, spriteName, map, x, y);
+            super(EntityManager.nextID++, spriteName, map, x, y);
             this.parent = parent;
             this.spd = speed;
             this.lifetime = lifetime;
@@ -39,7 +39,7 @@ module.exports = function() {
                     let shooter = EntityManager.playerList[this.parent.id];
 
                     //Check for collision between player and projectiles
-                    if (this.map.id === player.map.id
+                    if (this.map.id == player.map.id
                         && distanceBetweenPoints(this, player) < this.hitRadius
                         && this.parent.id !== player.id
                         && this.damagedTargets.indexOf(player.id) === -1) {
@@ -58,7 +58,7 @@ module.exports = function() {
                     if(e == undefined) continue;
 
                     //Check for collision between player and projectiles
-                    if(this.map.id === e.map.id
+                    if(this.map.id == e.map.id
                         && distanceBetweenPoints(this, e) < this.hitRadius
                         && this.parent.id !== e.id
                         && !(e instanceof Projectile)

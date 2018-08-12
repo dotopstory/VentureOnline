@@ -11,7 +11,7 @@ module.exports = function() {
             this.hasMultiWordArgs = hasMultiWordArgs;
         }
 
-        execute(command) {
+        execute(serverCache, command) {
             if(this.commandFunction == null) return;
             if(this.hasMultiWordArgs) {
                 let tempArgs = command.args.join(' ');
@@ -27,7 +27,7 @@ module.exports = function() {
                     this.argsCount + " arguments but got " + (command.args.length - 1), "info");
                 return;
             }
-            this.commandFunction(command);
+            this.commandFunction(serverCache, command);
         }
     };
     Command.commandList = [
@@ -40,22 +40,22 @@ module.exports = function() {
     ];
 
     //Handle server commands from the client
-    this.processServerCommand = function(command) {
+    this.processServerCommand = function(serverCache, command) {
         serverMessage("INFO", command.playerList[command.senderSocketId].name + " submitted a command: " + command.args);
         for(let i = 0; i < Command.commandList.length; i++) {
             if(Command.commandList[i].arg1 === command.args[0]) {
-                Command.commandList[i].execute(command);
+                Command.commandList[i].execute(serverCache, command);
                 return;
             }
         }
         sendMessageToClients([command.socketList[command.senderSocketId]], "Invalid command: " + command.args, "announcement", "SERVER");
     };
 
-    function serverAnnounceCommand(command) {
+    function serverAnnounceCommand(serverCache, command) {
         sendMessageToClients(command.socketList, command.args[1], "announcement", "SERVER");
     }
 
-    function showHelpCommand(command) {
+    function showHelpCommand(serverCache, command) {
         sendMessageToClients([command.socketList[command.senderSocketId]], "Server Commands Help", "info");
         let helpMessage = "";
         for(let i = 0; i < Command.commandList.length; i++) {
@@ -64,21 +64,22 @@ module.exports = function() {
         }
     }
 
-    function playerTeleportCommand(command) {
+    function playerTeleportCommand(serverCache, command) {
         command.playerList[command.senderSocketId].setTileLocation(command.args[1], command.args[2]);
     }
 
-    function mapListCommand(command) {
+    function mapListCommand(serverCache, command) {
         sendMessageToClients([command.socketList[command.senderSocketId]], 'MAPS: ' + Map.getMapListString(), 'info');
     }
 
-    function switchMapCommand(command) {
+    function switchMapCommand(serverCache, command) {
         if(Map.getMapByName(command.args[1]) === false) return;
+        let playerIndex = getPlayerIndexBySocketId(serverCache.playerList, command.senderSocketId);
         sendMessageToClients([command.socketList[command.senderSocketId]], 'Switching to map: ' + command.args[1] + '...', 'info');
-        command.playerList[command.senderSocketId].changeMap(Map.getMapByName(command.args[1]));
+        serverCache.playerList[playerIndex].changeMap(serverCache, Map.getMapByName(command.args[1]));
     }
 
-    function privateMsgPlayerCommand(command) {
+    function privateMsgPlayerCommand(serverCache, command) {
         let senderPlayer = command.playerList[command.senderSocketId];
         let sendToPlayer = getPlayerByUsername(command.playerList, command.args[1]);
         if(sendToPlayer != null) {

@@ -46,10 +46,12 @@ function initGame() {
     //Listen for init pack from server
     socket.on('initPack', function(data) {
         client.id = data.socketID;
+        client.playerId = data.playerId;
         client.setMap(data.map);
         ResourceManager.itemList = data.resources.itemList;
         ResourceManager.tileList = data.resources.tileList;
         ResourceManager.objectList = data.resources.objectList;
+        console.log(client.playerId);
     });
 
     //Listen for player packet updates
@@ -60,8 +62,7 @@ function initGame() {
         gameStateCache.players = data.players;
         gameStateCache.entities = data.entities;
         gameStateCache.items = data.items;
-
-        client.player = gameStateCache.players[client.id];
+        client.player = gameStateCache.players[getPlayerIndexById(gameStateCache.players, client.playerId)];
         if(lastPlayer == null) UIManager.onSignIn();
     });
 

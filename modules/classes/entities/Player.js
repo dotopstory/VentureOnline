@@ -10,11 +10,10 @@ module.exports = function() {
     // PLAYER CLASS
     //*****************************
     this.Player = class extends Creature {
-        constructor(SOCKET_LIST, id, username, spriteName, map) {
+        constructor(username, spriteName, map) {
             //META
-            super(id, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64);
+            super(EntityManager.nextID++, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64);
             //ACCOUNT
-            this.SOCKET_LIST = SOCKET_LIST;
             this.name = username;
 
             //MOVEMENT
@@ -74,11 +73,10 @@ module.exports = function() {
         }
 
         //Change a players map
-        changeMap(map) {
-            this.SOCKET_LIST[this.id].emit('changeMap', {map: map});
-            if(this.map.id !== map.id) this.setTileLocation((this.map.width / 2), (this.map.height / 2));
+        changeMap(serverCache, map) {
+            serverCache.socketList[this.socketId].emit('changeMap', {map: map});
+            if(this.map.id != map.id) this.setTileLocation((this.map.width / 2), (this.map.height / 2));
             this.map = map;
-            //console.log('Sent new map to ' + this.id + " MAP=" + this.map);
         }
 
         die() {
@@ -93,13 +91,20 @@ module.exports = function() {
         }
     };
 
-    Player.onConnect = function(SOCKET_LIST, socket, username) {
+    Player.onConnect = function(serverCache, socket, username) {
         //Create player and add to list
-        let player = new Player(SOCKET_LIST, socket.id, username, 'playerDefault', Map.getMapByName('Limbo'));
+        let player = null;
+        let cachedPlayer = getPlayerByUsername(serverCache.playerCache, username);
+        if(cachedPlayer != null) {
+            player = cachedPlayer;
+        } else {
+            player = new Player(username, 'playerDefault', Map.getMapByName('Limbo'));
+            serverCache.playerCache.push(player);
+        } 
+        player.socketId = socket.id;
         EntityManager.addPlayer(player);
-        sendMessageToClients(SOCKET_LIST, player.name + ' has joined the server.', 'info');
+        sendMessageToClients(serverCache.socketList, player.name + ' has joined the server.', 'info');
         sendMessageToClients([socket], 'Welcome to Venture. Type /help for help.', 'info');
-
 
         //Listen for input events
         socket.on('keyPress', function(data) {
@@ -113,8 +118,8 @@ module.exports = function() {
 
         //Listen for new messages from clients
         socket.on('sendMessageToServer', function(data) {
-            if (data[0] === '/') processServerCommand({'socketList': SOCKET_LIST, 'playerList': EntityManager.playerList, 'args': data.split(' '), 'senderSocketId': socket.id});
-            else sendMessageToClients(SOCKET_LIST, data, 'default', player.name, player.map.name);
+            if (data[0] === '/') processServerCommand(serverCache, {'socketList': serverCache.socketList, 'playerList': EntityManager.playerList, 'args': data.split(' '), 'senderSocketId': socket.id});
+            else sendMessageToClients(serverCache.socketList, data, 'default', player.name, player.map.name);
         });
 
         //Listen for map changes
@@ -125,7 +130,7 @@ module.exports = function() {
             //Update map of all players on the edited map
             if(data.pushToServer) {
                 for (let i in EntityManager.playerList) {
-                    if (EntityManager.playerList[i].map.id === data.map.id) EntityManager.playerList[i].changeMap(newMap);
+                    if (EntityManager.playerList[i].map.id == data.map.id) EntityManager.playerList[i].changeMap(serverCache, newMap);
                 }
             }
 
@@ -143,11 +148,12 @@ module.exports = function() {
         });
     };
 
-    Player.onDisconnect = function(SOCKET_LIST, socket) {
+    Player.onDisconnect = function(serverCache, socket) {
         let player = EntityManager.playerList[socket.id];
+        if(player != undefined) {//If client never signed in
+            sendMessageToClients(serverCache.socketList, player.name + ' has left the server.', 'info');
+        }
         delete EntityManager.playerList[socket.id];
-        if(player === undefined) return; //If client never signed in
-        sendMessageToClients(SOCKET_LIST, player.name + ' has left the server.', 'info');
     };
 };
 

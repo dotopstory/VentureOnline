@@ -44,8 +44,18 @@ module.exports = function() {
     //Search a playerlist and return the ID of the player that matches the given username
     this.getPlayerByUsername = function(playerList, username) {
         for(let i in playerList) {
-            if(playerList[i].name === username) return playerList[i];
+            if(playerList[i].name.toLowerCase() === username.toLowerCase()) return playerList[i];
         }
+        return null;
+    };
+
+    //Search a playerlist and return the ID of the player that matches the given username
+    this.getPlayerIndexBySocketId = function(playerList, searchId) {
+        for(let i in playerList) {
+            if(playerList[i] == null) continue;
+            if(playerList[i].socketId === searchId) return i;
+        }
+        return null;
     };
 
     //Get the angle between two points

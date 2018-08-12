@@ -33,3 +33,12 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //Min is inclusive, max in exclusive
 };
+
+//Search a playerlist and return the ID of the player that matches the given username
+function getPlayerIndexById(playerList, searchId) {
+    for(let i in playerList) {
+        if(playerList[i] == null) continue;
+        if(playerList[i].id === searchId) return i;
+    }
+    return null;
+};

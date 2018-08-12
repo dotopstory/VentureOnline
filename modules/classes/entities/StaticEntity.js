@@ -6,7 +6,7 @@ module.exports = function() {
     //*****************************
     this.StaticEntity = class extends Entity {
         constructor(spriteName, map, x, y) {
-            super(Entity.nextID++, spriteName, map, x, y);
+            super(EntityManager.nextID++, spriteName, map, x, y);
             this.type = "static";
         }
 

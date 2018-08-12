@@ -7,9 +7,8 @@ require('../../utils.js')();
 module.exports = function() {
     this.Map = class {
         constructor(params) {
-            if(params === undefined) return;
-            if(params.name != undefined) this.id = Map.nextID++;
-            else this.id = params.id;
+            if(params == undefined) return;
+            this.id = Map.nextID++;
 
             //Load map from file
             if(params.fileName != null) {
