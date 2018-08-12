@@ -62,13 +62,13 @@
         },
         {
             "id": 6,
-            "name": "Dark Water",
-            "sprite": "tileDarkWater",
+            "name": "Animated Dark Water",
+            "sprite": "animDarkWater",
             "isSolid": true,
             "speedEffect": 0,
             "damagePerTick": 0,
             "regions": ["Empty"],
-            "blendIndex": 1
+            "blendIndex": 0
         },
         {
             "id": 7,
@@ -82,9 +82,9 @@
         },
         {
             "id": 8,
-            "name": "Light Water Rocks",
-            "sprite": "tileLightWaterRocks",
-            "isSolid": true,
+            "name": "Animated Light Water Tile",
+            "sprite": "animLightWater",
+            "isSolid": false,
             "speedEffect": 0,
             "damagePerTick": 0,
             "regions": ["Ocean"],

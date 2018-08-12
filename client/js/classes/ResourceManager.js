@@ -41,6 +41,12 @@ let ss8 = ResourceManager.images['spritesheet_8x8'];
 
 ResourceManager.sprites = {
     //*********************
+    //**** ANIMATED
+    //*********************
+    animLightWater: new Sprite(ss16, 0, 784 / 16, 16, 3, 50, false),
+    animDarkWater: new Sprite(ss16, 1, 784 / 16, 16, 3, 50, false),
+
+    //*********************
     //**** CREATURES
     //*********************
     //PLAYER
