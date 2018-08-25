@@ -24,6 +24,10 @@ class Sprite {
         ctx.drawImage(this.spritesheet, this.startX, this.startY - this.height * this.currentFrame, this.width, this.height, x, y, width, height);
     }
 
+    renderFrameSize(ctx, x, y, width, height, frameIndex) {
+        ctx.drawImage(this.spritesheet, this.startX, this.startY - this.height * frameIndex, this.width, this.height, x, y, width, height);
+    }
+
     update() {
         if(new Date().getTime() - this.lastFrameChange > this.frameChangeFrequency) {
             this.lastFrameChange = new Date().getTime();

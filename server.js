@@ -10,23 +10,21 @@ let express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const url = require('url');
-const fs = require('fs');
-const path = require('path');
-app.use(express.static(__dirname + '/client'));
+
+//Load server cache object to control data and settings
 let serverCache = {};
+serverCache.serverState = ServerState.Loading;
 serverCache.portNum = process.env.PORT || 2000;
-serverCache.name = "Procreate 1.0 beta";
-server.listen(serverCache.portNum);
-const tickRate = 20; //Updates per second
-//Max clients connected (login screen)
-const MAX_SERVER_CONNECTIONS = 10;
-//Max players in game
-const MAX_SERVER_PLAYERS = MAX_SERVER_CONNECTIONS;
-const DEBUG_ON = serverCache.portNum === 2000;
-const SERVER_STARTUP_TIME = 1000 * (process.env.PORT ? 60 : 0);
+serverCache.name = "Venture";
+serverCache.tickRate = 20;
+serverCache.maxConnections = 10;
+serverCache.maxPlayers = serverCache.maxConnections;
+serverCache.debugOn = process.env.PORT ? true : false;
+serverCache.startupDelay = process.env.PORT ? 60000 : 0;
 
 //Listen for connection events
+app.use(express.static(__dirname + '/client'));
+server.listen(serverCache.portNum);
 serverRoutes(__dirname, app, serverCache);
 
 //Load resources
@@ -37,10 +35,9 @@ serverCache.playerList = EntityManager.playerList;
 serverCache.playerCache = [];
 
 //Load maps
-serverCache.state = ServerState.Loading;
 openConnections();
 setTimeout(function () {
-    serverCache.state = ServerState.Ready;
+    serverCache.serverState = ServerState.Ready;
     Map.mapList = [
         new Map({fileName: 'limbo'}),
         new Map({fileName: 'desert'}),
@@ -48,26 +45,26 @@ setTimeout(function () {
         new Map({fileName: 'arctic'}),
         new Map({fileName: 'randomisland'})
     ];
-}, SERVER_STARTUP_TIME);
+}, serverCache.startupDelay);
 
 function openConnections() {
     serverMessage("INFO", serverCache.name + " server started listening on port " + serverCache.portNum + ".");
     io.sockets.on('connection', function(socket) {
         //Deny client connection if too many clients connected
-        if(getArrayIndexesInUse(serverCache.socketList) + 1 > MAX_SERVER_CONNECTIONS) {
+        if(getArrayIndexesInUse(serverCache.socketList) + 1 > serverCache.maxConnections) {
             serverMessage("WARN", "denied client connection. Active connections: " + serverCache.socketList.length);
             return;
         }
 
         //Add socket to list
-        socket.id = getNextAvailableArrayIndex(serverCache.socketList, MAX_SERVER_CONNECTIONS);
+        socket.id = getNextAvailableArrayIndex(serverCache.socketList, serverCache.maxConnections);
         serverCache.socketList[socket.id] = socket;
         serverMessage("INFO", "[CLIENT " + socket.id + "] connected to the server. ");
 
         //Listen for sign in attempts
         socket.on('signIn', function(data) {
             //Deny player sign in if too many players or server not ready.
-            if(getArrayIndexesInUse(serverCache.playerList) + 1 > MAX_SERVER_PLAYERS || serverCache.state != ServerState.Ready) {
+            if(getArrayIndexesInUse(serverCache.playerList) + 1 > serverCache.maxPlayers || serverCache.serverState !== ServerState.Ready) {
                 serverMessage("ALERT", " denied client sign-in on [SLOT " + socket.id + "].");
                 return;
             }
@@ -87,7 +84,8 @@ function openConnections() {
                     resources: {
                         itemList: ResourceManager.itemList,
                         tileList: ResourceManager.tileList,
-                        objectList: ResourceManager.objectList
+                        objectList: ResourceManager.objectList,
+                        entityList: ResourceManager.entityList
                     }
                 });
 
@@ -125,4 +123,4 @@ setInterval(function() {
         if(socket == undefined) continue;
         socket.emit('update', pack);
     }
-}, 1000 / tickRate);
+}, 1000 / serverCache.tickRate);

@@ -18,7 +18,7 @@
             "speedEffect": 10,
             "damagePerTick": 0,
             "regions": ["Building"],
-            "blendIndex": 1
+            "blendIndex": 0
         },
         {
             "id": 2,
@@ -68,7 +68,7 @@
             "speedEffect": 0,
             "damagePerTick": 0,
             "regions": ["Empty"],
-            "blendIndex": 0
+            "blendIndex": 1
         },
         {
             "id": 7,
@@ -82,13 +82,13 @@
         },
         {
             "id": 8,
-            "name": "Animated Light Water Tile",
+            "name": "Animated Light Water",
             "sprite": "animLightWater",
             "isSolid": false,
             "speedEffect": 0,
             "damagePerTick": 0,
             "regions": ["Ocean"],
-            "blendIndex": 0
+            "blendIndex": 1
         },
         {
             "id": 9,

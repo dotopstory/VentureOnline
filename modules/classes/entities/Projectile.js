@@ -8,7 +8,7 @@ module.exports = function() {
     //*****************************
     this.Projectile = class extends Entity {
         constructor(parent, angle, spriteName, map, x, y, multihit, damageMin, damageMax, speed, lifetime) {
-            super(EntityManager.nextID++, spriteName, map, x, y);
+            super(EntityManager.nextID++, spriteName, map, x, y, "projecitile");
             this.parent = parent;
             this.spd = speed;
             this.lifetime = lifetime;

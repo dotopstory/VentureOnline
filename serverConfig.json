@@ -1,0 +1,8 @@
+{
+    "config":
+    {
+        "name": "Venture",
+        "apiUrl": "http://static.somesoft.io/venture/",
+        "startupDelay": 60000
+    }
+}

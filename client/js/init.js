@@ -51,7 +51,7 @@ function initGame() {
         ResourceManager.itemList = data.resources.itemList;
         ResourceManager.tileList = data.resources.tileList;
         ResourceManager.objectList = data.resources.objectList;
-        console.log(client.playerId);
+        ResourceManager.entityList = data.resources.entityList;
     });
 
     //Listen for player packet updates
@@ -90,7 +90,6 @@ function initGame() {
         renderItems(gameCanvasCtx);
         renderEntities(gameCanvasCtx);
         renderPlayers(gameCanvasCtx);
-        renderInventory();
         renderGroundItems();
         postRender(gameCanvasCtx);
     }, 1000 / fps);
@@ -117,26 +116,35 @@ function initGame() {
 
     function blendMapTiles(ctx) {
         let map = client.map;
-
-        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH) + 1);
+        let xStart = parseInt(Math.max(0, gameCamera.xOffset / TILE_WIDTH));
         let xEnd = parseInt(Math.min(map.width, (gameCamera.xOffset + canvasWidth) / TILE_WIDTH));
-        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT) + 1);
+        let yStart = parseInt(Math.max(0, gameCamera.yOffset / TILE_HEIGHT));
         let yEnd = parseInt(Math.min(map.height, (gameCamera.yOffset + canvasHeight) / TILE_HEIGHT));
 
         for(let y = yStart; y < yEnd; y++) {
             for (let x = xStart; x < xEnd; x++) {
-                let drawX = parseInt(x * 64 - gameCamera.xOffset);
-                let drawY = parseInt(y * 64 - gameCamera.yOffset);
                 let tileID = map.tiles[y * map.width + x];
                 
                 //Skip on tile blending if blend index is less than 1
                 if(ResourceManager.tileList[tileID].blendIndex < 1) continue;
 
+                let drawX = parseInt(x * 64 - gameCamera.xOffset);
+                let drawY = parseInt(y * 64 - gameCamera.yOffset);
+                let sprite = ResourceManager.sprites[ResourceManager.tileList[tileID].sprite];
                 let isDownDiff = tileID !== map.tiles[(y + 1) * map.width + x];
                 let isUpDiff = tileID !== map.tiles[(y - 1) * map.width + x];
                 let isLeftDiff = tileID !== map.tiles[y * map.width + x - 1];
                 let isRightDiff = tileID !== map.tiles[y * map.width + x + 1];
-                let c = ctx.getImageData(drawX + 32, drawY + 32, 1, 1).data;
+                
+                let canvasSize = 64;
+                let newCanvas = $('<canvas/>',{'class':'tileSelectCanvas'});
+                let newCanvasCtx = newCanvas[0].getContext('2d');
+                newCanvas.css({'width': canvasSize, 'height': canvasSize});
+                newCanvas.attr('width', canvasSize);
+                newCanvas.attr('height', canvasSize);
+                newCanvas.attr('tileID', ResourceManager.tileList[i].id);
+                sprite.renderFrameSize(newCanvasCtx, 0, 0, canvasSize, canvasSize, 0);
+                let c = newCanvasCtx.getImageData(32, 32, 1, 1).data;
 
                 //Blend options
                 if(blendWidth == null || blendHeight  == null) {
@@ -279,8 +287,12 @@ function initGame() {
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.getSpriteByName(e.spriteName);
-            sprite.render(ctx, drawX, drawY);
-            renderHpBar(ctx, e, sprite, 50, 4);
+            let entitySize = ResourceManager.getEntityByName(e.name);
+            let drawWidth = entitySize != null ? entitySize.size : sprite.width;
+            let drawHeight = entitySize != null ? entitySize.size : sprite.height;
+
+            sprite.renderSize(ctx, drawX, drawY, drawWidth, drawHeight);
+            renderHpBar(ctx, e, {width: drawWidth, height: drawHeight}, parseInt(drawWidth * 0.85), 4);
         }
     }
 
@@ -349,10 +361,6 @@ function initGame() {
             let drawY = player.y - gameCamera.yOffset;
             renderHealthEffects(ctx, player.healthEffects, drawX, drawY);
         }
-    }
-
-    function renderInventory() {
-
     }
 
     function renderGroundItems() {

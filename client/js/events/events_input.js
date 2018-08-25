@@ -77,7 +77,8 @@ $(window).on('load', function() {
     });
 
     //Listen for mouse events, send mouse angle to server
-     gameElement.on('mousemove', function(e) {
+     gameElement.on('mousemove', function(e) { 
+         if(client.player == null) return;
         let rect = document.getElementById("gameCanvas").getBoundingClientRect();
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;

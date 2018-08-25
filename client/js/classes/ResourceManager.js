@@ -16,10 +16,17 @@ class ResourceManager {
             if(ResourceManager.itemList[i].name.toString().toLowerCase() === searchName.toString().toLowerCase()) return ResourceManager.itemList[i];
         return null;
     }
+
+    static getEntityByName(searchName) {
+        for(let i in ResourceManager.entityList)
+            if(ResourceManager.entityList[i].name.toString().toLowerCase() === searchName.toString().toLowerCase()) return ResourceManager.entityList[i];
+        return null;
+    }
 }
-ResourceManager.itemList = {};
-ResourceManager.tileList = {};
-ResourceManager.objectList = {};
+ResourceManager.itemList = [];
+ResourceManager.tileList = [];
+ResourceManager.objectList = [];
+ResourceManager.entityList = [];
 
 //Images
 ResourceManager.images = {
@@ -51,6 +58,12 @@ ResourceManager.sprites = {
     //*********************
     //PLAYER
     playerDefault: new Sprite(ss64, 0, 0, 64),
+
+    //MOBS
+    mobPrisonGuard: new Sprite(ss64, 10, 0, 64),
+    petDog: new Sprite(ss64, 10, 2, 64),
+    mobCube: new Sprite(ss64, 10, 4, 64),
+    mobDarkInsect: new Sprite(ss8, 0, 99, 8, 1, 300, true),
 
     //*********************
     //**** TILES
@@ -128,11 +141,6 @@ ResourceManager.sprites = {
     objPondLeaves: new Sprite(ss8, 3, 1, 8),
     objSmallFlowersWhite: new Sprite(ss8, 3, 2, 8),
 
-    //MOBS
-    mobPrisonGuard: new Sprite(ss64, 10, 0, 64),
-    petDog: new Sprite(ss64, 10, 2, 64),
-    mobCube: new Sprite(ss64, 10, 4, 64),
-
     //ITEMS
     //BOWS
     bowWooden: new Sprite(ss64, 13, 0, 64),
@@ -153,5 +161,6 @@ ResourceManager.sprites = {
     spellCorn: new Sprite(ss64, 18, 0, 64),
 
     //PROJECTILES
-    projBlueBall: new Sprite(ss64, 21, 0, 64)
+    projBlueBall: new Sprite(ss64, 21, 0, 64),
+    projDarkBall: new Sprite(ss64, 21, 1, 64)
 };

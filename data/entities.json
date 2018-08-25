@@ -24,9 +24,9 @@
             ]
         },
         {
-            "name": "Test Cube 2",
+            "name": "Baby Cube",
             "spriteName": "mobCube",
-            "size": 64,
+            "size": 32,
             "type": "test",
             "maxHP": 300,
             "speed": 15,
@@ -40,8 +40,31 @@
                     "speed": 10,
                     "damage_min": 10,
                     "damage_max": 50,
-                    "number_of_projectiles": 24,
+                    "number_of_projectiles": 1,
                     "lifetime": 30,
+                    "multihit": false
+                }
+            ]
+        },
+        {
+            "name": "Dark Insect",
+            "spriteName": "mobDarkInsect",
+            "size": 32,
+            "type": "Insect",
+            "maxHP": 200,
+            "speed": 15,
+            "defence": 1,
+            "hitSound": "",
+            "chaseDistance": 2,
+            "projectiles": [
+                {
+                    "sprite": "projDarkBall",
+                    "sound": "sound1",
+                    "speed": 15,
+                    "damage_min": 10,
+                    "damage_max": 25,
+                    "number_of_projectiles": 24,
+                    "lifetime": 15,
                     "multihit": false
                 }
             ]

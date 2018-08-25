@@ -2,7 +2,7 @@
     updatePlayerCount();
     setInterval(function() {
         updatePlayerCount();
-    }, 5000); 
+    }, 30 * 1000); 
 
     function updatePlayerCount() {
         $.ajax({url: "/api/info", success: function(res){

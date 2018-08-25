@@ -6,8 +6,8 @@ module.exports = function() {
     // CREATURE CLASS
     //*****************************
     this.Creature = class extends Entity {
-        constructor(id, spriteName, map, x, y) {
-            super(id, spriteName, map, x, y);
+        constructor(id, spriteName, map, x, y, name) {
+            super(id, spriteName, map, x, y, name);
 
             //STATS
             this.primaryAttackCooldown = 20 * 2;

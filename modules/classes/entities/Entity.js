@@ -3,9 +3,9 @@ module.exports = function() {
     // ENTITY CLASS
     //*****************************
     this.Entity = class {
-        constructor(id, spriteName, map, x, y) {
+        constructor(id, spriteName, map, x, y, name) {
             this.id = id;
-            this.name = "Unknown Entity";
+            this.name = name != null ? name : "Unknown";
             this.x = x;
             this.y = y;
             this.maxHP = 1000;

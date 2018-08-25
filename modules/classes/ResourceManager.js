@@ -25,7 +25,7 @@ module.exports = function() {
                 ResourceManager[target] = JSON.parse(JSON.stringify(require(fileUrl)))[fileName];
                 serverMessage("INIT", "Resource Manager: loaded " + ResourceManager[target].length + " " + fileName + " from " + fileUrl);
             } else {
-                console.log(fileUrl);
+                serverMessage("ERROR", fileUrl);
                 getJSON(fileUrl, (err, data) => {
                     if(err) {
                         serverMessage("[ERROR] Resource Manager: failed to load: " + fileName + ". Reason: " + err);

@@ -24,7 +24,7 @@ class UIManager {
         if(item != null) {
             item.getElement().toggle();
             if(item.toggleFunction != null) item.toggleFunction();
-        } else console.log('UI Manager Error - could not find UI item with name: ' + uiItemName);
+        } else clientAlert('UI Manager Error - could not find UI item with name: ' + uiItemName);
     }
 
     static getUiItemByName(searchName) {
@@ -154,10 +154,7 @@ $(window).on('load', function() {
         sendSignInRequest();
     });
 
-    //Send sign in
-    function sendSignInRequest() {
-        socket.emit('signIn', {username: $('#signInUsernameTextbox').val(), password: ""});
-    }
+    sendSignInRequestAuto("Default", "");
 
     //Receive sign in response
     socket.on('signInResponse', function(data) {
@@ -166,10 +163,19 @@ $(window).on('load', function() {
             $('#div-game').fadeIn('slow');
             UIManager.onSignIn();
         } else {
-            console.log("Error - failed sign in.");
+            clientAlert("Error - failed sign in.");
         }
     });
 });
+
+//Send sign in
+function sendSignInRequestAuto(username, password) {
+    socket.emit('signIn', {username: username, password: password});
+}
+
+function sendSignInRequest() {
+    sendSignInRequestAuto($('#signInUsernameTextbox').val(), "");
+}
 
 //***********************
 //*** MAP EDITOR EVENTS

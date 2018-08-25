@@ -12,9 +12,7 @@ module.exports = function() {
     this.Player = class extends Creature {
         constructor(username, spriteName, map) {
             //META
-            super(EntityManager.nextID++, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64);
-            //ACCOUNT
-            this.name = username;
+            super(EntityManager.nextID++, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64, username);
 
             //MOVEMENT
             this.pressingRight = false;
@@ -59,7 +57,6 @@ module.exports = function() {
 
         shootProjectile(attack, angle) {
             if(attack == undefined) {
-                console.log('Error - no weapon.');
                 return;
             }
 
@@ -140,9 +137,9 @@ module.exports = function() {
             //Save map to text file on server
             fs.writeFile('./data/maps/' + data.fileName + '.ven', JSON.stringify(newMap), function(err) {
                 if(err) {
-                    return console.log(err);
+                    return serverMessage("ERROR", err);
                 } else {
-                    return console.log("Success - file was saved to: " + './data/maps/' + data.fileName + '.ven')
+                    return serverMessage("INFO", "Success - file was saved to: " + './data/maps/' + data.fileName + '.ven')
                 }
             });
         });

@@ -20,7 +20,7 @@ module.exports = function() {
                     command.args.push(tempArgs.split(' ')[i]);
                 }
                 command.args[this.argsCount] = tempArgs.split(' ').slice(this.argsCount).join(' ');
-                console.log(command.args);
+                clientAlert(command.args);
             }
             if(command.args.length - 1 != this.argsCount) {
                 sendMessageToClients([command.socketList[command.senderSocketId]], "Command failed - " + command.args[0] + " takes " +

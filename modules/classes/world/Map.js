@@ -14,7 +14,7 @@ module.exports = function() {
             if(params.fileName != null) {
                 fs.readFile('./data/maps/' + params.fileName + '.ven', (err, data) => {
                     if (err) {
-                        console.log(err);
+                        serverMessage("ERROR", err);
                         return;
                     }
 
