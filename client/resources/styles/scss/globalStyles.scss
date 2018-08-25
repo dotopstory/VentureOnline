@@ -1,0 +1,51 @@
+@import "globals";
+
+body {
+    background-color: #212121;
+    background-image: $darkWallTexture;
+    font-family: $primaryFont;
+    overflow-x: hidden;
+    height: 100vh;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.pageTitle {
+    font-size: 2.5vmax;
+    font-weight: bold;
+    color: #1F3B68;
+    text-decoration: underline;
+}
+
+hr {
+    margin: 5px 0;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+input {
+    font: inherit;
+}
+
+.fa {
+    cursor: pointer;
+}

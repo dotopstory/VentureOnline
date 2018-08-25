@@ -13,7 +13,7 @@ const io = require('socket.io')(server);
 
 //Load server cache object to control data and settings
 let serverCache = {};
-serverCache.config = require("./serverConfig.json")["config"];
+serverCache.config = require("./config.json")["config"];
 serverCache.serverState = ServerState.Loading;  
 serverCache.config.debugOn = process.env.PORT !== undefined ? false : true; //Prod or dev environment
 serverCache.config.portNum = process.env.PORT !== undefined ? process.env.PORT : serverCache.config.port;

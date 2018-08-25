@@ -1,0 +1,102 @@
+/* CHAT STYLES */
+#chatDiv {
+  font-family: "Arial Narrow", sans-serif !important;
+  width: 30vw;
+  text-align: left;
+  color: white;
+  background: transparent;
+  border-radius: 20px;
+  left: 0.1vw;
+  bottom: 0.1vw; }
+
+#chat-input {
+  background: transparent;
+  border: 1px solid #1b2631;
+  border-radius: 0;
+  padding: 0.2vh 0.2vw;
+  font-size: 1vmax;
+  color: white; }
+
+#chat-input:focus {
+  background: rgba(255, 255, 255, 0.2);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
+
+#chatDiv input::-webkit-input-placeholder {
+  color: white !important; }
+
+#chat-text {
+  background-color: transparent;
+  font-size: 1vmax;
+  max-height: 30vh;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  overflow-x: hidden;
+  overflow-y: hidden; }
+
+.message-announcement {
+  font-weight: bold;
+  color: #ff3300; }
+
+.message-info {
+  font-weight: bold;
+  color: white; }
+
+/* MENU STYLES */
+.menuTitle {
+  font-family: "Bungee", cursive;
+  font-weight: bold;
+  color: inherit;
+  font-size: 3vmax; }
+
+#menuDiv {
+  font-size: 2vmax;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  width: 15vw;
+  left: calc(50% - 7.5vw);
+  top: 15vh;
+  padding: 2vh 1vw;
+  text-align: center; }
+
+.menuButton {
+  width: 100%;
+  border: 0px solid #11181f;
+  background-color: #2C3E50;
+  border-width: 2px 5px 5px 2px;
+  font-size: 1vmax;
+  color: #FFFFFF;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 2%;
+  font-family: "Bungee", cursive;
+  margin: 0; }
+
+.menuButton:hover {
+  background-color: #1b2631;
+  transform: scale(1.1); }
+
+/* MAP EDITOR STYLES */
+#mapEditDiv {
+  font-size: 1.5vmax;
+  color: white;
+  background: rgba(38, 38, 38, 0.9);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2vh 1vw;
+  text-align: left; }
+
+#tileSelect {
+  overflow-y: scroll; }
+
+.tileSelectCanvas {
+  background: white;
+  margin: 0 3px;
+  padding: 0;
+  cursor: pointer;
+  border: 2px solid white; }
+
+#editPreviewTile {
+  border: 5px solid white; }

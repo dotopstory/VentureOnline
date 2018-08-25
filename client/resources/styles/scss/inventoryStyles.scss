@@ -1,3 +1,5 @@
+@import "globals";
+
 #inventoryDiv {
     right: 0;
     bottom: 0;
@@ -6,17 +8,17 @@
     border-radius: 5px;
     margin: 1vh;
     padding: 1vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid rgba(0, 0, 0, 0.9);
+    background-color: $transparentBlackColor;
+    border: 2px solid darken($transparentBlackColor, $borderDarkenPercent);
 }
 
 .invTitle {
     font-size: 1vmax;
-    color: rgba(230, 230, 230, 0.9);
+    color: $dullWhiteColor;
 }
 
 .invArea {
-    background-color: rgba(30, 30, 30, 0.6);
+    background-color: transparent;
     max-height: 11vh;
     height: 11vh;
     border-radius: 5px;
@@ -25,6 +27,6 @@
 
 .invItemCanvas {
     border-radius: 10px;
-    background-color: #999999;
+    background-color: $dullWhiteColor;
     margin: 1px;
 }

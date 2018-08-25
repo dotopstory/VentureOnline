@@ -1,9 +1,11 @@
 /* CHAT STYLES */
-#chatDiv {
-    font-family: 'Arial Narrow', sans-serif !important;
+@import "globals";
+
+#chatDiv { 
+    font-family: $chatFont;
     width: 30vw;
     text-align: left;
-    color: white;
+    color: whiteColor;
     background: transparent;
     border-radius: 20px;
     left: 0.1vw;
@@ -12,44 +14,44 @@
 
 #chat-input {
     background: transparent;
-    border: 1px solid #1b2631;
+    border: 1px solid $blackColor;
     border-radius: 0;
     padding: 0.2vh 0.2vw;
     font-size: 1vmax;
-    color: white;
+    color: $whiteColor;
 }
 
 #chat-input:focus {
     background: rgba(255, 255, 255, 0.2);
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-shadow: -1px 0 $blackColor, 0 1px $blackColor, 1px 0 $blackColor, 0 -1px $blackColor;
 }
 
 #chatDiv input::-webkit-input-placeholder {
-    color: white !important;
+    color: $whiteColor !important;
 }
 
 #chat-text {
     background-color: transparent;
     font-size: 1vmax;
     max-height: 30vh;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-shadow: -1px 0 $blackColor, 0 1px $blackColor, 1px 0 $blackColor, 0 -1px $blackColor;
     overflow-x: hidden;
     overflow-y: hidden;
 }
 
 .message-announcement {
     font-weight: bold;
-    color: #ff3300;
+    color: $secondaryColor;
 }
 
 .message-info {
     font-weight: bold;
-    color: white;
+    color: $whiteColor;
 }
 
 /* MENU STYLES */
 .menuTitle {
-    font-family: 'Bungee', cursive;
+    font-family: $secondaryFont;
     font-weight: bold;
     color: inherit;
     font-size: 3vmax;
@@ -58,9 +60,9 @@
 #menuDiv {
     font-size: 2vmax;
     border-radius: 20px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid rgba(0, 0, 0, 0.9);
+    color: $whiteColor;
+    background-color: $transparentBlackColor;
+    border: 2px solid $darken($transparentBlackColor, $borderDarkenPercent);
     width: 15vw;
     left: calc(50% - 7.5vw);
     top: 15vh;
@@ -70,29 +72,29 @@
 
 .menuButton {
     width: 100%;
-    border: 0px solid #1b2631;
+    border: 0px solid darken($menuButtonColor, $buttonDarkenPercent);
+    background-color: $menuButtonColor;
     border-width: 2px 5px 5px 2px;
-    background-color: #2C3E50;
     font-size: 1vmax;
-    color: white;
+    color: $whiteColor;
     cursor: pointer;
     border-radius: 20px;
     padding: 2%;
-    font-family: 'Bungee', cursive;
+    font-family: $secondaryFont;
     margin: 0;
 
 }
 
 .menuButton:hover {
-    background-color: #1b2631;
+    background-color: $blackColor;
     transform: scale(1.1);
 }
 
 /* MAP EDITOR STYLES */
 #mapEditDiv {
     font-size: 1.5vmax;
-    color: white;
-    background: rgba(38, 38, 38, 0.9);
+    color: $whiteColor;
+    background: $blackColor;
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -106,13 +108,13 @@
 }
 
 .tileSelectCanvas {
-    background: white;
+    background: $whiteColor;
     margin: 0 3px;
     padding: 0;
     cursor: pointer;
-    border: 2px solid white;
+    border: 2px solid $whiteColor;
 }
 
 #editPreviewTile {
-    border: 5px solid white;
+    border: 5px solid $whiteColor;
 }

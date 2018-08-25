@@ -1,0 +1,43 @@
+@import "globals";
+
+#navbar .nav {
+    font-family: $primaryFont;
+    width: 100vw;
+    margin: 0;
+    padding: 0 10vw;
+    z-index: 999;
+    background: $darkBackgroundColor;
+    background: url($darkWallTexture);
+    color: $dullWhiteColor;
+}
+
+.navLogo {
+    font-weight: bold;
+}
+
+.navItem {
+    font-size: 1.2vmax;
+    cursor: pointer;
+    transition: ease 0.5s all;
+    padding: 0.75vh 2vw;
+    display: inline-block;
+}
+
+.navItem:hover {
+    background: $secondaryColor;
+    color: $whiteColor;
+}
+
+#navbar a, #navbar a:hover, #navbar a:active, #navbar a:visited {
+    all: unset;
+    cursor: pointer;
+}
+
+.navLabel {
+    padding: 1.5vh 2vw;
+    display: inline-block;
+}
+
+#navPlayerCount {
+    color: $secondaryColor;
+}

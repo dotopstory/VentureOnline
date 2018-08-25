@@ -1,3 +1,5 @@
+@import "globals";
+
 .container-fluid {
     padding: 0;
     margin: 0;
@@ -23,7 +25,7 @@
 }
 
 #gameCanvas {
-    background: white;
+    background: $whiteColor;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
@@ -38,11 +40,11 @@
 
 /* SIGN IN STYLES */
 #div-signIn {
-    font-family: 'Bungee', cursive;
+    font-family: $secondaryFont;
     margin: 15vh 0 0 0;
     width: 100vw;
     border-radius: 10px;
-    color: white;
+    color: $whiteColor;
     padding: 5vh 0;
     text-align: left;
     font-size: 2vmax;
@@ -53,18 +55,18 @@
 }
 
 #signInUsernameTextbox, #signInPasswordTextbox {
-    font-family: 'Roboto', sans-serif;
+    font-family: $primaryFont;
     font-size: 2vmax;
-    background: url("/resources/img/dark_wall.png");
-    border: 2px solid white;
-    color: #CD412B;
+    background: $darkWallTexture;
+    border: 2px solid $whiteColor;
+    color: $secondaryColor;
     border-radius: 10px;
     padding: 0;
 }
 
 .btn-play {
-    background: url("/resources/img/dark_wall.png");
-    color: white;
+    background: $darkWallTexture;
+    color: $whiteColor;
     font-size: 2vmax;
     cursor: pointer;
     margin: 2vh 0 0 0;
@@ -74,11 +76,11 @@
 /* BUTTONS */
 .venButton {
     width: 100%;
-    border: 0px solid #1b2631;
+    border: 0px solid darken($transparentBlackColor, $buttonDarkenPercent);
     border-width: 2px 5px 5px 2px;
-    background-color: #2C3E50;
+    background-color: $transparentBlackColor;
     font-size: 1.5vmax;
-    color: white;
+    color: $whiteColor;
     cursor: pointer;
     border-radius: 20px;
     padding: 2%;
@@ -86,27 +88,27 @@
 }
 
 .venButton:hover {
-    background-color: #1b2631;
+    background-color: darken($transparentBlackColor, $buttonDarkenPercent);
 }
 
 .venButtonOrange {
-    border: 0px solid #cc2900 !important;
+    border: 0px solid darken($brightOrangeColor, $buttonDarkenPercent) !important;
     border-width: 2px 5px 5px 2px !important;
-    background-color: #ff471a !important;
+    background-color: $brightOrangeColor !important;
 }
 
 .venButtonOrange:hover {
-    background-color: #cc2900 !important;
+    background-color: darken($brightOrangeColor, $buttonDarkenPercent) !important;
 }
 
 .venButtonGreen {
-    border: 0px solid #00802b !important;
+    border: 0px solid darken($brightGreenColor, $buttonDarkenPercent) !important;
     border-width: 2px 5px 5px 2px !important;
-    background-color: #00b33c !important;
+    background-color: $brightGreenColor !important;
 }
 
 .venButtonGreen:hover {
-    background-color: #00802b !important;
+    background-color: darken($brightGreenColor, $buttonDarkenPercent) !important;
 }
 
 /* Custom scrollbar */
@@ -116,13 +118,13 @@
 }
 
 *::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 0 6px $transparentBlackColor;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: $transparentBlackColor;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.7);
-    outline: 1px solid black;
+    background-color: $transparentBlackColor;
+    outline: 1px solid $transparentBlackColor;
     border-radius: 5px;
 }

@@ -1,0 +1,26 @@
+#inventoryDiv {
+  right: 0;
+  bottom: 0;
+  text-align: left;
+  width: 10vw;
+  border-radius: 5px;
+  margin: 1vh;
+  padding: 1vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(0, 0, 0, 0.7); }
+
+.invTitle {
+  font-size: 1vmax;
+  color: rgba(230, 230, 230, 0.9); }
+
+.invArea {
+  background-color: transparent;
+  max-height: 11vh;
+  height: 11vh;
+  border-radius: 5px;
+  overflow-y: scroll; }
+
+.invItemCanvas {
+  border-radius: 10px;
+  background-color: rgba(230, 230, 230, 0.9);
+  margin: 1px; }

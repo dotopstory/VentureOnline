@@ -1,0 +1,109 @@
+.container-fluid {
+  padding: 0;
+  margin: 0; }
+
+/* CANVAS STYLES */
+#canvasContainer {
+  position: relative;
+  width: 1024px;
+  height: 832px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.onGameCanvas {
+  padding: 5px;
+  position: absolute; }
+
+.canvas-row {
+  text-align: center;
+  padding: 1vh 0 0 0; }
+
+#gameCanvas {
+  background: #FFFFFF;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast; }
+
+/* CONTROL STYLES */
+#controlsDiv {
+  width: 100%;
+  background: transparent;
+  margin: 0.5vh 0; }
+
+/* SIGN IN STYLES */
+#div-signIn {
+  font-family: "Bungee", cursive;
+  margin: 15vh 0 0 0;
+  width: 100vw;
+  border-radius: 10px;
+  color: #FFFFFF;
+  padding: 5vh 0;
+  text-align: left;
+  font-size: 2vmax; }
+
+.label {
+  font-size: 1.2vmax; }
+
+#signInUsernameTextbox, #signInPasswordTextbox {
+  font-family: "Roboto", cursive;
+  font-size: 2vmax;
+  background: url("/resources/img/dark_wall.png");
+  border: 2px solid #FFFFFF;
+  color: #CD412B;
+  border-radius: 10px;
+  padding: 0; }
+
+.btn-play {
+  background: url("/resources/img/dark_wall.png");
+  color: #FFFFFF;
+  font-size: 2vmax;
+  cursor: pointer;
+  margin: 2vh 0 0 0;
+  transition: all 1s ease; }
+
+/* BUTTONS */
+.venButton {
+  width: 100%;
+  border: 0px solid rgba(0, 0, 0, 0.7);
+  border-width: 2px 5px 5px 2px;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 1.5vmax;
+  color: #FFFFFF;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 2%;
+  margin: 2px 0; }
+
+.venButton:hover {
+  background-color: rgba(0, 0, 0, 0.7); }
+
+.venButtonOrange {
+  border: 0px solid #cd2800 !important;
+  border-width: 2px 5px 5px 2px !important;
+  background-color: #ff471a !important; }
+
+.venButtonOrange:hover {
+  background-color: #cd2800 !important; }
+
+.venButtonGreen {
+  border: 0px solid #006722 !important;
+  border-width: 2px 5px 5px 2px !important;
+  background-color: #00b33c !important; }
+
+.venButtonGreen:hover {
+  background-color: #006722 !important; }
+
+/* Custom scrollbar */
+*::-webkit-scrollbar {
+  width: 0.5vw;
+  border-radius: 5px; }
+
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.7); }
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.7);
+  outline: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 5px; }
