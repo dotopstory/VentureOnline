@@ -15,12 +15,13 @@ const io = require('socket.io')(server);
 let serverCache = {};
 serverCache.config = require("./serverConfig.json")["config"];
 serverCache.serverState = ServerState.Loading;  
-serverCache.config.debugOn = process.env.PORT !== undefined ? true : false; //Dev or Prod environments
-serverCache.config.portNum = serverCache.config.debugOn ? serverCache.config.port : process.env.PORT;
-serverCache.config.startupDelay = serverCache.config.debugOn ? 0 : serverCache.config.startupDelay;
+serverCache.config.debugOn = process.env.PORT !== undefined ? false : true; //Prod or dev environment
+serverCache.config.portNum = process.env.PORT !== undefined ? process.env.PORT : serverCache.config.port;
+serverCache.config.startupDelay = process.env.PORT !== undefined ? serverCache.config.startupDelay : 0;
 ResourceManager.apiUrl = serverCache.apiUrl;
 
 //Listen for connection events
+app.set('json spaces', 2);
 app.use(express.static(__dirname + '/client'));
 server.listen(serverCache.config.portNum);
 serverRoutes(__dirname, app, serverCache);

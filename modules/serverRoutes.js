@@ -1,5 +1,6 @@
 require(__dirname + "/classes/world/Map.js")();
 require(__dirname + "/utils.js")();
+require(__dirname + "/enums/Result.js")();
 
 module.exports = function(root, app, serverCache) {
     
@@ -13,26 +14,27 @@ module.exports = function(root, app, serverCache) {
         res.send({
             playersOnline: getArrayIndexesInUse(serverCache.playerList),
             totalPlayers: getArrayIndexesInUse(serverCache.playerCache),
-            maps: Map.getMapListString()
+            maps: Map.getMapListString(),
+            config: serverCache.config
         });
     });
 
     app.get('/api/player/:username', function(req, res) {
         let searchUsername = req.params.username
-        let player = getPlayerByUsername(serverCache.playerList, searchUsername);
+        let player = JSON.parse(JSON.stringify(getPlayerByUsername(serverCache.playerList, searchUsername)));
         res.setHeader('Content-Type', 'application/json');
         if(player == null) {
             res.send({
                 searchUsername: searchUsername,
-                result: player == "not found",
+                result: Result.Failure,
             });
             return;
         }
+        player.map = player.map.name;
         res.send({
             searchUsername: searchUsername,
-            result: player == null ? "not found" : "found",
-            id: player.id,
-            world: player.map.name
+            result: Result.Success,
+            player: player
         });
     });
 };
