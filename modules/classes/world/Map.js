@@ -1,9 +1,6 @@
 let fs = require('fs');
 require('../../utils.js')();
 
-//*****************************
-// MAP CLASS
-//*****************************
 module.exports = function() {
     this.Map = class {
         constructor(params) {

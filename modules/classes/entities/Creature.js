@@ -2,14 +2,9 @@ require('./Entity.js')();
 require('./Projectile')();
 
 module.exports = function() {
-    //*****************************
-    // CREATURE CLASS
-    //*****************************
     this.Creature = class extends Entity {
         constructor(id, spriteName, map, x, y, name) {
             super(id, spriteName, map, x, y, name);
-
-            //STATS
             this.primaryAttackCooldown = 20 * 2;
             this.primaryAttackTimer = 0;
         }

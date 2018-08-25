@@ -3,9 +3,6 @@ require('../../utils.js')();
 require('../world/Map.js')();
 
 module.exports = function() {
-    //*****************************
-    // PROJECTILE CLASS
-    //*****************************
     this.Projectile = class extends Entity {
         constructor(parent, angle, spriteName, map, x, y, multihit, damageMin, damageMax, speed, lifetime) {
             super(EntityManager.nextID++, spriteName, map, x, y, "projecitile");

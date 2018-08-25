@@ -6,9 +6,6 @@ require('../Equiment.js')();
 require('../CommandManager.js')();
 
 module.exports = function() {
-    //*****************************
-    // PLAYER CLASS
-    //*****************************
     this.Player = class extends Creature {
         constructor(username, spriteName, map) {
             //META

@@ -1,6 +1,4 @@
-//********************
-//*** UI MANAGER
-//********************
+//UI manager
 class UIManager {
     constructor() {
         this.uiItems = [];
@@ -59,18 +57,14 @@ UIManager.uiItems = [
     new uiItem("#mapEditDiv", 'Map Editor', false, initMapEditor)
 ];
 
-//********************
-//*** MENU EVENTS
-//********************
+//Menu events
 function signOut() {
     client = null;
     location.href = '/play';
 }
 
 
-//********************
-//*** CHAT EVENTS
-//********************
+//Chat events
 let chatText = document.getElementById('chat-text');
 let chatInput = $('#chat-input');
 let chatForm = document.getElementById('chat-form');
@@ -141,9 +135,7 @@ function isValidMessage(message) {
 }
 
 $(window).on('load', function() {
-    //********************
-    //*** SIGN IN EVENTS
-    //********************
+    //Sign in events
     //Sign in on eneter press while in username textbox
     $('#signInUsernameTextbox').on('keypress', function(e) {
         if(e.keyCode === 13) sendSignInRequest();
@@ -177,9 +169,7 @@ function sendSignInRequest() {
     sendSignInRequestAuto($('#signInUsernameTextbox').val(), "");
 }
 
-//***********************
-//*** MAP EDITOR EVENTS
-//***********************
+//Map editor events
 let selectedTileID;
 let previewTileCanvas;
 

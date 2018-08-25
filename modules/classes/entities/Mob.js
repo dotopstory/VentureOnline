@@ -2,9 +2,6 @@ require('../../utils.js')();
 require('./Creature.js')();
 
 module.exports = function() {
-    //*****************************
-    // MOB CLASS
-    //*****************************
     this.Mob = class extends Creature {
         constructor(obj, map, x, y) {
             super(EntityManager.nextID++, obj.spriteName, map, x, y);

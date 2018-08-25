@@ -41,68 +41,58 @@ ResourceManager.images['spritesheet_16x16'].src = root + 'img/spritesheet_16x16.
 ResourceManager.images['spritesheet_8x8'].src = root + 'img/spritesheet_8x8.png';
 ResourceManager.images['turnipGuy'].src = root + 'img/turnipguy.png';
 
-//Sprites
+//Spritesheets
 let ss64 = ResourceManager.images['spritesheet_64x64'];
 let ss16 = ResourceManager.images['spritesheet_16x16'];
 let ss8 = ResourceManager.images['spritesheet_8x8'];
 
 ResourceManager.sprites = {
-    //*********************
-    //**** ANIMATED
-    //*********************
+    //Animated
     animLightWater: new Sprite(ss16, 0, 784 / 16, 16, 3, 50, false),
     animDarkWater: new Sprite(ss16, 1, 784 / 16, 16, 3, 50, false),
 
-    //*********************
-    //**** CREATURES
-    //*********************
-    //PLAYER
+    //Creatures
+    //Player
     playerDefault: new Sprite(ss64, 0, 0, 64),
 
-    //MOBS
+    //Mobs
     mobPrisonGuard: new Sprite(ss64, 10, 0, 64),
     petDog: new Sprite(ss64, 10, 2, 64),
     mobCube: new Sprite(ss64, 10, 4, 64),
     mobDarkInsect: new Sprite(ss8, 0, 99, 8, 1, 300, true),
 
-    //*********************
-    //**** TILES
-    //*********************
-    //DARK GRASS
+    //Tiles
+    //Grass
     tileDarkGrass: new Sprite(ss16, 1, 0, 16),
     tileDarkGrassLight: new Sprite(ss16, 1, 1, 16),
-
-    //LIGHT GRASS
     tileLightGrass: new Sprite(ss16, 2, 0, 16),
     tileLightGrassFlowers: new Sprite(ss8, 2, 2, 8),
 
-    //BUILDING
+    //Building
     tileStoneFloor: new Sprite(ss64, 3, 0, 64),
     tileBrickWall: new Sprite(ss64, 3, 1, 64),
     tilePlanksFloor: new Sprite(ss64, 3, 2, 64),
     tileMarbleFloor: new Sprite(ss16, 3, 0, 16),
 
-    //WATER
+    //Water
     tileDarkWater: new Sprite(ss16, 0, 1, 16),
     tileLightWater: new Sprite(ss16, 0, 0, 16),
     tileLightWaterRocks: new Sprite(ss64, 4, 2, 64),
     tileBeachSand: new Sprite(ss64, 4, 3, 64),
 
-    //DESERT
+    //Desert
     tileDesertSand: new Sprite(ss64, 5, 0, 64),
     tileDesertSandCactus: new Sprite(ss64, 5, 1, 64),
     tileDesertSandPond: new Sprite(ss64, 5, 2, 64),
     tileDesertSkull: new Sprite(ss64, 5, 3, 64),
     tileDesertBones: new Sprite(ss64, 5, 4, 64),
 
-    //SNOW
+    //Snow
     tileSnow: new Sprite(ss16, 2, 1, 16),
     tileIce: new Sprite(ss8, 0, 0, 8),
 
-    //*********************
-    //**** ENTITIES
-    //*********************
-    //FARMING
+    //Entities
+    //Farming
     farmDirt: new Sprite(ss64, 6, 0, 64),
     farmDirtRaked: new Sprite(ss64, 6, 1, 64),
     farmDirtSeeds: new Sprite(ss64, 6, 2, 64),
@@ -114,7 +104,7 @@ ResourceManager.sprites = {
     farmTreeCut: new Sprite(ss64, 6, 8, 64),
     farmTreeApples: new Sprite(ss64, 6, 9, 64),
 
-    //OBJECTS
+    //Objects
     objTree: new Sprite(ss64, 7, 0, 64),
     objPond: new Sprite(ss8, 2, 1, 8),
     objBrownChest: new Sprite(ss64, 7, 2, 64),
@@ -141,26 +131,22 @@ ResourceManager.sprites = {
     objPondLeaves: new Sprite(ss8, 3, 1, 8),
     objSmallFlowersWhite: new Sprite(ss8, 3, 2, 8),
 
-    //ITEMS
-    //BOWS
+    //Items
+    //Weapons
     bowWooden: new Sprite(ss64, 13, 0, 64),
-
-    //STAVES
     staffCorn: new Sprite(ss64, 14, 0, 64),
-
-    //ARMOR
     armorCloth: new Sprite(ss64, 16, 0, 64),
 
-    //CONSUMABLES
+    //Consumables
     itemCorn: new Sprite(ss64, 17, 0, 64),
     itemTomato: new Sprite(ss64, 17, 1, 64),
     itemBlueberry: new Sprite(ss64, 17, 2, 64),
     itemPotato: new Sprite(ss64, 17, 2, 64),
 
-    //SPELLS
+    //Spells
     spellCorn: new Sprite(ss64, 18, 0, 64),
 
-    //PROJECTILES
+    //Projectiles
     projBlueBall: new Sprite(ss64, 21, 0, 64),
     projDarkBall: new Sprite(ss64, 21, 1, 64)
 };

@@ -3,9 +3,6 @@ require('./Mob.js')();
 require('./Item.js')();
 
 module.exports = function() {
-    //*****************************
-    // ENTITY MANAGER CLASS
-    //*****************************
     this.EntityManager = class {
         static addPlayer(p) {
             EntityManager.playerList[getNextAvailableArrayIndex(EntityManager.playerList, 200)] = p;

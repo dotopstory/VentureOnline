@@ -1,7 +1,4 @@
 module.exports = function() {
-    //*****************************
-    // ENTITY CLASS
-    //*****************************
     this.Entity = class {
         constructor(id, spriteName, map, x, y, name) {
             this.id = id;
@@ -86,17 +83,9 @@ module.exports = function() {
         }
 
         isCollision(x, y) {
-            //If current tile is null
-            if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]] == null) return true;
-
-            //If current tile is solid
-            if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]].isSolid) return true;
-
-            //???
-            if(this.map.objects[y * this.map.width + x] == null) return false;
-            // distanceBetweenPoints({
-            //         x: x * 64 + this.map.objects[y * this.map.width + x].xOffset,
-            //         y: y * 64 + this.map.objects[y * this.map.width + x].yOffset}, this) < 48
+            //If the current tile is null or solid return true
+            if(ResourceManager.tileList[this.map.tiles[y * this.map.width + x]].isSolid ||
+                ResourceManager.tileList[this.map.tiles[y * this.map.width + x]] == null) return true;
             return false;
         }
 
