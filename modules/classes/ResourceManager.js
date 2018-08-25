@@ -19,8 +19,6 @@ module.exports = function() {
             let fileUrl = isDevMode ?
                 "../../data/" + fileName + ".json" :
                 ResourceManager.apiUrl + fileName + ".json";
-
-            let returnData = null;
             if(isDevMode) {
                 ResourceManager[target] = JSON.parse(JSON.stringify(require(fileUrl)))[fileName];
                 serverMessage("INIT", "Resource Manager: loaded " + ResourceManager[target].length + " " + fileName + " from " + fileUrl);
@@ -57,7 +55,7 @@ module.exports = function() {
             return ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)];
         }
     };
-    ResourceManager.apiUrl = "http://static.somesoft.io/venture/";
+    ResourceManager.apiUrl = "unknown";
     ResourceManager.itemList = [];
     ResourceManager.tileList = [];
     ResourceManager.objectList = [];

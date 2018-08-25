@@ -2,7 +2,12 @@
     "config":
     {
         "name": "Venture",
+        "port": 2000,
         "apiUrl": "http://static.somesoft.io/venture/",
-        "startupDelay": 60000
+        "startupDelay": 60000,
+        "tickRate": 20,
+        "maxConnections": 10,
+        "maxPlayers": 10,
+        "debugOn": true
     }
 }
