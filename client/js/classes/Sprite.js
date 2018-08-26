@@ -1,11 +1,12 @@
 class Sprite {
-    constructor(spriteSheet, startX, startY, size, frames, frameChangeFrequency, isLoopFrames) {
+    constructor(spriteSheet, startX, startY, frames, frameChangeFrequency, isLoopFrames) {
         this.id = Sprite.nextID++;
-        this.spritesheet = spriteSheet;
-        this.startX = startX * size;
-        this.startY = startY * size;
-        this.width = size;
-        this.height = size;
+        this.spritesheet = spriteSheet.image;
+        this.width = spriteSheet.size;
+        this.height = spriteSheet.size;
+        this.startX = startX * this.width;
+        this.startY = startY * this.height;
+        
         //Animated frames
         this.currentFrame = 0;
         this.nextFrame = 1;
@@ -17,15 +18,19 @@ class Sprite {
     }
 
     //@Deprecated
+    //Render a sprite
     render(ctx, x, y) {
+        this.update();
         this.renderSize(ctx, x, y, 64, 64);
     }
 
+    //Render a sprite at a specific size
     renderSize(ctx, x, y, width, height) {
         this.update();
         ctx.drawImage(this.spritesheet, this.startX, this.startY - this.height * this.currentFrame, this.width, this.height, x, y, width, height);
     }
 
+    //Render a sprite at a specific size with an outline
     renderSizeLined(ctx, x, y, width, height) {
         this.update();
         if(this.preRenderedFrames[this.currentFrame] == null) {
@@ -37,13 +42,14 @@ class Sprite {
         ctx.drawImage( this.preRenderedFrames[this.currentFrame].canvas, x, y);
     }
 
+    //Render a specific frame at a specific size
     renderFrameSize(ctx, x, y, width, height, frameIndex) {
+        this.update();
         ctx.drawImage(this.spritesheet, this.startX, this.startY - this.height * frameIndex, this.width, this.height, x, y, width, height);
     }
 
+    //Outline the shape of a sprite
     applyOutline(ctx, width, height) {
-        var imageData = ctx.createImageData(width, height);
-        var data = imageData.data;
         for(let y = 0; y < width; y++) {
             for(let x = 0; x < height; x++) {
                 let c = ctx.getImageData(x, y, 1, 1).data;
@@ -60,6 +66,7 @@ class Sprite {
         }
     }
 
+    //Get a new canvas object to pre-render a sprite onto
     getNewCanvasObject(width, height) {
         let newCanvas = $('<canvas/>', {"class": "pixelCanvas"});
         let newCanvasCtx = newCanvas[0].getContext('2d');
@@ -73,15 +80,18 @@ class Sprite {
         return newCanvasCtx;
     }
 
+    //Update animation frames
     update() {
-        if(new Date().getTime() - this.lastFrameChange > this.frameChangeFrequency) {
-            this.lastFrameChange = new Date().getTime();
-            this.changeFrame();
+        if(this.frames > 0) {
+            if(new Date().getTime() - this.lastFrameChange > this.frameChangeFrequency) {
+                this.lastFrameChange = new Date().getTime();
+                this.changeFrame();
+            }
         }
     }
 
+    //Change the current frame
     changeFrame() {
-        if(this.frames <= 0) return;
         if(this.currentFrame == this.frames && this.isLoopFrames) {
             this.nextFrame = -1;
         } else if(this.currentFrame == this.frames) {
@@ -95,6 +105,7 @@ class Sprite {
 }
 Sprite.nextID = 0;
 
+//Check if a pixel in the sprite is void
 Sprite.isVoidPixel = function(c) {
     if(c[0] == 0 && c[1] == 0 && c[2] == 0 && c[3] == 0) return true;
     return false;

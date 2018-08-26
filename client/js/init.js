@@ -92,7 +92,6 @@ function initGame() {
         renderPlayers(gameCanvasCtx);
         renderGroundItems();
         postRender(gameCanvasCtx);
-        ResourceManager.sprites.mobGreenSpider.renderSizeLined(gameCanvasCtx, 200, 200, 64, 64);
     }, 1000 / fps);
 
     //Render the map
@@ -226,7 +225,6 @@ function initGame() {
                 let drawX = x * 64 - gameCamera.xOffset + obj.xOffset;
                 let drawY = y * 64 - gameCamera.yOffset + obj.yOffset;
 
-
                 let sprite = ResourceManager.sprites[ResourceManager.objectList[obj.id].sprite];
                 sprite.renderSizeLined(ctx, drawX, drawY, ResourceManager.objectList[obj.id].size, ResourceManager.objectList[obj.id].size);
             }
@@ -287,12 +285,9 @@ function initGame() {
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.sprites[e.spriteName];
-            let entitySize = ResourceManager.getEntityByName(e.name);
-            let drawWidth = entitySize != null ? entitySize.size : sprite.width;
-            let drawHeight = entitySize != null ? entitySize.size : sprite.height;
 
-            sprite.renderSizeLined(ctx, drawX, drawY, drawWidth, drawHeight);
-            renderHpBar(ctx, e, {width: drawWidth, height: drawHeight}, parseInt(drawWidth * 0.85), 4);
+            sprite.renderSizeLined(ctx, drawX, drawY, 64, 64);
+            renderHpBar(ctx, e, {width: 64, height: 64}, parseInt(64 * 0.85), 4);
         }
     }
 

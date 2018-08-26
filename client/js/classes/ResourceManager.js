@@ -22,6 +22,32 @@ class ResourceManager {
             if(ResourceManager.entityList[i].name.toString().toLowerCase() === searchName.toString().toLowerCase()) return ResourceManager.entityList[i];
         return null;
     }
+
+    static santityCheck() {
+        let src = ResourceManager.sprites; 
+        let result = [];
+        for (var key in src) {
+            if (src.hasOwnProperty(key)) {
+                for (var key2 in src) {
+                    if (src.hasOwnProperty(key2)) {
+                        if(src[key].width == src[key2].width && 
+                            src[key].startX == src[key2].startX && src[key].startY == src[key2].startY 
+                            && key != key2) {
+                            result.push({key1:key, key2: key2})
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if(result.length > 0) {
+            console.log("Resource Manager Sanity Check - FAILURE - " + result.length + " conflicts found:");
+            for (var i in result) {
+                console.log("Sprite conflict: " + result[i].key1 + " -> " + result[i].key2);
+            }
+        }
+        
+    }
 }
 ResourceManager.itemList = [];
 ResourceManager.tileList = [];
@@ -42,112 +68,116 @@ ResourceManager.images['spritesheet_8x8'].src = root + 'img/spritesheet_8x8.png'
 ResourceManager.images['turnipGuy'].src = root + 'img/turnipguy.png';
 
 //Spritesheets
-let ss64 = ResourceManager.images['spritesheet_64x64'];
-let ss16 = ResourceManager.images['spritesheet_16x16'];
-let ss8 = ResourceManager.images['spritesheet_8x8'];
+let ss64 = {"image": ResourceManager.images['spritesheet_64x64'], size: 64};
+let ss16 = {"image": ResourceManager.images['spritesheet_16x16'], size: 16};
+let ss8 = {"image": ResourceManager.images['spritesheet_8x8'], size: 8};
 
 ResourceManager.sprites = {
     //Animated
-    animLightWater: new Sprite(ss16, 0, 784 / 16, 16, 3, 50, false),
-    animDarkWater: new Sprite(ss16, 1, 784 / 16, 16, 3, 50, false),
+    animLightWater: new Sprite(ss16, 0, 784 / 16, 3, 50, false),
+    animDarkWater: new Sprite(ss16, 1, 784 / 16, 3, 50, false),
 
     //Creatures
     //Player
-    playerDefault: new Sprite(ss64, 0, 0, 64),
+    playerDefault: new Sprite(ss64, 0, 0),
 
     //Mobs
-    mobPrisonGuard: new Sprite(ss64, 10, 0, 64),
-    petDog: new Sprite(ss64, 10, 2, 64),
-    mobCube: new Sprite(ss64, 10, 4, 64),
-    mobDarkInsect: new Sprite(ss8, 0, 99, 8, 1, 300, true),
-    mobGreenSpider: new Sprite(ss8, 1, 99, 8, 2, 200, false),
+    mobPrisonGuard: new Sprite(ss64, 10, 2),
+    petDog: new Sprite(ss64, 10, 2),
+    mobCube: new Sprite(ss64, 10, 4),
+    mobDarkInsect: new Sprite(ss8, 0, 99, 1, 300, true),
+    mobGreenSpider: new Sprite(ss8, 1, 99, 2, 200, false),
 
     //Tiles
     //Grass
-    tileDarkGrass: new Sprite(ss16, 1, 0, 16),
-    tileDarkGrassLight: new Sprite(ss16, 1, 1, 16),
-    tileLightGrass: new Sprite(ss16, 2, 0, 16),
-    tileLightGrassFlowers: new Sprite(ss8, 2, 2, 8),
+    tileDarkGrass: new Sprite(ss16, 1, 0),
+    tileDarkGrassLight: new Sprite(ss16, 1, 1),
+    tileLightGrass: new Sprite(ss16, 2, 0),
 
     //Building
-    tileStoneFloor: new Sprite(ss64, 3, 0, 64),
-    tileBrickWall: new Sprite(ss64, 3, 1, 64),
-    tilePlanksFloor: new Sprite(ss64, 3, 2, 64),
-    tileMarbleFloor: new Sprite(ss16, 3, 0, 16),
+    tileStoneFloor: new Sprite(ss64, 3, 0),
+    tileBrickWall: new Sprite(ss64, 3, 1),
+    tilePlanksFloor: new Sprite(ss64, 3, 2),
+    tileMarbleFloor: new Sprite(ss16, 3, 0),
 
     //Water
-    tileDarkWater: new Sprite(ss16, 0, 1, 16),
-    tileLightWater: new Sprite(ss16, 0, 0, 16),
-    tileLightWaterRocks: new Sprite(ss64, 4, 2, 64),
-    tileBeachSand: new Sprite(ss64, 4, 3, 64),
+    tileDarkWater: new Sprite(ss16, 0, 1),
+    tileLightWater: new Sprite(ss16, 0, 0),
+    tileLightWaterRocks: new Sprite(ss64, 4, 2),
+    tileBeachSand: new Sprite(ss64, 4, 3),
 
     //Desert
-    tileDesertSand: new Sprite(ss64, 5, 0, 64),
-    tileDesertSandCactus: new Sprite(ss64, 5, 1, 64),
-    tileDesertSandPond: new Sprite(ss64, 5, 2, 64),
-    tileDesertSkull: new Sprite(ss64, 5, 3, 64),
-    tileDesertBones: new Sprite(ss64, 5, 4, 64),
+    tileDesertSand: new Sprite(ss64, 5, 0),
+    tileDesertSandCactus: new Sprite(ss64, 5, 1),
+    tileDesertSandPond: new Sprite(ss64, 5, 2),
+    tileDesertSkull: new Sprite(ss64, 5, 3),
+    tileDesertBones: new Sprite(ss64, 5, 4),
 
     //Snow
-    tileSnow: new Sprite(ss16, 2, 1, 16),
-    tileIce: new Sprite(ss8, 0, 0, 8),
+    tileSnow: new Sprite(ss16, 2, 1),
+    tileIce: new Sprite(ss8, 0, 0),
 
     //Entities
     //Farming
-    farmDirt: new Sprite(ss64, 6, 0, 64),
-    farmDirtRaked: new Sprite(ss64, 6, 1, 64),
-    farmDirtSeeds: new Sprite(ss64, 6, 2, 64),
-    farmDirtTomatoes: new Sprite(ss64, 6, 3, 64),
-    farmDirtCorn: new Sprite(ss64, 6, 4, 64),
-    farmDirtBlueberries: new Sprite(ss64, 6, 5, 64),
-    farmDirtPotatoes: new Sprite(ss64, 6, 6, 64),
-    farmTree: new Sprite(ss64, 6, 7, 64),
-    farmTreeCut: new Sprite(ss64, 6, 8, 64),
-    farmTreeApples: new Sprite(ss64, 6, 9, 64),
+    farmDirt: new Sprite(ss64, 6, 0),
+    farmDirtRaked: new Sprite(ss64, 6, 1),
+    farmDirtSeeds: new Sprite(ss64, 6, 2),
+    farmDirtTomatoes: new Sprite(ss64, 6, 3),
+    farmDirtCorn: new Sprite(ss64, 6, 4),
+    farmDirtBlueberries: new Sprite(ss64, 6, 5),
+    farmDirtPotatoes: new Sprite(ss64, 6, 6),
+    farmTree: new Sprite(ss64, 6, 7),
+    farmTreeCut: new Sprite(ss64, 6, 8),
+    farmTreeApples: new Sprite(ss64, 6, 9),
 
     //Objects
-    objTree: new Sprite(ss64, 7, 0, 64),
-    objPond: new Sprite(ss8, 2, 1, 8),
-    objBrownChest: new Sprite(ss64, 7, 2, 64),
-    objCactus: new Sprite(ss64, 7, 3, 64),
-    objBigRock: new Sprite(ss64, 7, 4, 64),
-    objSmallFlowers: new Sprite(ss8, 2, 2, 8),
-    objBigFlowers: new Sprite(ss64, 7, 6, 64),
-    objSmallRocks: new Sprite(ss64, 7, 7, 64),
-    objRoundTreeLarge: new Sprite(ss64, 7, 8, 64),
-    objMushroomLarge: new Sprite(ss64, 7, 9, 64),
-    objWillowTreeLarge: new Sprite(ss64, 7, 10, 64),
-    objRoundBushSmall: new Sprite(ss64, 7, 11, 64),
-    objWildBushSmall: new Sprite(ss64, 7, 12, 64),
-    objDeadTreeSmall: new Sprite(ss64, 7, 13, 64),
-    objPineTreeLarge: new Sprite(ss64, 7, 14, 64),
-    objBlossomTreeLargePink: new Sprite(ss64, 7, 15, 64),
-    objWillowTreeLargeLight: new Sprite(ss64, 7, 16, 64),
-    objBlossomTreeLargeGreen: new Sprite(ss64, 7, 17, 64),
-    objBlossomTreeLargeBlue: new Sprite(ss64, 7, 18, 64),
-    objRoundTreeSnow: new Sprite(ss64, 7, 19, 64),
-    objSnowman: new Sprite(ss64, 7, 20, 64),
-    objDeadTreeLargeSnow: new Sprite(ss64, 7, 21, 64),
+    objRoundTreeLarge: new Sprite(ss64, 7, 8),
+    
+    objWillowTreeLarge: new Sprite(ss8, 1, 1),
+    objMushroomLarge: new Sprite(ss8, 1, 0),
+    objRoundBushSmall: new Sprite(ss8, 1, 2),
+    objWildBushSmall: new Sprite(ss8, 1, 3),
+    objDeadTreeSmall: new Sprite(ss8, 1, 4),
+    objPineTreeLarge: new Sprite(ss8, 1, 6),
+    objCactus: new Sprite(ss8, 1, 5),
 
-    objPondLeaves: new Sprite(ss8, 3, 1, 8),
-    objSmallFlowersWhite: new Sprite(ss8, 3, 2, 8),
+    objPond: new Sprite(ss8, 2, 1),
+    objBigFlowers: new Sprite(ss8, 2, 2),
+    objBrownChest: new Sprite(ss8, 2, 5),
+    objBigRock: new Sprite(ss8, 2, 6),
+    objSmallRocks: new Sprite(ss8, 2, 7),
+    objSmallFlowers: new Sprite(ss8, 2, 3), //fixme
+
+    objTree: new Sprite(ss8, 3, 7),
+    objPondLeaves: new Sprite(ss8, 3, 1),
+    objSmallFlowersWhite: new Sprite(ss8, 3, 2),
+    objBlossomTreeLargePink: new Sprite(ss8, 3, 3),
+    objWillowTreeLargeLight: new Sprite(ss8, 3, 4),
+    objBlossomTreeLargeGreen: new Sprite(ss8, 3, 5),
+    objRoundTreeSnow: new Sprite(ss8, 3, 6),
+    objBlossomTreeLargeBlue: new Sprite(ss8, 3, 8),
+
+    objSnowman: new Sprite(ss16, 0, 2),
+    objDeadTreeLargeSnow: new Sprite(ss64, 0, 3),
 
     //Items
     //Weapons
-    bowWooden: new Sprite(ss64, 13, 0, 64),
-    staffCorn: new Sprite(ss64, 14, 0, 64),
-    armorCloth: new Sprite(ss64, 16, 0, 64),
+    bowWooden: new Sprite(ss64, 13, 0),
+    staffCorn: new Sprite(ss64, 14, 0),
+    armorCloth: new Sprite(ss64, 16, 0),
 
     //Consumables
-    itemCorn: new Sprite(ss64, 17, 0, 64),
-    itemTomato: new Sprite(ss64, 17, 1, 64),
-    itemBlueberry: new Sprite(ss64, 17, 2, 64),
-    itemPotato: new Sprite(ss64, 17, 2, 64),
+    itemCorn: new Sprite(ss64, 17, 0),
+    itemTomato: new Sprite(ss64, 17, 1),
+    itemBlueberry: new Sprite(ss64, 17, 2),
+    itemPotato: new Sprite(ss64, 17, 3),
 
     //Spells
-    spellCorn: new Sprite(ss64, 18, 0, 64),
+    spellCorn: new Sprite(ss64, 18, 0),
 
     //Projectiles
-    projBlueBall: new Sprite(ss64, 21, 0, 64),
-    projDarkBall: new Sprite(ss64, 21, 1, 64)
+    projBlueBall: new Sprite(ss64, 21, 0),
+    projDarkBall: new Sprite(ss64, 21, 1)
 };
+
+ResourceManager.santityCheck();

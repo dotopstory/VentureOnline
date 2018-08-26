@@ -43,7 +43,7 @@
         {
             "id": 5,
             "name": "Small Flowers",
-            "sprite": "objSmallFlowers",
+            "sprite": "objSmallFlowersWhite",
             "size": 64,
             "isSolid": false,
             "regions": ["Grasslands", "Lowlands", "Highlands", "Mountains"]
