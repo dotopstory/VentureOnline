@@ -76,6 +76,7 @@ ResourceManager.sprites = {
     //Animated
     animLightWater: new Sprite(ss16, 0, 784 / 16, 3, 50, false),
     animDarkWater: new Sprite(ss16, 1, 784 / 16, 3, 50, false),
+    animCampFire: new Sprite(ss16, 2, 784 / 16, 3, 100, true),
 
     //Creatures
     //Player

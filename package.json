@@ -16,8 +16,8 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server.js",
-	"nodemon": "nodemon server.js --watch server.js --watch modules/*.js --watch modules/classes/*.js --watch modules/classes/entities/*.js --watch data/*.json",
-	"scss": "node-sass --watch client/resources/styles/scss -o client/resources/styles/css"
+    "nodemon": "nodemon server.js --watch server.js --watch modules/*.js --watch modules/classes/*.js --watch modules/classes/entities/*.js --watch data/*.json",
+    "scss": "node-sass --watch client/resources/styles/scss -o client/resources/styles/css"
   },
   "author": "Taylar Keast",
   "license": "ISC"

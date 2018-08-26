@@ -180,7 +180,7 @@
             "id": 22,
             "name": "Snowman",
             "sprite": "objSnowman",
-            "size": 64,
+            "size": 98,
             "isSolid": true,
             "regions": ["Building", "Snow"]
         },
@@ -191,6 +191,14 @@
             "size": 128,
             "isSolid": true,
             "regions": ["Snow"]
+        },
+        {
+            "id": 24,
+            "name": "Camp Fire",
+            "sprite": "animCampFire",
+            "size": 86,
+            "isSolid": true,
+            "regions": ["Snow", "Building", "Grasslands", "Lowlands", "Highlands", "Mountains"]
         }
     ]
 }

@@ -38,7 +38,7 @@
             "speedEffect": 0,
             "damagePerTick": 0,
             "regions": ["Lowlands", "Grasslands"],
-            "blendIndex": 1
+            "blendIndex": 0
         },
         {
             "id": 4,

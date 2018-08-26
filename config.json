@@ -3,7 +3,7 @@
     {
         "name": "Venture",
         "port": 2000,
-        "apiUrl": "http://static.somesoft.io/venture/",
+        "apiURL": "http://static.somesoft.io/venture/",
         "startupDelay": 60000,
         "tickRate": 20,
         "maxConnections": 10,

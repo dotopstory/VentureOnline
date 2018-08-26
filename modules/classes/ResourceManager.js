@@ -3,7 +3,8 @@ require("../utils.js")();
 
 module.exports = function() {
     this.ResourceManager = class {
-        static init() {
+        static init(serverCache) {
+            ResourceManager.apiURL = serverCache.config.apiURL;
             ResourceManager.load("tileList", "tiles");
             ResourceManager.load("itemList", "items");
             ResourceManager.load("objectList", "objects");
@@ -18,12 +19,11 @@ module.exports = function() {
             let isDevMode = process.env.PORT == undefined;
             let fileUrl = isDevMode ?
                 "../../data/" + fileName + ".json" :
-                ResourceManager.apiUrl + fileName + ".json";
+                ResourceManager.apiURL + fileName + ".json";
             if(isDevMode) {
                 ResourceManager[target] = JSON.parse(JSON.stringify(require(fileUrl)))[fileName];
                 serverMessage("INIT", "Resource Manager: loaded " + ResourceManager[target].length + " " + fileName + " from " + fileUrl);
             } else {
-                serverMessage("ERROR", fileUrl);
                 getJSON(fileUrl, (err, data) => {
                     if(err) {
                         serverMessage("[ERROR] Resource Manager: failed to load: " + fileName + ". Reason: " + err);
@@ -55,7 +55,7 @@ module.exports = function() {
             return ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)];
         }
     };
-    ResourceManager.apiUrl = "unknown";
+    ResourceManager.apiURL = "unknown";
     ResourceManager.itemList = [];
     ResourceManager.tileList = [];
     ResourceManager.objectList = [];

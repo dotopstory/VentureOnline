@@ -18,7 +18,6 @@ serverCache.serverState = ServerState.Loading;
 serverCache.config.debugOn = process.env.PORT !== undefined ? false : true; //Prod or dev environment
 serverCache.config.portNum = process.env.PORT !== undefined ? process.env.PORT : serverCache.config.port;
 serverCache.config.startupDelay = process.env.PORT !== undefined ? serverCache.config.startupDelay : 0;
-ResourceManager.apiUrl = serverCache.apiUrl;
 
 //Listen for connection events
 app.set('json spaces', 2);
@@ -27,7 +26,7 @@ server.listen(serverCache.config.portNum);
 serverRoutes(__dirname, app, serverCache);
 
 //Load resources
-ResourceManager.init();
+ResourceManager.init(serverCache);
 Map.mapList = [];
 serverCache.socketList = [];
 serverCache.playerList = EntityManager.playerList;

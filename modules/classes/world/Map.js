@@ -21,7 +21,7 @@ module.exports = function() {
                     this.width = data.width;
                     this.height = data.height;
                     this.tiles = data.tiles;
-                    this.objects = data.objects;
+                    this.objects = Map.generateMapObjects(this.tiles);
                 });
             } else {
                 this.name = params.name;

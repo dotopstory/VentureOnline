@@ -48,7 +48,6 @@ class UIManager {
 
     static onSignIn() {
         loadTileSelection($('#tileSelect'));
-        mapEditSelectTile(0);
     }
 }
 UIManager.uiItems = [
@@ -146,8 +145,6 @@ $(window).on('load', function() {
         sendSignInRequest();
     });
 
-    sendSignInRequestAuto("Default", "");
-
     //Receive sign in response
     socket.on('signInResponse', function(data) {
         if(data.success) {
@@ -170,7 +167,7 @@ function sendSignInRequest() {
 }
 
 //Map editor events
-let selectedTileID;
+let selectedTileID = 0;
 let previewTileCanvas;
 
 $(window).on('load', function() {
@@ -180,6 +177,18 @@ $(window).on('load', function() {
     previewTileCanvas.css({'width': previewSize, 'height': previewSize});
     previewTileCanvas.attr('width', previewSize);
     previewTileCanvas.attr('height', previewSize);
+    let previewTileCanvasCtx = previewTileCanvas[0].getContext('2d');
+    previewTileCanvasCtx.mozImageSmoothingEnabled = false;
+    previewTileCanvasCtx.webkitImageSmoothingEnabled = false;
+    previewTileCanvasCtx.msImageSmoothingEnabled = false;
+    previewTileCanvasCtx.imageSmoothingEnabled = false;
+    //Render sprite to canvas
+    setInterval(function() {
+        let tile = ResourceManager.tileList[selectedTileID];
+        let sprite = null;
+        if(tile != null) sprite = ResourceManager.sprites[tile.sprite];
+        if(sprite != null) sprite.renderSize(previewTileCanvasCtx, 0, 0, 128, 128);
+    }, 100);
 });
 
 function initMapEditor () {
@@ -206,7 +215,7 @@ function loadTileSelection(element) {
         //Render sprite to canvas
         setInterval(function() {
             ResourceManager.sprites[ResourceManager.tileList[i].sprite].render(newCanvasCtx, 0, 0);
-        }, 200);
+        }, 100);
     }
 }
 
