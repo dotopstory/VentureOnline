@@ -18,7 +18,7 @@
   text-align: center;
   padding: 1vh 0 0 0; }
 
-#gameCanvas {
+#gameCanvas, .pixelCanvas {
   background: #FFFFFF;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
   image-rendering: -moz-crisp-edges;

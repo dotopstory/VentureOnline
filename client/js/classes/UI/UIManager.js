@@ -190,17 +190,23 @@ function loadTileSelection(element) {
     let canvasSize = 64;
     for(let i in ResourceManager.tileList) {
         //Create canvas and apply attributes
-        let newCanvas = $('<canvas/>',{'class':'tileSelectCanvas'});
+        let newCanvas = $('<canvas/>',{'class':'pixelCanvas tileSelectCanvas'});
         let newCanvasCtx = newCanvas[0].getContext('2d');
         newCanvas.css({'width': canvasSize, 'height': canvasSize});
         newCanvas.attr('width', canvasSize);
         newCanvas.attr('height', canvasSize);
         newCanvas.attr('tileID', ResourceManager.tileList[i].id);
         newCanvas.attr('onclick', 'mapEditSelectTile(' + i + ')');
+        newCanvasCtx.mozImageSmoothingEnabled = false;
+        newCanvasCtx.webkitImageSmoothingEnabled = false;
+        newCanvasCtx.msImageSmoothingEnabled = false;
+        newCanvasCtx.imageSmoothingEnabled = false;
         element.append(newCanvas);
 
         //Render sprite to canvas
-        ResourceManager.sprites[ResourceManager.tileList[i].sprite].render(newCanvasCtx, 0, 0);
+        setInterval(function() {
+            ResourceManager.sprites[ResourceManager.tileList[i].sprite].render(newCanvasCtx, 0, 0);
+        }, 200);
     }
 }
 

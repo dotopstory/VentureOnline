@@ -92,6 +92,7 @@ function initGame() {
         renderPlayers(gameCanvasCtx);
         renderGroundItems();
         postRender(gameCanvasCtx);
+        ResourceManager.sprites.mobGreenSpider.renderSizeLined(gameCanvasCtx, 200, 200, 64, 64);
     }, 1000 / fps);
 
     //Render the map
@@ -137,12 +138,11 @@ function initGame() {
                 let isRightDiff = tileID !== map.tiles[y * map.width + x + 1];
                 
                 let canvasSize = 64;
-                let newCanvas = $('<canvas/>',{'class':'tileSelectCanvas'});
+                let newCanvas = $('<canvas/>', {"class": "pixelCanvas"});
                 let newCanvasCtx = newCanvas[0].getContext('2d');
                 newCanvas.css({'width': canvasSize, 'height': canvasSize});
                 newCanvas.attr('width', canvasSize);
                 newCanvas.attr('height', canvasSize);
-                newCanvas.attr('tileID', ResourceManager.tileList[i].id);
                 sprite.renderFrameSize(newCanvasCtx, 0, 0, canvasSize, canvasSize, 0);
                 let c = newCanvasCtx.getImageData(32, 32, 1, 1).data;
 
@@ -245,7 +245,7 @@ function initGame() {
             //Render player sprite
             let drawX = player.x - gameCamera.xOffset;
             let drawY = player.y - gameCamera.yOffset;
-            let sprite = ResourceManager.getSpriteByName(player.spriteName);
+            let sprite = ResourceManager.sprites[player.spriteName];
             sprite.render(ctx, drawX, drawY);
             renderHpBar(ctx, player, sprite, 60, 6);
         }
@@ -286,8 +286,8 @@ function initGame() {
             if(client.player.mapId !== e.mapId) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            let sprite = ResourceManager.getSpriteByName(e.spriteName);
-            let entitySize = ResourceManager.getEntityByName(e.name);
+            let sprite = ResourceManager.sprites[e.spriteName];
+            let entitySize = ResourceManager.sprites[e.name];
             let drawWidth = entitySize != null ? entitySize.size : sprite.width;
             let drawHeight = entitySize != null ? entitySize.size : sprite.height;
 
@@ -309,7 +309,7 @@ function initGame() {
             if(client.player.mapId !== item.mapId) continue;
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
-            let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(item.name).item_sprite);
+            let sprite = ResourceManager.sprites[ResourceManager.getItemByName(item.name).item_sprite];
             sprite.renderSize(ctx, drawX, drawY, 48, 48);
         }
     }
@@ -386,11 +386,10 @@ function initGame() {
             newCanvas.attr('height', canvasSize);
             newCanvas.attr('itemName', itemList[i].name);
             newCanvas.attr('itemId', itemList[i].id);
-            //newCanvas.attr('onclick', 'mapEditSelectTile(' + i + ')');
             display.append(newCanvas);
 
             //Render sprite to canvas
-            let sprite = ResourceManager.getSpriteByName(ResourceManager.getItemByName(itemList[i].name).item_sprite);
+            let sprite = ResourceManager.sprites[ResourceManager.getItemByName(itemList[i].name).item_sprite];
             sprite.renderSize(newCanvasCtx, 8, 8, 32, 32);
         }
     }
