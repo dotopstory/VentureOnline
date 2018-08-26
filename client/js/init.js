@@ -228,7 +228,7 @@ function initGame() {
 
 
                 let sprite = ResourceManager.sprites[ResourceManager.objectList[obj.id].sprite];
-                sprite.renderSize(ctx, drawX, drawY, ResourceManager.objectList[obj.id].size, ResourceManager.objectList[obj.id].size);
+                sprite.renderSizeLined(ctx, drawX, drawY, ResourceManager.objectList[obj.id].size, ResourceManager.objectList[obj.id].size);
             }
         }
     }
@@ -287,11 +287,11 @@ function initGame() {
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.sprites[e.spriteName];
-            let entitySize = ResourceManager.sprites[e.name];
+            let entitySize = ResourceManager.getEntityByName(e.name);
             let drawWidth = entitySize != null ? entitySize.size : sprite.width;
             let drawHeight = entitySize != null ? entitySize.size : sprite.height;
 
-            sprite.renderSize(ctx, drawX, drawY, drawWidth, drawHeight);
+            sprite.renderSizeLined(ctx, drawX, drawY, drawWidth, drawHeight);
             renderHpBar(ctx, e, {width: drawWidth, height: drawHeight}, parseInt(drawWidth * 0.85), 4);
         }
     }
@@ -310,7 +310,7 @@ function initGame() {
 
             ctx.fillStyle = "rgba(0, 0, 0, 1)";
             let sprite = ResourceManager.sprites[ResourceManager.getItemByName(item.name).item_sprite];
-            sprite.renderSize(ctx, drawX, drawY, 48, 48);
+            sprite.renderSizeLined(ctx, drawX, drawY, 48, 48);
         }
     }
 

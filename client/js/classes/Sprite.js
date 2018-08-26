@@ -13,6 +13,7 @@ class Sprite {
         this.frames = (frames == null) ? 0 : frames; //Frames = number of frames above the current sprite (x, y) to use as animations frames
         this.frameChangeFrequency = frameChangeFrequency == null ? 0 : frameChangeFrequency; //Time (ms) between frame changes
         this.isLoopFrames = isLoopFrames == null ? false : isLoopFrames; //When on the last frame: go backwards or start from the first frame
+        this.preRenderedFrames = {};
     }
 
     //@Deprecated
@@ -27,21 +28,24 @@ class Sprite {
 
     renderSizeLined(ctx, x, y, width, height) {
         this.update();
-        let newCanvasCtx = this.getNewCanvasObject(this.getNewCanvasObject(width, height));
-        this.renderSize(newCanvasCtx, 0, 0, width, height);
-        this.applyOutline(newCanvasCtx, "#000000");
-        ctx.drawImage(newCanvasCtx.canvas, x, y);
+        if(this.preRenderedFrames[this.currentFrame] == null) {
+            let newCanvasCtx = this.getNewCanvasObject(this.getNewCanvasObject(width, height));
+            this.renderSize(newCanvasCtx, 0, 0, width, height);
+            this.applyOutline(newCanvasCtx, width, height);
+            this.preRenderedFrames[this.currentFrame] = newCanvasCtx;
+        }
+        ctx.drawImage( this.preRenderedFrames[this.currentFrame].canvas, x, y);
     }
 
     renderFrameSize(ctx, x, y, width, height, frameIndex) {
         ctx.drawImage(this.spritesheet, this.startX, this.startY - this.height * frameIndex, this.width, this.height, x, y, width, height);
     }
 
-    applyOutline(ctx, color) {
-        var imageData = ctx.createImageData(64, 64);
+    applyOutline(ctx, width, height) {
+        var imageData = ctx.createImageData(width, height);
         var data = imageData.data;
-        for(let y = 0; y < 64; y++) {
-            for(let x = 0; x < 64; x++) {
+        for(let y = 0; y < width; y++) {
+            for(let x = 0; x < height; x++) {
                 let c = ctx.getImageData(x, y, 1, 1).data;
                 let cUp = ctx.getImageData(x, y - 1, 1, 1).data;
                 let cDown = ctx.getImageData(x, y + 1, 1, 1).data;

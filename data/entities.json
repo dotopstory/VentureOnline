@@ -68,6 +68,29 @@
                     "multihit": false
                 }
             ]
+        },
+        {
+            "name": "Green Spider",
+            "spriteName": "mobGreenSpider",
+            "size": 64,
+            "type": "Insect",
+            "maxHP": 600,
+            "speed": 10,
+            "defence": 10,
+            "hitSound": "",
+            "chaseDistance": 2,
+            "projectiles": [
+                {
+                    "sprite": "projDarkBall",
+                    "sound": "sound1",
+                    "speed": 15,
+                    "damage_min": 25,
+                    "damage_max": 50,
+                    "number_of_projectiles": 3,
+                    "lifetime": 15,
+                    "multihit": false
+                }
+            ]
         }
     ]
 }

@@ -60,7 +60,7 @@ ResourceManager.sprites = {
     petDog: new Sprite(ss64, 10, 2, 64),
     mobCube: new Sprite(ss64, 10, 4, 64),
     mobDarkInsect: new Sprite(ss8, 0, 99, 8, 1, 300, true),
-    mobGreenSpider: new Sprite(ss8, 1, 99, 8),
+    mobGreenSpider: new Sprite(ss8, 1, 99, 8, 2, 200, false),
 
     //Tiles
     //Grass
