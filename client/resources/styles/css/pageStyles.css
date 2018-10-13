@@ -45,16 +45,15 @@
   font-size: 1.2vmax; }
 
 #signInUsernameTextbox, #signInPasswordTextbox {
+  background: #202025;
   font-family: "Roboto", cursive;
   font-size: 2vmax;
-  background: url("/resources/img/dark_wall.png");
   border: 2px solid #FFFFFF;
   color: #CD412B;
   border-radius: 10px;
   padding: 0; }
 
 .btn-play {
-  background: url("/resources/img/dark_wall.png");
   color: #FFFFFF;
   font-size: 2vmax;
   cursor: pointer;

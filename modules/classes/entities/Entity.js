@@ -1,16 +1,12 @@
 module.exports = function() {
     this.Entity = class {
-        constructor(id, spriteName, map, x, y, name) {
+        constructor(id, spriteName, map, x, y, name, stats) {
             this.id = id;
             this.name = name != null ? name : "Unknown";
             this.x = x;
             this.y = y;
-            this.maxHP = 1000;
-            this.hp = this.maxHP;
-            this.regen = 50; //X health per second
             this.spdX = 0;
             this.spdY = 0;
-            this.maxSpd = 10;
             this.spriteName = spriteName;
             this.map = map;
             this.isActive = true;
@@ -21,6 +17,14 @@ module.exports = function() {
             this.t = new Date();
             this.nowTime = this.t.getTime();
             this.type = "default";
+            this.stats = stats != null ? stats : {
+                "attack": 1, //Damage multiplier
+                "maxHp": 1000, //Maximum hitpoints
+                "currentHp": 1000, //Current hitpoints
+                "regenHp": 50, //Hitpoints regenrated per second
+                "moveSpeed": 10, //Movespeed in pixels per second
+                "defence": 10 //Damage reduction multiplier
+            };
         }
 
         update() {
@@ -101,7 +105,7 @@ module.exports = function() {
 
         updateHealth() {
             let frequency = this instanceof Player ? 200 : 1000; //ms
-            let updateAmount = frequency / 1000 * this.regen;
+            let updateAmount = frequency / 1000 * this.stats.regenHp;
             if(this.nowTime - this.timers.regen > frequency) {
                 this.timers.regen = this.nowTime;
                 this.addHealth(updateAmount, false);
@@ -110,16 +114,19 @@ module.exports = function() {
 
         addHealth(amount, showEffect) {
             amount = parseInt(amount);
-            let newHp = this.hp + amount;
+            let newHp = this.stats.currentHp + amount;
             if(newHp <= 0) {
-                this.hp = 0;
+                this.stats.currentHp = 0;
                 this.die();
-            } else if(newHp >= this.maxHP) {
-                this.hp = this.maxHP;
+            } else if(newHp >= this.stats.maxHp) {
+                this.stats.currentHp = this.stats.maxHp;
+                return;
             } else {
-                this.hp = newHp; 
+                this.stats.currentHp = newHp; 
             }
-            if(showEffect || showEffect == null) this.addHealthEffect(Math.abs(amount), amount >= 0 ? "green" : "red");           
+            if(showEffect || showEffect == null) {
+                this.addHealthEffect(Math.abs(amount), amount >= 0 ? "green" : "red");           
+            }
         }
 
         die() {

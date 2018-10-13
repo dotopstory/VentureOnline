@@ -3,19 +3,15 @@ require('./Creature.js')();
 
 module.exports = function() {
     this.Mob = class extends Creature {
-        constructor(obj, map, x, y) {
-            super(EntityManager.nextID++, obj.spriteName, map, x, y);
+        constructor(newEntityTemplate, map, x, y) {
+            super(EntityManager.nextID++, newEntityTemplate.spriteName, map, x, y, newEntityTemplate.stats);
             this.target = findNearestPoint(EntityManager.playerList, this.x, this.y);
             this.distanceToTarget = null;
             this.lifeTime = 20 * 60 * 10;
-            this.name = obj.name;
-            this.maxHP = obj.maxHP;
-            this.hp = this.maxHP;
-            this.speed = obj.speed;
-            this.defence = obj.defence;
-            this.attackProj = obj.projectiles[0];
-            this.type = obj.type;
-            this.chaseDistance = obj.chaseDistance;
+            this.name = newEntityTemplate.name;
+            this.attackProj = newEntityTemplate.projectiles[0];
+            this.type = newEntityTemplate.type;
+            this.chaseDistance = newEntityTemplate.chaseDistance;
         }
 
         update() {
@@ -57,7 +53,7 @@ module.exports = function() {
         }
 
         idleMove() {
-            this.spdX = Math.random() < 0.5 ? this.maxSpd : -this.maxSpd;
+            this.spdX = Math.random() < 0.5 ? this.stats.moveSpeed : -this.this.stats.moveSpeed;
         }
     };
 };

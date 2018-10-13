@@ -3,16 +3,21 @@
         {
             "name": "Test Cube",
             "spriteName": "mobCube",
-            "maxHP": 500,
-            "speed": 10,
-            "defence": 20,
             "hitSound": "",
             "chaseDistance": 6,
+            "stats": {
+                "attack": 1,
+                "maxHp": 500,
+                "currentHp": 500,
+                "regenHp": 50,
+                "moveSpeed": 10,
+                "defence": 10
+            },
             "projectiles": [
                 {
                     "sprite": "projBlueBall",
                     "sound": "sound1",
-                    "speed": 30,
+                    "moveSpeed": 10,
                     "damage_min": 50,
                     "damage_max": 100,
                     "number_of_projectiles": 3,
@@ -24,16 +29,21 @@
         {
             "name": "Baby Cube",
             "spriteName": "mobCube",
-            "maxHP": 300,
-            "speed": 15,
-            "defence": 0,
             "hitSound": "",
             "chaseDistance": 1,
+            "stats": {
+                "attack": 1,
+                "maxHp": 300,
+                "currentHp": 300,
+                "regenHp": 50,
+                "moveSpeed": 15,
+                "defence": 5
+            },
             "projectiles": [
                 {
                     "sprite": "projBlueBall",
                     "sound": "sound1",
-                    "speed": 10,
+                    "moveSpeed": 10,
                     "damage_min": 10,
                     "damage_max": 50,
                     "number_of_projectiles": 1,
@@ -45,16 +55,21 @@
         {
             "name": "Dark Insect",
             "spriteName": "mobDarkInsect",
-            "maxHP": 200,
-            "speed": 15,
-            "defence": 1,
             "hitSound": "",
             "chaseDistance": 2,
+            "stats": {
+                "attack": 1,
+                "maxHp": 300,
+                "currentHp": 300,
+                "regenHp": 50,
+                "moveSpeed": 15,
+                "defence": 5
+            },
             "projectiles": [
                 {
                     "sprite": "projDarkBall",
                     "sound": "sound1",
-                    "speed": 15,
+                    "moveSpeed": 15,
                     "damage_min": 10,
                     "damage_max": 25,
                     "number_of_projectiles": 24,
@@ -66,16 +81,21 @@
         {
             "name": "Green Spider",
             "spriteName": "mobGreenSpider",
-            "maxHP": 600,
-            "speed": 10,
-            "defence": 10,
             "hitSound": "",
             "chaseDistance": 2,
+            "stats": {
+                "attack": 1,
+                "maxHp": 600,
+                "currentHp": 600,
+                "regenHp": 50,
+                "moveSpeed": 15,
+                "defence": 5
+            },
             "projectiles": [
                 {
                     "sprite": "projDarkBall",
                     "sound": "sound1",
-                    "speed": 15,
+                    "moveSpeed": 15,
                     "damage_min": 25,
                     "damage_max": 50,
                     "number_of_projectiles": 3,

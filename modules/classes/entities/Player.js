@@ -7,7 +7,7 @@ require('../CommandManager.js')();
 
 module.exports = function() {
     this.Player = class extends Creature {
-        constructor(username, spriteName, map) {
+        constructor(username, spriteName, map, stats) {
             //META
             super(EntityManager.nextID++, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64, username);
 
@@ -18,10 +18,18 @@ module.exports = function() {
             this.pressingDown = false;
             this.pressingAttack = false;
             this.mouseAngle = 0;
-            this.maxSpd = 25;
 
             //STATS
             this.equipment = new Equipment();
+
+            this.stats = {
+                "attack": 1, //Damage multiplier
+                "maxHp": 1000, //Maximum hitpoints
+                "currentHp": 1000, //Current hitpoints
+                "regenHp": 100, //Hitpoints regenrated per second
+                "moveSpeed": 20, //Movespeed in pixels per second
+                "defence": 10 //Damage reduction multiplier
+            };
         }
 
         update() {
@@ -36,13 +44,13 @@ module.exports = function() {
 
         updateSpd() {
             //Update x axis movement
-            if(this.pressingRight) this.spdX = this.maxSpd;
-            else if(this.pressingLeft) this.spdX = -this.maxSpd;
+            if(this.pressingRight) this.spdX = this.stats.moveSpeed;
+            else if(this.pressingLeft) this.spdX = -this.stats.moveSpeed;
             else this.spdX = 0;
 
             //Update y axis movement
-            if(this.pressingUp) this.spdY = -this.maxSpd;
-            else if(this.pressingDown) this.spdY = this.maxSpd;
+            if(this.pressingUp) this.spdY = -this.stats.moveSpeed;
+            else if(this.pressingDown) this.spdY = this.stats.moveSpeed;
             else this.spdY = 0;
 
             //Reduce movement distance when travelling diagonally
@@ -81,7 +89,7 @@ module.exports = function() {
         respawn() {
             this.x = this.x + getRandomInt(-4, 4) * 64;
             this.y = this.y + getRandomInt(-4, 4) * 64;
-            this.hp = this.maxHP;
+            this.stats.currentHp = this.stats.maxHp;
         }
     };
 

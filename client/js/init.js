@@ -264,8 +264,8 @@ function initGame() {
         ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2 - hpBarLineWidth, drawY + drawYOffset - hpBarLineWidth, hpBarWidthPx + hpBarLineWidth * 2, hpBarHeightPx + hpBarLineWidth *2);
 
         //Draw current hp bar
-        ctx.fillStyle = getHpBarColor(entity.hp, entity.maxHP);
-        ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, (entity.hp / entity.maxHP) * hpBarWidthPx, hpBarHeightPx);
+        ctx.fillStyle = getHpBarColor(entity.stats.currentHp, entity.stats.maxHp);
+        ctx.fillRect(drawX + sprite.width / 2 - hpBarWidthPx / 2, drawY + drawYOffset, (entity.stats.currentHp / entity.stats.maxHp) * hpBarWidthPx, hpBarHeightPx);
 
         //Draw hp bar black outline
         ctx.fillStyle = "rgba(0, 0, 0, 1)";

@@ -4,8 +4,7 @@
   margin: 0;
   padding: 0 10vw;
   z-index: 999;
-  background: #212121;
-  background: url(url("/resources/img/dark_wall.png"));
+  background: #202025;
   color: rgba(230, 230, 230, 0.9); }
 
 .navLogo {
