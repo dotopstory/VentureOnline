@@ -17,13 +17,15 @@ module.exports = function() {
             this.t = new Date();
             this.nowTime = this.t.getTime();
             this.type = "default";
+            this.faction = null;
             this.stats = stats != null ? stats : {
                 "attack": 1, //Damage multiplier
                 "maxHp": 1000, //Maximum hitpoints
                 "currentHp": 1000, //Current hitpoints
                 "regenHp": 50, //Hitpoints regenrated per second
                 "moveSpeed": 10, //Movespeed in pixels per second
-                "defence": 10 //Damage reduction multiplier
+                "defence": 10, //Damage reduction multiplier
+                "dexterity": 9
             };
         }
 

@@ -8,8 +8,8 @@
     color: whiteColor;
     background: transparent;
     border-radius: 20px;
-    left: 0.1vw;
-    bottom: 0.1vw;
+    left: $uiEdgePadding;
+    bottom: $uiEdgePadding;
 }
 
 #chat-input {
@@ -37,6 +37,7 @@
     text-shadow: -1px 0 $blackColor, 0 1px $blackColor, 1px 0 $blackColor, 0 -1px $blackColor;
     overflow-x: hidden;
     overflow-y: hidden;
+    color: $whiteColor;
 }
 
 .message-announcement {
@@ -62,7 +63,7 @@
     border-radius: 20px;
     color: $whiteColor;
     background-color: $transparentBlackColor;
-    border: 2px solid $darken($transparentBlackColor, $borderDarkenPercent);
+    border: 2px solid darken($transparentBlackColor, $borderDarkenPercent);
     width: 15vw;
     left: calc(50% - 7.5vw);
     top: 15vh;

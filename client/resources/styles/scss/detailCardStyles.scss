@@ -1,0 +1,36 @@
+@import "globals";
+
+/* Detail Card Styles */
+#detailCardDiv { 
+    top: $uiEdgePadding;
+    left: $uiEdgePadding;
+    text-align: left;
+    border-radius: 5px;
+    padding: $defaultUiPadding;
+    background-color: $transparentBlackColor;
+    border: 2px solid darken($transparentBlackColor, $borderDarkenPercent);
+    color: $dullWhiteColor;
+    padding: 0 0.3vmax;
+}
+
+#mainTitle {
+    font-size: 1vmax;
+}
+
+#subTitle {
+    font-size: 0.8vmax;
+    font-style: italic;
+}
+
+#detailCardDiv span {
+    display: inline-block;
+    line-height: 1em;
+}
+
+.statLabel {
+    font-size: 0.9vmax;
+}
+
+.statValue {
+    font-size: 0.7vmax;
+}

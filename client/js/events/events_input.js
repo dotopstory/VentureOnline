@@ -2,6 +2,7 @@ let eventRegister = [];
 let mouseX = 0, mouseY = 0;
 let mouseMapX = 0, mouseMapY = 0;
 let lastMouseMapX = 0, lastMouseMapY = 0;
+let mouseMapPixelX = 0, mouseMapPixelY = 0;
 let pressingMouse1 = false;
 $(window).on('load', function() {
     //KEY DOWN EVENTS
@@ -78,30 +79,22 @@ $(window).on('load', function() {
 
     //Listen for mouse events, send mouse angle to server
      gameElement.on('mousemove', function(e) { 
-         if(client.player == null) return;
+        if(client.player == null) return;
         let rect = document.getElementById("gameCanvas").getBoundingClientRect();
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;
         mouseMapX = parseInt((mouseX + gameCamera.xOffset) / 64);
         mouseMapY = parseInt((mouseY + gameCamera.yOffset) / 64);
+        mouseMapPixelX = parseInt((mouseX + gameCamera.xOffset));
+        mouseMapPixelY = parseInt((mouseY + gameCamera.yOffset));
 
-         socket.emit('keyPress', {inputId: 'mouseAngle', state: getAngle(client.player.x, client.player.y,
-                 mouseX + gameCamera.xOffset, mouseY + gameCamera.yOffset)});
-         processMapEditor();
+        socket.emit('keyPress', {inputId: 'mouseAngle', state: getAngle(client.player.x, client.player.y,
+        mouseX + gameCamera.xOffset, mouseY + gameCamera.yOffset)});
+        processMapEditor();
     });
-
-
-     //Temp
-    function getAngle(p1x, p1y, p2x, p2y) {
-        let deltaY = p1y - p2y;
-        let deltaX = p2x - p1x;
-        let inRads = Math.atan2(deltaY, deltaX);
-        if (inRads < 0)
-            inRads = Math.abs(inRads);
-        else
-            inRads = 2 * Math.PI - inRads;
-        return inRads * 180 / Math.PI ;
-    }
+    setInterval(function() {
+        updateDetailCard({x: mouseMapPixelX, y: mouseMapPixelY});
+    }, 250);
 });
 
 

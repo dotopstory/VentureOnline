@@ -1,13 +1,12 @@
 @import "globals";
 
 #inventoryDiv {
-    right: 0;
-    bottom: 0;
+    right: $uiEdgePadding;
+    bottom: $uiEdgePadding;
     text-align: left;
     width: 10vw;
     border-radius: 5px;
-    margin: 1vh;
-    padding: 1vh;
+    padding: $defaultUiPadding;
     background-color: $transparentBlackColor;
     border: 2px solid darken($transparentBlackColor, $borderDarkenPercent);
 }

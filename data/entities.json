@@ -11,7 +11,8 @@
                 "currentHp": 500,
                 "regenHp": 50,
                 "moveSpeed": 10,
-                "defence": 10
+                "defence": 10,
+                "dexterity": 20
             },
             "projectiles": [
                 {
@@ -37,7 +38,8 @@
                 "currentHp": 300,
                 "regenHp": 50,
                 "moveSpeed": 15,
-                "defence": 5
+                "defence": 5,
+                "dexterity": 20
             },
             "projectiles": [
                 {
@@ -63,7 +65,8 @@
                 "currentHp": 300,
                 "regenHp": 50,
                 "moveSpeed": 15,
-                "defence": 5
+                "defence": 5,
+                "dexterity": 20
             },
             "projectiles": [
                 {
@@ -89,7 +92,8 @@
                 "currentHp": 600,
                 "regenHp": 50,
                 "moveSpeed": 15,
-                "defence": 5
+                "defence": 5,
+                "dexterity": 20
             },
             "projectiles": [
                 {

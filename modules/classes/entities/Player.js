@@ -7,9 +7,10 @@ require('../CommandManager.js')();
 
 module.exports = function() {
     this.Player = class extends Creature {
-        constructor(username, spriteName, map, stats) {
-            //META
+        constructor(username, spriteName, map) {
             super(EntityManager.nextID++, spriteName, map, (map.width / 2) * 64, (map.height / 2) * 64, username);
+            //META
+            this.faction = username;
 
             //MOVEMENT
             this.pressingRight = false;
@@ -21,14 +22,14 @@ module.exports = function() {
 
             //STATS
             this.equipment = new Equipment();
-
             this.stats = {
-                "attack": 1, //Damage multiplier
-                "maxHp": 1000, //Maximum hitpoints
-                "currentHp": 1000, //Current hitpoints
-                "regenHp": 100, //Hitpoints regenrated per second
-                "moveSpeed": 20, //Movespeed in pixels per second
-                "defence": 10 //Damage reduction multiplier
+                "attack": 1,
+                "maxHp": 1000,
+                "currentHp": 1000,
+                "regenHp": 100,
+                "moveSpeed": 20,
+                "defence": 10,
+                "dexterity": 20
             };
         }
 

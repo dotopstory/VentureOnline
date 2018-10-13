@@ -5,7 +5,7 @@ require('../world/Map.js')();
 module.exports = function() {
     this.Projectile = class extends Entity {
         constructor(parent, angle, spriteName, map, x, y, multihit, damageMin, damageMax, speed, lifetime) {
-            super(EntityManager.nextID++, spriteName, map, x, y, "projecitile", null);
+            super(EntityManager.nextID++, spriteName, map, x, y, "projectile", null);
             this.parent = parent;
             this.lifetime = lifetime;
             this.stats.moveSpeed = speed;

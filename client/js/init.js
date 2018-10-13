@@ -7,6 +7,11 @@ let client = new Client();
 let gameCamera = null;
 let resourceManager = null;
 let uiManager = null;
+let gameStateCache = {
+    players: [],
+    projectiles: [],
+    items: []
+};
 
 $(window).on("load", function() {
     initGame();
@@ -27,11 +32,6 @@ function initGame() {
     let gameCanvasCtx = gameElement[0].getContext('2d');
     let fps = 60, canvasWidth = 1280, canvasHeight = 832;
     let blendWidth = null, blendHeight = null;
-    let gameStateCache = {
-        players: [],
-        projectiles: [],
-        items: []
-    };
 
     gameCamera = new GameCamera(0, 0);
     resourceManager = new ResourceManager();

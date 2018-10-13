@@ -30,7 +30,8 @@ module.exports = function() {
                     mapId: player.map.id,
                     healthEffects: player.healthEffects,
                     equipment: player.equipment,
-                    type: player.type
+                    type: player.type,
+                    faction: player.faction
                 };
             }
             if(EntityManager.spawnTimer > EntityManager.spawnTime) {
@@ -66,7 +67,8 @@ module.exports = function() {
                     spriteName: e.spriteName,
                     mapId: e.map.id,
                     healthEffects: e.healthEffects,
-                    type: e.type
+                    type: e.type,
+                    faction: e.faction
                 });
             }
             return pack;

@@ -4,11 +4,11 @@ require('./Creature.js')();
 module.exports = function() {
     this.Mob = class extends Creature {
         constructor(newEntityTemplate, map, x, y) {
-            super(EntityManager.nextID++, newEntityTemplate.spriteName, map, x, y, newEntityTemplate.stats);
+            console.log(newEntityTemplate.stats);
+            super(EntityManager.nextID++, newEntityTemplate.spriteName, map, x, y, newEntityTemplate.name, newEntityTemplate.stats);
             this.target = findNearestPoint(EntityManager.playerList, this.x, this.y);
             this.distanceToTarget = null;
             this.lifeTime = 20 * 60 * 10;
-            this.name = newEntityTemplate.name;
             this.attackProj = newEntityTemplate.projectiles[0];
             this.type = newEntityTemplate.type;
             this.chaseDistance = newEntityTemplate.chaseDistance;
