@@ -5,6 +5,7 @@
     top: $uiEdgePadding;
     left: $uiEdgePadding;
     text-align: left;
+    min-width: 12vw;
     border-radius: 5px;
     padding: $defaultUiPadding;
     background-color: $transparentBlackColor;
@@ -13,24 +14,57 @@
     padding: 0 0.3vmax;
 }
 
+.statLabel, .statValue {
+    display: inline-block;
+    line-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
 #mainTitle {
-    font-size: 1vmax;
+    font-size: $uiTitleFontSize;
 }
 
 #subTitle {
-    font-size: 0.8vmax;
+    font-size: $uiMedFontSize;
     font-style: italic;
 }
 
 #detailCardDiv span {
-    display: inline-block;
+    display: inline-flex;
     line-height: 1em;
 }
 
 .statLabel {
-    font-size: 0.9vmax;
+    font-size: $uiMedFontSize;
+    font-weight: bold;
 }
 
 .statValue {
-    font-size: 0.7vmax;
+    font-size: $uiSmallFontSize;
+    color: #ffffff;
+}
+
+#statLabelHP {
+    color: #e60000;
+}
+
+#statLabelRegen {
+    color: #e65c00;
+}
+
+#statLabelAttack {
+    color: #e6005c;
+}
+
+#statLabelDefence {
+    color: #008ae6;
+}
+
+#statLabelDexterity {
+    color: #e68a00;
+}
+
+#statLabelSpeed {
+    color: #00b300;
 }

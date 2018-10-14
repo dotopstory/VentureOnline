@@ -1,8 +1,8 @@
 page.base('/');
 page('/', function() { route(["navbar", "play", "ui/mapEditor"]); });
-page('play', function() { route(["play"]); });
-page('info', function() { route(["info"]); });
-page('*', function() { route(["play"]); });
+page('play', function() { route(["navbar", "play", "ui/mapEditor"]); });
+page('info', function() { route(["navbar", "play", "ui/mapEditor"]); });
+page('*', function() { route(["navbar", "play", "ui/mapEditor"]); });
 page();
 
 //Processes a route request for a list of views.

@@ -47,49 +47,6 @@ function getCenter(point, size) {
     return {x: parseInt(point.x + size / 2), y: parseInt(point.y + size / 2)};
 }
 
-function updateDetailCard(mouseMapPoint) {
-    let targetEntity = getEntityAtLocation(mouseMapPoint);
-    if(targetEntity != null && targetEntity.name != "projectile") {
-        setDetailCardContent(targetEntity);
-    }
-}
-
-function setDetailCardContent(entity) {
-    $("#mainTitle").html(entity.name);
-    $("#subTitle").html(entity.id);
-    $("#statColumnLeft").html("");
-    $("#statColumnRight").html("");
-    let stats = entity.stats;
-    setStat("HP", stats.currentHp + "/" + stats.maxHp);
-    setStat("Attack", stats.attack);
-    setStat("Regen", stats.regenHp);
-    setStat("Defence", stats.defence);
-    setStat("Speed", stats.moveSpeed);
-    setStat("Dexterity", stats.dexterity);
-}
-
-function setStat(stat, value) {
-    $("#statValue" + stat).html(value);
-}
-
-function getEntityAtLocation(point) {
-    for(let i in gameStateCache.entities) {
-        let entity = gameStateCache.entities[i];
-        if(entity == null) continue;
-        if(distanceBetweenPoints(getCenter(entity, 64), point) < 32) {
-            return entity;
-        }
-    }
-    for(let i in gameStateCache.players) {
-        let player = gameStateCache.players[i];
-        if(player == null) continue;
-        if(distanceBetweenPoints(getCenter(player, 64), point) < 32) {
-            return player;
-        }
-    }
-    return null;
-}
-
  //Temp
 function getAngle(p1x, p1y, p2x, p2y) {
     let deltaY = p1y - p2y;
@@ -100,4 +57,8 @@ function getAngle(p1x, p1y, p2x, p2y) {
     else
         inRads = 2 * Math.PI - inRads;
     return inRads * 180 / Math.PI ;
+}
+
+const numberFormat = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

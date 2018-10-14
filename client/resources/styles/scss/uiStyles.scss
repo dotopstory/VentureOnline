@@ -119,3 +119,21 @@
 #editPreviewTile {
     border: 5px solid $whiteColor;
 }
+
+/* Developer stats styles */
+#developerStatsDiv {
+    top: $uiEdgePadding;
+    right: $uiEdgePadding;
+    text-align: left;
+    border-radius: 5px;
+    padding: $defaultUiPadding;
+    background-color: $transparentBlackColor;
+    border: 2px solid darken($transparentBlackColor, $borderDarkenPercent);
+    color: $dullWhiteColor;
+    padding: 0 0.3vmax;
+    font-size: $uiSmallFontSize;
+}
+
+#devStatsTitle {
+    font-size: $uiTitleFontSize;
+}

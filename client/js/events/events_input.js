@@ -5,6 +5,10 @@ let lastMouseMapX = 0, lastMouseMapY = 0;
 let mouseMapPixelX = 0, mouseMapPixelY = 0;
 let pressingMouse1 = false;
 $(window).on('load', function() {
+    setInterval(function() {
+        updateDetailCard({x: mouseMapPixelX, y: mouseMapPixelY});
+    }, 250);
+
     //KEY DOWN EVENTS
     document.onkeydown = function(e) {
         let code = e.keyCode;
@@ -92,9 +96,6 @@ $(window).on('load', function() {
         mouseX + gameCamera.xOffset, mouseY + gameCamera.yOffset)});
         processMapEditor();
     });
-    setInterval(function() {
-        updateDetailCard({x: mouseMapPixelX, y: mouseMapPixelY});
-    }, 250);
 });
 
 

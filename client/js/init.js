@@ -64,6 +64,7 @@ function initGame() {
         gameStateCache.items = data.items;
         client.player = gameStateCache.players[getPlayerIndexById(gameStateCache.players, client.playerId)];
         if(lastPlayer == null) UIManager.onSignIn();
+        loadDeveloperStats("#devStats");
     });
 
     //Listen for new map changes

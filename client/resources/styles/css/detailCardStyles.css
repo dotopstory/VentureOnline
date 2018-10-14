@@ -3,12 +3,19 @@
   top: 0.1vmax;
   left: 0.1vmax;
   text-align: left;
+  min-width: 12vw;
   border-radius: 5px;
   padding: 0.1vh 0.1vw;
   background-color: rgba(0, 0, 0, 0.7);
   border: 2px solid rgba(0, 0, 0, 0.7);
   color: rgba(230, 230, 230, 0.9);
   padding: 0 0.3vmax; }
+
+.statLabel, .statValue {
+  display: inline-block;
+  line-height: 0;
+  padding: 0;
+  margin: 0; }
 
 #mainTitle {
   font-size: 1vmax; }
@@ -18,11 +25,31 @@
   font-style: italic; }
 
 #detailCardDiv span {
-  display: inline-block;
+  display: inline-flex;
   line-height: 1em; }
 
 .statLabel {
-  font-size: 0.9vmax; }
+  font-size: 0.8vmax;
+  font-weight: bold; }
 
 .statValue {
-  font-size: 0.7vmax; }
+  font-size: 0.7vmax;
+  color: #ffffff; }
+
+#statLabelHP {
+  color: #e60000; }
+
+#statLabelRegen {
+  color: #e65c00; }
+
+#statLabelAttack {
+  color: #e6005c; }
+
+#statLabelDefence {
+  color: #008ae6; }
+
+#statLabelDexterity {
+  color: #e68a00; }
+
+#statLabelSpeed {
+  color: #00b300; }

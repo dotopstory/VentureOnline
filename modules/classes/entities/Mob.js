@@ -4,7 +4,6 @@ require('./Creature.js')();
 module.exports = function() {
     this.Mob = class extends Creature {
         constructor(newEntityTemplate, map, x, y) {
-            console.log(newEntityTemplate.stats);
             super(EntityManager.nextID++, newEntityTemplate.spriteName, map, x, y, newEntityTemplate.name, newEntityTemplate.stats);
             this.target = findNearestPoint(EntityManager.playerList, this.x, this.y);
             this.distanceToTarget = null;

@@ -53,13 +53,16 @@ class UIManager {
 UIManager.uiItems = [
     new uiItem("#menuDiv", "Menu", true),
     new uiItem("#chat-input", "Chat", true, initChat),
-    new uiItem("#mapEditDiv", "Map Editor", false, initMapEditor)
+    new uiItem("#mapEditDiv", "Map Editor", false, initMapEditor),
+    new uiItem("#detailCardDiv", "Detail Card", false),
+    new uiItem("#inventoryDiv", "Inventory", false),
+    new uiItem("#developerStatsDiv", "Developer Stats", false),
 ];
 
 //Menu events
 function signOut() {
     client = null;
-    location.href = "/play";
+    location.href = "/";
 }
 
 
@@ -150,7 +153,7 @@ $(window).on("load", function() {
         if(data.success) {
             $("#div-signIn").hide();
             $("#div-game").fadeIn("slow");
-            $("#detailCardDiv").fadeIn("slow");
+            UIManager.toggleUiItem("Detail Card");
             UIManager.onSignIn();
         } else {
             clientAlert("Error - failed sign in.");
@@ -243,4 +246,23 @@ function saveMap(filePath, pushToServer) {
     let newMap = client.map;
     newMap.name = $("#tbMapName").val().toString();
     socket.emit("sendNewMapToServer", {map: client.map, fileName: newMap.name.toLowerCase(), pushToServer: pushToServer});
+}
+
+// #developerStatsDiv
+function loadDeveloperStats(target) {
+    if(UIManager.isUiOpen("Developer Stats")) {
+        $(target).html(``);
+        addDevStat(target, "Entities", numberFormat(gameStateCache.entities.length));
+        addDevStat(target, "Players", numberFormat(gameStateCache.players.length));
+        addDevStat(target, "Items", numberFormat(gameStateCache.items.length));
+        addDevStat(target, "Tiles", numberFormat(client.map.tiles.length));
+        addDevStat(target, "Player (x, y)", parseInt(client.player.x / 64) + ", " + parseInt(client.player.y / 64));
+    }
+}
+
+function addDevStat(target, label, value) {
+    $(target).append
+    (`
+        <span class="devStat">`,label,`: `,value,`</span><br>
+    `)
 }

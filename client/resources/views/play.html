@@ -50,25 +50,15 @@
                         </div>
                         <div id="statsTab">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <span class="statLabel">HP</span><br>
-                                    <span class="statLabel">Attack</span><br>
-                                    <span class="statLabel">Defence</span><br>
+                                <div class="col-md-6">
+                                    <span id="statLabelHP" class="statLabel">HP</span> <span id="statValueHP" class="statValue">0</span><br>
+                                    <span id="statLabelAttack" class="statLabel">Attack</span> <span id="statValueAttack" class="statValue">0</span><br>
+                                    <span id="statLabelDefence" class="statLabel">Defence</span> <span id="statValueDefence" class="statValue">0</span><br>
                                 </div>
-                                <div class="col-md-3">
-                                    <span id="statValueHP" class="statValue">0</span><br>
-                                    <span id="statValueAttack" class="statValue">0</span><br>
-                                    <span id="statValueDefence" class="statValue">0</span><br>
-                                </div>
-                                <div class="col-md-3">
-                                        <span class="statLabel">Regen</span><br>
-                                        <span class="statLabel">Dexterity</span><br>
-                                        <span class="statLabel">Speed</span><br>
-                                </div>
-                                <div class="col-md-3">
-                                    <span id="statValueRegen" class="statValue">0</span><br>
-                                    <span id="statValueDexterity" class="statValue">0</span><br>
-                                    <span id="statValueSpeed" class="statValue">0</span><br>
+                                <div class="col-md-6">
+                                    <span id="statLabelRegen" class="statLabel">Regen</span> <span id="statValueRegen" class="statValue">0</span><br>
+                                    <span id="statLabelDexterity" class="statLabel">Dexterity</span> <span id="statValueDexterity" class="statValue">0</span><br>
+                                    <span id="statLabelSpeed" class="statLabel">Speed</span> <span id="statValueSpeed" class="statValue">0</span><br>
                                 </div>
                             </div>
                         </div>
@@ -81,11 +71,21 @@
                                 <span class="menuTitle">Menu</span><br>
 
                                 <!-- Menu buttons -->
-                                <button class="btn menuButton">Help</button>
-                                <button class="btn menuButton">Settings</button>
-                                <button class="btn menuButton">Bug Report</button>
-                                <button class="btn menuButton" onclick="signOut()">Sign Out</button>
+                                <button class="btn menuButton" onclick="UIManager.toggleUiItem('Detail Card')">Show Detail</button>
+                                <button class="btn menuButton" onclick="UIManager.toggleUiItem('Inventory')">Show Inventory</button>
                                 <button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem('Map Editor')">Map Editor</button>
+                                <button class="btn menuButton venButtonOrange" onclick="UIManager.toggleUiItem('Developer Stats')">Developer Stats</button>
+                                <button class="btn menuButton" onclick="signOut()">Sign Out</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Developer Stats -->
+                    <div id="developerStatsDiv" class="onGameCanvas">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span id="devStatsTitle">Developer Info</span><br>
+                                <div id="devStats"></div>
                             </div>
                         </div>
                     </div>
@@ -129,6 +129,7 @@
 <!-- UI -->
 <script src="../../js/classes/UI/UIItem.js"></script>
 <script src="../../js/classes/UI/UIManager.js"></script>
+<script src="../../js/classes/UI/detailCard.js"></script>
 
 <script src="../../js/init.js"></script>
 
