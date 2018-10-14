@@ -99,4 +99,10 @@ module.exports = function() {
         }
         return false;
     };
+
+    //Takes a JSON object and returns a deep copy of it.
+    this.newObject = function(object) {
+        return JSON.parse(JSON.stringify(object));
+    }
 };
+

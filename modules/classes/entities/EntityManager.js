@@ -87,7 +87,7 @@ module.exports = function() {
 
                 //Delete item if inactive
                 if(!item.isActive) {
-                    delete EntityManager.itemList.splice(i, 1);
+                    EntityManager.itemList.splice(i, 1);
                     continue;
                 }
 

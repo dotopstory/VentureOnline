@@ -6,14 +6,19 @@
   "dependencies": {
     "express": "^4.16.2",
     "get-json": "^1.0.0",
-    "node-sass": "^4.9.3",
     "package.json": "^2.0.1",
     "socket.io": "^2.0.4"
   },
   "engines": {
     "node": "6.2.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+	"express": "^4.16.2",
+    "get-json": "^1.0.0",
+    "node-sass": "^4.9.3",
+    "package.json": "^2.0.1",
+    "socket.io": "^2.0.4"
+  },
   "scripts": {
     "start": "node server.js",
     "nodemon": "nodemon server.js --watch server.js --watch modules/*.js --watch modules/classes/*.js --watch modules/classes/entities/*.js --watch data/*.json",

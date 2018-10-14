@@ -52,7 +52,7 @@ module.exports = function() {
         }
 
         static getRandomEntity(region) {
-            return ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)];
+            return newObject(ResourceManager.entityList[getRandomInt(0, ResourceManager.entityList.length)]);
         }
     };
     ResourceManager.apiURL = "unknown";
